@@ -20,4 +20,4 @@ else()
 endif()
 
 # submodules
-add_subdirectory(task_space_projection)
+add_subdirectory(task_space)
