@@ -37,12 +37,22 @@ KinematicTask::KinematicTask(std::string body, Vec3 offset)
 {
 }
 
+void KinematicTask::setGoal(const Vector& g) {
+    goal = g;
+}
+
+const SimTK::Vector& KinematicTask::getGoal() const {
+    return goal;
+}
+
+
+
+/******************************************************************************/
+
 PositionTask::PositionTask(std::string body, Vec3 offset)
     : KinematicTask(body, offset)
 {
 }
-
-/******************************************************************************/
 
 Matrix PositionTask::J(const State& s) const {
     Matrix J;

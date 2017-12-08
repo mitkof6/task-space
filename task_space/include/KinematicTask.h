@@ -39,6 +39,8 @@ namespace OpenSim {
 	OpenSim_DECLARE_ABSTRACT_OBJECT(KinematicTask, ModelComponent);
     public:
 	KinematicTask(std::string body, SimTK::Vec3 offset);
+	void setGoal(const SimTK::Vector& goal);
+	const SimTK::Vector& getGoal() const;
 	/** Calculates the Jacobian matrix (\f$ J_t \f$) */
 	virtual SimTK::Matrix J(const SimTK::State& s) const = 0;
 	/** Calculates the task bias term \f$ b_t = - \dot{J} \dot{q} \f$ */
@@ -67,6 +69,8 @@ namespace OpenSim {
 	std::string body;
 	/** Offset of the task from the body's local frame. */
 	SimTK::Vec3 offset;
+	/** The goal of this task (task acceleration). */
+	SimTK::Vector goal;
     };
 
     /**
