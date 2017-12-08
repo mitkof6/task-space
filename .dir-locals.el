@@ -1,2 +1,2 @@
-((nil . ((cmake-ide-build-dir . "./build")
-	 (cmake-ide-project-dir . "."))))
+((nil . ((cmake-ide-build-dir
+. "/home/mitkof6/dev/task-space-projection/build"))))
