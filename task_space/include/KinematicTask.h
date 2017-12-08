@@ -93,6 +93,19 @@ namespace OpenSim {
 	SimTK::Vector a(const SimTK::State& s) const override;
     };
 
+    /**
+     * \brief Orientation task primitive.
+     *
+     * For orientation tasks the following hold true:
+     *
+     * \f$ x_t = \theta \in \Re^3 \f$
+     *
+     * \f$ J_t \in \Re^{3 \times n} \f$
+     *
+     * \f$ b_t \in \Re^3 \f$
+     *
+     * @see KinematicTask
+     */
     class OrientationTask : public KinematicTask {
 	OpenSim_DECLARE_CONCRETE_OBJECT(OrientationTask, KinematicTask);
     public:
@@ -104,6 +117,19 @@ namespace OpenSim {
 	SimTK::Vector a(const SimTK::State& s) const override;
     };
 
+    /**
+     * \brief Spatial task primitive (both position and orientation).
+     *
+     * For spatial tasks the following hold true:
+     *
+     * \f$ x_t = [\theta, x] \in \Re^6 \f$
+     *
+     * \f$ J_t \in \Re^{6 \times n} \f$
+     *
+     * \f$ b_t \in \Re^6 \f$
+     *
+     * @see KinematicTask
+     */
     class SpatialTask : public KinematicTask {
 	OpenSim_DECLARE_CONCRETE_OBJECT(SpatialTask, KinematicTask);
     public:
