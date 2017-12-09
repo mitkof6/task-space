@@ -1,9 +1,6 @@
 #ifndef KINEMATIC_TASK_H
 #define KINEMATIC_TASK_H
 
-#include <string>
-#include <OpenSim/Simulation/Model/ModelComponent.h>
-
 /**
  * \file This file contains the implementation of kinematic tasks.
  *
@@ -12,6 +9,9 @@
  * @see <a href="https://simtk.org/projects/task-space">[SimTK Project]</a>, <a
  * href="http://ieeexplore.ieee.org/document/8074739/">[Publication]</a>
  */
+
+#include <string>
+#include <OpenSim/Simulation/Model/ModelComponent.h>
 
 namespace OpenSim {
 
@@ -64,6 +64,10 @@ namespace OpenSim {
 	 *  Stage::Acceleration.
 	 */
 	virtual SimTK::Vector a(const SimTK::State& s) const = 0;
+	friend std::ostream& operator<<(std::ostream& os, const KinematicTask& k) {
+	    return os << "[Body: " << k.body << ", offset: " << k.offset << "]"
+		      << std::endl;
+	};
     protected:
 	/** Name of the body that the task is attached to. */
 	std::string body;

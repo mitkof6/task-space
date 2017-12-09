@@ -45,8 +45,6 @@ const SimTK::Vector& KinematicTask::getGoal() const {
     return goal;
 }
 
-
-
 /******************************************************************************/
 
 PositionTask::PositionTask(std::string body, Vec3 offset)
@@ -107,7 +105,7 @@ Matrix OrientationTask::J(const State& s) const {
 
 Vector OrientationTask::b(const State& s) const {
     SpatialVec jdu = _model->getMatterSubsystem().calcBiasForFrameJacobian(
-	    s, _model->getBodySet().get(body).getMobilizedBodyIndex(), offset);
+	s, _model->getBodySet().get(body).getMobilizedBodyIndex(), offset);
     return Vector(-1.0 * jdu[0]);
 }
 

@@ -1,6 +1,5 @@
 #include "TaskPriorityGraph.h"
 #include <OpenSim/Simulation/Model/Model.h>
-#include "KinematicTask.h"
 
 using namespace std;
 using namespace OpenSim;
@@ -13,9 +12,20 @@ void TaskPriorityGraph::addTask(KinematicTask* task, KinematicTask* parent) {
     // directed cycles
     for (auto& t : prioritySortedGraph) {
 	if (t.first == task) {
-	    throw runtime_error("The task already exists in the TaskPriorityGraph");
+	    throw TaskExistsInGraphException(
+		"The task already exists in the TaskPriorityGraph (avoid cyclic graph)");
 	}
     }
 
-    // insert task after parent
+    // find the parent task and insert after
+    auto parentIt = find_if(prioritySortedGraph.begin(), prioritySortedGraph.end(),
+			    [&](const pair<KinematicTask*, KinematicTask*>& a) {
+				return a.first == parent;
+			    });
+    if (parent != NULL && parentIt == prioritySortedGraph.end()) {
+	throw ParentNotInGraphException(
+	    "The parent does not exist in the priority graph");
+    }
+    // insert after
+    prioritySortedGraph.insert(++parentIt, make_pair(task, parent));
 }

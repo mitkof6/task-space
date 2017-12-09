@@ -5,6 +5,7 @@ file(GLOB includes include/*.h)
 file(GLOB sources src/*.cpp)
 file(GLOB tests test/*.cpp)
 
+include_directories(test/)
 include_directories(include/)
 
 # task space projection module
