@@ -1,5 +1,4 @@
 #include "TaskPriorityGraph.h"
-#include <OpenSim/Simulation/Model/Model.h>
 
 using namespace std;
 using namespace OpenSim;
