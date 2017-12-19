@@ -7,14 +7,14 @@
  *
  * \f$ M \ddot{q} + f + \Phi^T \lambda = \tau \f$
  *
- * $\f \Phi \ddot{q} = b_c \f$
+ * $\f \Phi \ddot{q} = b \f$
  *
  * where \f$ M \f$ is the inertia mass matrix, \f$ q, \dot{q}, \ddot{q} \f$ are
  * the generalized coordinates and their derivatives respectively, \f$ f \f$ are
  * the forces that act on the model (e.g. gravity, Coriolis, ligaments, etc.),
  * \f$ \Phi \f$ is the constraint Jacobian matrix, \f$ \lambda \f$ are the
  * Lagrangian multipliers, \f$ \tau \f$ are the acting generalized forces and
- * \f$ b_c \f$ is the constraint bias term.
+ * \f$ b \f$ is the constraint bias term.
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *
@@ -32,9 +32,9 @@ namespace OpenSim {
     SimTK::Matrix calcMInv(const SimTK::State& s, const OpenSim::Model& model);
     /**
      * Calculates the total forces that act on the model (\f$ f \f$). This
-     * requires that the model is realized to Stage::Dynamics. Muscle forces
-     * are ignored since they are the actuation (i.e. \f$ \tau = R f_m \f$
-     * and not \f$ f \f$).
+     * requires that the model is realized to Stage::Dynamics. Muscle forces are
+     * ignored since they are the actuation (i.e. \f$ \tau = R f_m \f$ and not
+     * \f$ f \f$).
      */
     SimTK::Vector calcTotalGeneralizedForces(const SimTK::State& s,
 					     const OpenSim::Model& model);
@@ -44,7 +44,7 @@ namespace OpenSim {
     SimTK::Matrix calcConstraintJacobian(const SimTK::State& s,
 					 const OpenSim::Model& model);
     /**
-     * Calculate the constraint bias term \f$ b_c \f$.
+     * Calculate the constraint bias term \f$ b \f$.
      */
     SimTK::Vector calcConstraintBias(const SimTK::State& s,
 				     const OpenSim::Model& model);

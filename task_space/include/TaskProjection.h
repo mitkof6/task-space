@@ -24,8 +24,8 @@ namespace OpenSim {
      */
     SimTK::Matrix calcJpT(const SimTK::Matrix& NT, const SimTK::Matrix& JT);
     /**
-     * Calculates the prioritized task inertia mass matrix. If JpT = JtT then there
-     * will be no prioritization.
+     * Calculates the prioritized task inertia mass matrix. If JpT = JtT then
+     * there will be no prioritization.
      *
      * \f$ \Lambda_{t|t-1} = (J_t M^{-1} N_{t-1}^T J_t^T)^{-1} \f$
      *
@@ -36,8 +36,8 @@ namespace OpenSim {
     SimTK::Matrix calcLambdap(const SimTK::Matrix& J, const SimTK::Matrix& MInv,
 			      const SimTK::Matrix& JpT);
     /**
-     * Calculates the dynamically consistent generalized inverse, transpose of the
-     * task Jacobian matrix. If \f$ \Lambda = \Lambda_{t|t-1} \f$ then \f$
+     * Calculates the dynamically consistent generalized inverse, transpose of
+     * the task Jacobian matrix. If \f$ \Lambda = \Lambda_{t|t-1} \f$ then \f$
      * \bar{J}_t^T \f$ will be the prioritized generalized inverse (\f$
      * \bar{J}_{t|t-1}^T \f$).
      *
@@ -57,21 +57,23 @@ namespace OpenSim {
      * @param JpT is the prioritized, transposed task Jacobian matrix
      * @param NT is the aggregate null space matrix of the higher priority tasks
      */
-    SimTK::Matrix calcNPT(const SimTK::Matrix& JpT, const SimTK::Matrix& JBarpT,
+    SimTK::Matrix calcNpT(const SimTK::Matrix& JpT, const SimTK::Matrix& JBarpT,
 			  const SimTK::Matrix& NT);
     /**
      * Calculates the required task forces that achieves the task goals.
      *
-     * \f$ f_t = \Lambda{t|t-1} (\ddot{x}_t + b_t) + \bar{J}_{t|t-1}^T \tau_p \f$
+     * \f$ f_t = \Lambda{t|t-1} (\ddot{x}_t + b_t) + \bar{J}_{t|t-1}^T \tau_p
+     * \f$
      *
-     * where \f$ \tau_p = f - \tau_{t-1} \f$, \f$f\f$ are the forces acting on the
-     * mode and \f$ \tau_{t-1} \f$ is the contribution of the higher priority tasks.
+     * where \f$ \tau_p = f - \tau_{t-1} \f$, \f$f\f$ are the forces acting on
+     * the mode and \f$ \tau_{t-1} \f$ is the contribution of the higher
+     * priority tasks.
      *
      * @param xddot are the task acceleration goals
      * @param Lambdap is the prioritized task inertia mass matrix
      * @param bt is the task bias term (\f$ -\dot{J}_t \dot{q} \f$)
-     * @param JBarpT is the prioritized generalized inverse transpose of the task
-     * Jacobian matrix
+     * @param JBarpT is the prioritized generalized inverse transpose of the
+     * task Jacobian matrix
      * @param taup are the generalized forces that act on the model
      */
     SimTK::Vector calcFt(const SimTK::Matrix& Lambdap, const SimTK::Vector& xddot,

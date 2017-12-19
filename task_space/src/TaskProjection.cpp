@@ -19,7 +19,7 @@ Matrix calcJBarT(const Matrix& Lambda, const Matrix& J, const Matrix& MInv) {
     return Lambda * J * MInv;
 }
 
-Matrix calcNPT(const Matrix& JpT, const Matrix& JBarpT, const Matrix& NT) {
+Matrix calcNpT(const Matrix& JpT, const Matrix& JBarpT, const Matrix& NT) {
     return (1 - JpT * JBarpT) * NT;
 }
 

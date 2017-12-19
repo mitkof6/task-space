@@ -15,14 +15,16 @@
 
 namespace OpenSim {
     class TaskPriorityGraph;
+    class ConstraintModel;
 
     class TaskManager : public ModelComponent {
 	OpenSim_DECLARE_CONCRETE_OBJECT(TaskManager, ModelComponent);
     public:
-	TaskManager(std::shared_ptr<TaskPriorityGraph> graph);
+	TaskManager(TaskPriorityGraph* graph, ConstraintModel* constraintModel);
 	SimTK::Vector calcTaskTorques(const SimTK::State& s);
     private:
-	std::shared_ptr<TaskPriorityGraph> taskPriorityGraph;
+	TaskPriorityGraph* taskPriorityGraph;
+	ConstraintModel* constraintModel;
     };
 }
 

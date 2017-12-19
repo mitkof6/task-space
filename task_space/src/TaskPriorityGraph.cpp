@@ -25,3 +25,7 @@ void TaskPriorityGraph::addTask(KinematicTask* task, KinematicTask* parent) {
     // insert after
     prioritySortedGraph.insert(++parentIt, make_pair(task, parent));
 }
+
+const ListChildParent& TaskPriorityGraph::getPrioritySortedGraph() const {
+    return prioritySortedGraph;
+}

@@ -21,6 +21,9 @@ namespace OpenSim {
     class ParentNotInGraphException : public std::logic_error {
 	using std::logic_error::logic_error;
     };
+
+    typedef std::list<std::pair<KinematicTask*, KinematicTask*> > ListChildParent;
+
     /**
      * A container that holds a list of pairs (child, parent) in a priority
      * sorted order [high, low]. The pair contains a reference to the task and
@@ -67,6 +70,9 @@ namespace OpenSim {
 	 * in the graph.
 	 */
 	void addTask(KinematicTask* task, KinematicTask* parent);
+	/** Get reference to the priority sorted list */
+	const ListChildParent& getPrioritySortedGraph() const;
+	/** <<  */
 	friend std::ostream& operator<<(std::ostream& os,
 					const TaskPriorityGraph& g) {
 	    for(auto pair : g.prioritySortedGraph) {
@@ -81,7 +87,7 @@ namespace OpenSim {
 	};
     private:
 	/** A list containing the sorted tasks in priority order [high->low] */
-	std::list<std::pair<KinematicTask*, KinematicTask*> > prioritySortedGraph;
+	ListChildParent prioritySortedGraph;
     };
 }
 

@@ -21,10 +21,10 @@ Vector calcGravity(const State& s, const Model& model) {
  * (i.e. \f$ M \ddot{q} + \tau_c = \tau \f$).
  */
 Vector calcCoriolis(const State& s, const Model& model) {
-    Vector g;
-    model.getMatterSubsystem().multiplyBySystemJacobianTranspose(
-     s, model.getGravityForce().getBodyForces(s), g);
-    return -g;
+    Vector c;
+    model.getMatterSubsystem().calcResidualForceIgnoringConstraints(
+	s, Vector(0), Vector_<SpatialVec>(0), Vector(0), c);
+    return c;
 }
 
 Matrix calcMInv(const State& s, const Model& model) {
@@ -77,7 +77,7 @@ Matrix calcConstraintJacobian(const State& s, Model& model) {
 }
 
 Vector calcConstraintBias(const State& s, Model& model) {
-    Vector bc;
-    model.getMatterSubsystem().calcBiasForAccelerationConstraints(s, bc);
-    return -bc;
+    Vector b;
+    model.getMatterSubsystem().calcBiasForAccelerationConstraints(s, b);
+    return b;
 }
