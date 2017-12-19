@@ -1,10 +1,12 @@
 #include "TaskManager.h"
 #include "TaskPriorityGraph.h"
+#include "TaskProjection.h"
 
 using namespace OpenSim;
 using namespace SimTK;
 
-TaskManager::TaskManager(TaskPriorityGraph* graph) : taskPriorityGraph(graph) {
+TaskManager::TaskManager(std::shared_ptr<TaskPriorityGraph> graph)
+    : taskPriorityGraph(graph) {
 
 }
 

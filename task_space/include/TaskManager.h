@@ -10,6 +10,7 @@
  * href="http://ieeexplore.ieee.org/document/8074739/">[Publication]</a>
  */
 
+#include <memory>
 #include <OpenSim/Simulation/Model/ModelComponent.h>
 
 namespace OpenSim {
@@ -18,12 +19,11 @@ namespace OpenSim {
     class TaskManager : public ModelComponent {
 	OpenSim_DECLARE_ABSTRACT_OBJECT(TaskManager, ModelComponent);
     public:
-	TaskManager(TaskPriorityGraph* graph);
+	TaskManager(std::shared_ptr<TaskPriorityGraph> graph);
 	SimTK::Vector calcTaskTorques(const SimTK::State& s);
     private:
-	TaskPriorityGraph* taskPriorityGraph;
+	std::shared_ptr<TaskPriorityGraph> taskPriorityGraph;
     };
-
 }
 
 #endif

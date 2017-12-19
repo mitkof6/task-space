@@ -12,7 +12,6 @@
 
 #include <list>
 #include <stdexcept>
-#include <OpenSim/Simulation/Model/ModelComponent.h>
 #include "KinematicTask.h"
 
 namespace OpenSim {
@@ -54,8 +53,7 @@ namespace OpenSim {
      * {tibia, femur}]
      *
      */
-    class TaskPriorityGraph : public ModelComponent {
-	OpenSim_DECLARE_CONCRETE_OBJECT(TaskPriorityGraph, ModelComponent);
+    class TaskPriorityGraph {
     public:
 	TaskPriorityGraph();
 	/**
