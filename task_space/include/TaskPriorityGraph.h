@@ -15,15 +15,12 @@
 #include "KinematicTask.h"
 
 namespace OpenSim {
-
     class TaskExistsInGraphException : public std::logic_error {
 	using std::logic_error::logic_error;
     };
-
     class ParentNotInGraphException : public std::logic_error {
 	using std::logic_error::logic_error;
     };
-
     /**
      * A container that holds a list of pairs (child, parent) in a priority
      * sorted order [high, low]. The pair contains a reference to the task and
@@ -55,7 +52,6 @@ namespace OpenSim {
      */
     class TaskPriorityGraph {
     public:
-	TaskPriorityGraph();
 	/**
 	 * Adds a task and updates the priority sorted graph based on the parent
 	 * task.
@@ -71,7 +67,8 @@ namespace OpenSim {
 	 * in the graph.
 	 */
 	void addTask(KinematicTask* task, KinematicTask* parent);
-	friend std::ostream& operator<<(std::ostream& os, const TaskPriorityGraph& g) {
+	friend std::ostream& operator<<(std::ostream& os,
+					const TaskPriorityGraph& g) {
 	    for(auto pair : g.prioritySortedGraph) {
 		if (pair.second==NULL) {
 		    os << "Prent: 0\n\tChild: " << *pair.first << std::endl;

@@ -11,4 +11,8 @@
  * href="http://ieeexplore.ieee.org/document/8074739/">[Publication]</a>
  */
 
+namespace OpenSim {
+
+}
+
 #endif

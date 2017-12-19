@@ -25,39 +25,29 @@
 #include <simbody/SimTKcommon.h>
 #include <OpenSim/Simulation/Model/Model.h>
 
-/**
- * Calculates the inverse inertia mass matrix of the system.
- */
-SimTK::Matrix calcMInv(const SimTK::State& s, const OpenSim::Model& model);
-/**
- * Calculates the gravity contribution \f$ \tau_g \f$. We assume that
- * \f$ \tau_g \f$ is on the same side with the joint space accelerations
- * (i.e. \f$ M \ddot{q} + \tau_g = \tau \f$).
- */
-SimTK::Vector calcGravity(const SimTK::State& s, const OpenSim::Model& model);
-/**
- * Calculates the Coriolis contribution \f$ \tau_c \f$. We assume that
- * \f$ \tau_c \f$ is on the same side with the joint space accelerations
- * (i.e. \f$ M \ddot{q} + \tau_c = \tau \f$).
- */
-SimTK::Vector acalcCoriolis(const SimTK::State& s, const OpenSim::Model& model);
-/**
- * Calculates the total forces that act on the model (\f$ f \f$). This
- * requires that the model is realized to Stage::Dynamics. Muscle forces
- * are ignored since they are the actuation (i.e. \f$ \tau = R f_m \f$
- * and not \f$ f \f$).
- */
-SimTK::Vector calcTotalForces(const SimTK::State& s,
-			      const OpenSim::Model& model);
-/**
- * Calculates the constraint Jacobian matrix (\f$ \Phi \f$).
- */
-SimTK::Matrix calcConstraintJacobian(const SimTK::State& s,
+namespace OpenSim {
+    /**
+     * Calculates the inverse inertia mass matrix of the system.
+     */
+    SimTK::Matrix calcMInv(const SimTK::State& s, const OpenSim::Model& model);
+    /**
+     * Calculates the total forces that act on the model (\f$ f \f$). This
+     * requires that the model is realized to Stage::Dynamics. Muscle forces
+     * are ignored since they are the actuation (i.e. \f$ \tau = R f_m \f$
+     * and not \f$ f \f$).
+     */
+    SimTK::Vector calcTotalForces(const SimTK::State& s,
+				  const OpenSim::Model& model);
+    /**
+     * Calculates the constraint Jacobian matrix (\f$ \Phi \f$).
+     */
+    SimTK::Matrix calcConstraintJacobian(const SimTK::State& s,
+					 const OpenSim::Model& model);
+    /**
+     * Calculate the constraint bias term \f$ b_c \f$.
+     */
+    SimTK::Vector calcConstraintBias(const SimTK::State& s,
 				     const OpenSim::Model& model);
-/**
- * Calculate the constraint bias term \f$ b_c \f$.
- */
-SimTK::Vector calcConstraintBias(const SimTK::State& s,
-				 const OpenSim::Model& model);
+}
 
 #endif

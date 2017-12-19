@@ -3,9 +3,6 @@
 using namespace std;
 using namespace OpenSim;
 
-TaskPriorityGraph::TaskPriorityGraph() {
-}
-
 void TaskPriorityGraph::addTask(KinematicTask* task, KinematicTask* parent) {
     // first check whether task exists in the priority list so that we can avoid
     // directed cycles

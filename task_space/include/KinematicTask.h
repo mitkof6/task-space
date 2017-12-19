@@ -64,7 +64,8 @@ namespace OpenSim {
 	 *  Stage::Acceleration.
 	 */
 	virtual SimTK::Vector a(const SimTK::State& s) const = 0;
-	friend std::ostream& operator<<(std::ostream& os, const KinematicTask& k) {
+	friend std::ostream& operator<<(std::ostream& os,
+					const KinematicTask& k) {
 	    return os << "[Body: " << k.body << ", offset: " << k.offset << "]"
 		      << std::endl;
 	};
@@ -76,7 +77,6 @@ namespace OpenSim {
 	/** The goal of this task (task acceleration). */
 	SimTK::Vector goal;
     };
-
     /**
      * \brief Position task primitive.
      *
@@ -100,7 +100,6 @@ namespace OpenSim {
 	SimTK::Vector u(const SimTK::State& s) const override;
 	SimTK::Vector a(const SimTK::State& s) const override;
     };
-
     /**
      * \brief Orientation task primitive.
      *
@@ -124,7 +123,6 @@ namespace OpenSim {
 	SimTK::Vector u(const SimTK::State& s) const override;
 	SimTK::Vector a(const SimTK::State& s) const override;
     };
-
     /**
      * \brief Spatial task primitive (both position and orientation).
      *
