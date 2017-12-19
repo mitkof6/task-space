@@ -23,31 +23,28 @@
  */
 
 #include <OpenSim/Simulation/Model/Model.h>
-#include <simbody/SimTKcommon.h>
 
-namespace OpenSim {
-    /**
-     * Calculates the inverse inertia mass matrix of the system.
-     */
-    SimTK::Matrix calcMInv(const SimTK::State& s, const OpenSim::Model& model);
-    /**
-     * Calculates the total forces that act on the model (\f$ f \f$). This
-     * requires that the model is realized to Stage::Dynamics. Muscle forces are
-     * ignored since they are the actuation (i.e. \f$ \tau = R f_m \f$ and not
-     * \f$ f \f$).
-     */
-    SimTK::Vector calcTotalGeneralizedForces(const SimTK::State& s,
-					     const OpenSim::Model& model);
-    /**
-     * Calculates the constraint Jacobian matrix (\f$ \Phi \f$).
-     */
-    SimTK::Matrix calcConstraintJacobian(const SimTK::State& s,
+/**
+ * Calculates the inverse inertia mass matrix of the system.
+ */
+SimTK::Matrix calcMInv(const SimTK::State& s, const OpenSim::Model& model);
+/**
+ * Calculates the total forces that act on the model (\f$ f \f$). This
+ * requires that the model is realized to Stage::Dynamics. Muscle forces are
+ * ignored since they are the actuation (i.e. \f$ \tau = R f_m \f$ and not
+ * \f$ f \f$).
+ */
+SimTK::Vector calcTotalGeneralizedForces(const SimTK::State& s,
 					 const OpenSim::Model& model);
-    /**
-     * Calculate the constraint bias term \f$ b \f$.
-     */
-    SimTK::Vector calcConstraintBias(const SimTK::State& s,
+/**
+ * Calculates the constraint Jacobian matrix (\f$ \Phi \f$).
+ */
+SimTK::Matrix calcConstraintJacobian(const SimTK::State& s,
 				     const OpenSim::Model& model);
-}
+/**
+ * Calculate the constraint bias term \f$ b \f$.
+ */
+SimTK::Vector calcConstraintBias(const SimTK::State& s,
+				 const OpenSim::Model& model);
 
 #endif

@@ -19,7 +19,7 @@ Matrix calcJBarT(const Matrix& Lambda, const Matrix& J, const Matrix& MInv) {
     return Lambda * J * MInv;
 }
 
-Matrix calcNT(const Matrix& JT, const Matrix& JBarT) {
+Matrix calcNtT(const Matrix& JT, const Matrix& JBarT) {
     return 1 - JT * JBarT;
 }
 
@@ -27,9 +27,9 @@ Matrix calcNpT(const Matrix& NtT, const Matrix& NT) {
     return NtT * NT;
 }
 
-Vector calcFt(const Vector& xddot, const Matrix& Lambdap, const Vector& bt,
-	      const Matrix& JBarpT, const Vector& taup) {
-    return Lambdap * (xddot + bt) + JBarpT * taup;
+Vector calcFt(const Matrix& Lambdap, const Vector& xddot, const Vector& bt,
+	      const Matrix& JBarpT, const Vector& taue) {
+    return Lambdap * (xddot + bt) + JBarpT * taue;
 }
 
 Vector calcTau(const Matrix& JT, const Vector& f) {

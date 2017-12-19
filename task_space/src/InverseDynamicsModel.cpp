@@ -70,13 +70,13 @@ Vector calcTotalGeneralizedForces(const State& s, const Model& model) {
     return calcCoriolis(s, model) + calcGravity(s, model);
 }
 
-Matrix calcConstraintJacobian(const State& s, Model& model) {
+Matrix calcConstraintJacobian(const State& s, const Model& model) {
     Matrix Phi;
     model.getMatterSubsystem().calcG(s, Phi);
     return Phi;
 }
 
-Vector calcConstraintBias(const State& s, Model& model) {
+Vector calcConstraintBias(const State& s, const Model& model) {
     Vector b;
     model.getMatterSubsystem().calcBiasForAccelerationConstraints(s, b);
     return b;

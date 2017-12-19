@@ -39,15 +39,15 @@ void testTaskControl() {
 			  .getOutput("value"), "thetaZ");
     model.addComponent(reporter);
 
-    // TaskPriorityGraph graph;
-    // auto task = new PositionTask("block", Vec3(0));
-    // graph.addTask(task, NULL);
-    // model.addComponent(task);
+    TaskPriorityGraph graph;
+    auto task = new PositionTask("block", Vec3(0));
+    graph.addTask(task, NULL);
+    model.addComponent(task);
 
-    // auto constraintModel = new UnconstraintModel();
-    // model.addComponent(constraintModel);
-    // auto manager = new TaskManager(&graph, constraintModel);
-    // model.addComponent(manager);
+    auto constraintModel = new UnconstraintModel();
+    model.addComponent(constraintModel);
+    auto manager = new TaskManager(&graph, constraintModel);
+    model.addComponent(manager);
 
     auto state = model.initSystem();
     joint->updCoordinate(FreeJoint::Coord::TranslationY).setValue(state, 0.5);
