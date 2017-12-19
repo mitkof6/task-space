@@ -64,7 +64,7 @@ Matrix calcMInv(const State& s, const Model& model) {
 //     f = -1.0 * torques - f;
 // }
 
-Vector calcTotalForces(const State& s, const Model& model) {
+Vector calcTotalGeneralizedForces(const State& s, const Model& model) {
     // TODO calcTotalGeneralizedForces(s, workingModel, value); value =
     // calcCoriolis(s) + value;// add Coriolis because they are not computed
     return calcCoriolis(s, model) + calcGravity(s, model);

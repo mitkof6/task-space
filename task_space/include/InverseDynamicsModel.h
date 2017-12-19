@@ -36,8 +36,8 @@ namespace OpenSim {
      * are ignored since they are the actuation (i.e. \f$ \tau = R f_m \f$
      * and not \f$ f \f$).
      */
-    SimTK::Vector calcTotalForces(const SimTK::State& s,
-				  const OpenSim::Model& model);
+    SimTK::Vector calcTotalGeneralizedForces(const SimTK::State& s,
+					     const OpenSim::Model& model);
     /**
      * Calculates the constraint Jacobian matrix (\f$ \Phi \f$).
      */

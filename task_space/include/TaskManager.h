@@ -11,12 +11,13 @@
  */
 
 #include <memory>
-#include <simbody/SimTKcommon.h>
+#include <OpenSim/Simulation/Model/ModelComponent.h>
 
 namespace OpenSim {
     class TaskPriorityGraph;
 
-    class TaskManager {
+    class TaskManager : public ModelComponent {
+	OpenSim_DECLARE_CONCRETE_OBJECT(TaskManager, ModelComponent);
     public:
 	TaskManager(std::shared_ptr<TaskPriorityGraph> graph);
 	SimTK::Vector calcTaskTorques(const SimTK::State& s);
