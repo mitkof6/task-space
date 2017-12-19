@@ -3,7 +3,18 @@
 
 /**
  * \file This file contains the implementation for the underlying representation
- * of the system's equations of motion.
+ * of the system's equations of motion using the following convention
+ *
+ * \f$ M \ddot{q} + f + \Phi^T \lambda = \tau \f$
+ *
+ * $\f \Phi \ddot{q} = b_c \f$
+ *
+ * where \f$ M \f$ is the inertia mass matrix, \f$ q, \dot{q}, \ddot{q} \f$ are
+ * the generalized coordinates and their derivatives respectively, \f$ f \f$ are
+ * the forces that act on the model (e.g. gravity, Coriolis, ligaments, etc.),
+ * \f$ \Phi \f$ is the constraint Jacobian matrix, \f$ \lambda \f$ are the
+ * Lagrangian multipliers, \f$ \tau \f$ are the acting generalized forces and
+ * \f$ b_c \f$ is the constraint bias term.
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *
@@ -11,29 +22,42 @@
  * href="http://ieeexplore.ieee.org/document/8074739/">[Publication]</a>
  */
 
-#include <OpenSim/Simulation/Model/ModelComponent.h>
+#include <simbody/SimTKcommon.h>
+#include <OpenSim/Simulation/Model/Model.h>
 
-namespace OpenSim {
-
-    /**
-     * This is an abstract class that wraps the model's equations of motion
-     * using the following convention
-     *
-     * \f$ M \ddot{q} + f + \Phi^T \lambda = \tau \f$
-     *
-     * where \f$ M \f$ is the inertia mass matrix, \f$ q, \dot{q}, \ddot{q} \f$
-     * are the generalized coordinates and their derivatives respectively, \f$ f
-     * \f$ are the forces that act on the model (e.g. gravity, Coriolis,
-     * ligaments, etc.), \f$ \Phi \f$ is the constraint Jacobian matrix, \f$
-     * \lambda \f$ are the Lagrangian multipliers and \f$ \tau \f$ are the
-     * acting generalized forces.
-     */
-    class InverseDyanmicsModel : public ModelComponent {
-	OpenSim_DECLARE_ABSTRACT_OBJECT(InverseDyanmicsModel, ModelComponent);
-    public:
-
-    };
-
-}
+/**
+ * Calculates the inverse inertia mass matrix of the system.
+ */
+SimTK::Matrix calcMInv(const SimTK::State& s, const OpenSim::Model& model);
+/**
+ * Calculates the gravity contribution \f$ \tau_g \f$. We assume that
+ * \f$ \tau_g \f$ is on the same side with the joint space accelerations
+ * (i.e. \f$ M \ddot{q} + \tau_g = \tau \f$).
+ */
+SimTK::Vector calcGravity(const SimTK::State& s, const OpenSim::Model& model);
+/**
+ * Calculates the Coriolis contribution \f$ \tau_c \f$. We assume that
+ * \f$ \tau_c \f$ is on the same side with the joint space accelerations
+ * (i.e. \f$ M \ddot{q} + \tau_c = \tau \f$).
+ */
+SimTK::Vector acalcCoriolis(const SimTK::State& s, const OpenSim::Model& model);
+/**
+ * Calculates the total forces that act on the model (\f$ f \f$). This
+ * requires that the model is realized to Stage::Dynamics. Muscle forces
+ * are ignored since they are the actuation (i.e. \f$ \tau = R f_m \f$
+ * and not \f$ f \f$).
+ */
+SimTK::Vector calcTotalForces(const SimTK::State& s,
+			      const OpenSim::Model& model);
+/**
+ * Calculates the constraint Jacobian matrix (\f$ \Phi \f$).
+ */
+SimTK::Matrix calcConstraintJacobian(const SimTK::State& s,
+				     const OpenSim::Model& model);
+/**
+ * Calculate the constraint bias term \f$ b_c \f$.
+ */
+SimTK::Vector calcConstraintBias(const SimTK::State& s,
+				 const OpenSim::Model& model);
 
 #endif
