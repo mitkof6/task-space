@@ -24,17 +24,17 @@ namespace OpenSim {
      */
     SimTK::Matrix calcJpT(const SimTK::Matrix& NT, const SimTK::Matrix& JT);
     /**
-     * Calculates the prioritized task inertia mass matrix. If JpT = JtT then
-     * there will be no prioritization.
+     * Calculates the prioritized task inertia mass matrix. If JT = JpT then
+     * this calculates the prioritized task inertia mass matrix.
      *
      * \f$ \Lambda_{t|t-1} = (J_t M^{-1} N_{t-1}^T J_t^T)^{-1} \f$
      *
      * @param J is the task Jacobian matrix
      * @param MInv is the inverse system mass matrix
-     * @param JpT is the prioritized, transposed task Jacobian matrix
+     * @param JT is the transposed task Jacobian matrix
      */
-    SimTK::Matrix calcLambdap(const SimTK::Matrix& J, const SimTK::Matrix& MInv,
-			      const SimTK::Matrix& JpT);
+    SimTK::Matrix calcLambda(const SimTK::Matrix& J, const SimTK::Matrix& MInv,
+			     const SimTK::Matrix& JT);
     /**
      * Calculates the dynamically consistent generalized inverse, transpose of
      * the task Jacobian matrix. If \f$ \Lambda = \Lambda_{t|t-1} \f$ then \f$
@@ -50,15 +50,23 @@ namespace OpenSim {
     SimTK::Matrix calcJBarT(const SimTK::Matrix& Lambda, const SimTK::Matrix& J,
 			    const SimTK::Matrix& MInv);
     /**
-     * Calculates the prioritized, transposed null space matrix of the task.
+     * Calculates the task's transposed null space matrix. If JT = JpT and JBarT
+     * = JBarpT then this is the prioritized null space of the task.
      *
-     * \f$ N_{t|t-1}^T = (I - J_{t|t-1}^T  \bar{J}_{t|t-1}^T) * N_{t-1}^T \f$
+     * \f$ N_{t|t-1}^T = I - J_{t|t-1}^T  \bar{J}_{t|t-1}^T \f$
+     */
+    SimTK::Matrix calcNtT(const SimTK::Matrix& JT, const SimTK::Matrix& JBarT);
+    /**
+     * Calculates the aggregate prioritized, transposed null space matrix of the
+     * task.
      *
-     * @param JpT is the prioritized, transposed task Jacobian matrix
+     * \f$ N_{t*}^T = N_{t|t-1}^T N_{t-1}^T, \; N_{t|t-1}^T = (I - J_{t|t-1}^T
+     * \bar{J}_{t|t-1}^T) \f$
+     *
+     * @param NtT is the task's transposed null space matrix matrix
      * @param NT is the aggregate null space matrix of the higher priority tasks
      */
-    SimTK::Matrix calcNpT(const SimTK::Matrix& JpT, const SimTK::Matrix& JBarpT,
-			  const SimTK::Matrix& NT);
+    SimTK::Matrix calcNpT(const SimTK::Matrix& NtT, const SimTK::Matrix& NT);
     /**
      * Calculates the required task forces that achieves the task goals.
      *

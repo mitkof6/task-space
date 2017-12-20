@@ -7,9 +7,9 @@ Matrix calcJpT(const Matrix& NT, const Matrix& JT) {
     return NT * JT;
 }
 
-Matrix calcLambdap(const Matrix& J, const Matrix& MInv, const Matrix& JpT) {
+Matrix calcLambda(const Matrix& J, const Matrix& MInv, const Matrix& JT) {
     Matrix Lambda;
-    auto LambdaInv = J * MInv * JpT;
+    auto LambdaInv = J * MInv * JT;
     FactorSVD svd(LambdaInv);
     svd.inverse(Lambda);
     return Lambda;
@@ -19,8 +19,12 @@ Matrix calcJBarT(const Matrix& Lambda, const Matrix& J, const Matrix& MInv) {
     return Lambda * J * MInv;
 }
 
-Matrix calcNpT(const Matrix& JpT, const Matrix& JBarpT, const Matrix& NT) {
-    return (1 - JpT * JBarpT) * NT;
+Matrix calcNT(const Matrix& JT, const Matrix& JBarT) {
+    return 1 - JT * JBarT;
+}
+
+Matrix calcNpT(const Matrix& NtT, const Matrix& NT) {
+    return NtT * NT;
 }
 
 Vector calcFt(const Vector& xddot, const Matrix& Lambdap, const Vector& bt,

@@ -10,10 +10,12 @@
  * href="http://ieeexplore.ieee.org/document/8074739/">[Publication]</a>
  */
 
+#include <map>
 #include <memory>
 #include <OpenSim/Simulation/Model/ModelComponent.h>
 
 namespace OpenSim {
+    class KinematicTask;
     class TaskPriorityGraph;
     class ConstraintModel;
 
@@ -25,6 +27,11 @@ namespace OpenSim {
     private:
 	TaskPriorityGraph* taskPriorityGraph;
 	ConstraintModel* constraintModel;
+	struct TaskTemporaryData {
+	    SimTK::Matrix NT;
+	    SimTK::Vector tau;
+	};
+	std::map<KinematicTask*, TaskTemporaryData> taskCache;
     };
 }
 
