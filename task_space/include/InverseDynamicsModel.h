@@ -22,8 +22,8 @@
  * href="http://ieeexplore.ieee.org/document/8074739/">[Publication]</a>
  */
 
-#include <simbody/SimTKcommon.h>
 #include <OpenSim/Simulation/Model/Model.h>
+#include <simbody/SimTKcommon.h>
 
 namespace OpenSim {
     /**
