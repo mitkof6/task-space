@@ -37,12 +37,12 @@ KinematicTask::KinematicTask(std::string body, Vec3 offset)
 {
 }
 
-void KinematicTask::setGoal(const Vector& g) {
+void KinematicTask::setGoal(const TaskGoal& g) {
     goal = g;
 }
 
-const SimTK::Vector& KinematicTask::getGoal() const {
-    return goal;
+SimTK::Vector KinematicTask::getGoal(const State& s) const {
+    return goal(s);
 }
 
 /******************************************************************************/

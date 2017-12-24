@@ -45,7 +45,7 @@ Vector TaskManager::calcTaskTorques(const State& s) {
 	}
 
 	// calculate task related data
-	auto xtddot = task->getGoal();
+	auto xtddot = task->getGoal(s);
 	auto bt = task->b(s);
 	auto Jt = task->J(s);
 	auto JtT = ~Jt;

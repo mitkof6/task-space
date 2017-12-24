@@ -1,20 +1,48 @@
-#ifndef KINEMATIC_TASK_H
-#define KINEMATIC_TASK_H
-
 /**
- * \file This file contains the implementation of kinematic tasks.
+ * \file This file contains the implementation of various kinematic tasks
+ * (i.e. position, orientation and spatial which is both).
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *
  * @see <a href="https://simtk.org/projects/task-space">[SimTK Project]</a>, <a
  * href="http://ieeexplore.ieee.org/document/8074739/">[Publication]</a>
  */
+#ifndef KINEMATIC_TASK_H
+#define KINEMATIC_TASK_H
 
 #include <string>
+#include <functional>
 #include <OpenSim/Simulation/Model/ModelComponent.h>
 
 namespace OpenSim {
-
+    /**
+     * A task goal (typically acceleration) is prescribed by providing a
+     * function or a closure through setGoal. The provided function must be of
+     * type std::function, accepting the State and returning a Vector of task
+     * accelerations.
+     *
+     * Example:
+     *
+     * TaskPriorityGraph graph;
+     * auto task = new PositionTask("block", Vec3(0));
+     * graph.addTask(task, NULL);
+     * model.addComponent(task);
+     * ...
+     * auto x0 = fromVectorToVec3(task->x(state));
+     * auto pd = [&](const State& s) -> Vector {
+     *     auto x = fromVectorToVec3(task->x(s));
+     *     auto u = fromVectorToVec3(task->u(s));
+     *     double kp = 100, kd = 20;
+     *     auto xd = x0 + Vec3(sin(2 * Pi * s.getTime()), 0, 0);
+     *     auto ud = Vec3(2 * Pi * cos(2 * Pi * s.getTime()), 0, 0);
+     *     auto ad = Vec3(-pow(2 * Pi, 2) * sin(2 * Pi * s.getTime()), 0, 0);
+     *     return Vector(ad + kp * (xd - x) + kd * (ud - u));
+     * };
+     * task->setGoal(pd);
+     *
+     * @see exampleTaskBasedControl.cpp
+     */
+    typedef std::function<SimTK::Vector(const SimTK::State&)> TaskGoal;
     /**
      * \brief An abstract class for kinematic tasks (e.g. position, orientation
      * and spatial).
@@ -39,8 +67,15 @@ namespace OpenSim {
 	OpenSim_DECLARE_ABSTRACT_OBJECT(KinematicTask, ModelComponent);
     public:
 	KinematicTask(std::string body, SimTK::Vec3 offset);
-	void setGoal(const SimTK::Vector& goal);
-	const SimTK::Vector& getGoal() const;
+	/**
+	 * Set the task goal by providing a callable std::function which accepts
+	 * the State and returns a Vector.
+	 *
+	 * @param TaskGoal a function or closure
+	 */
+	void setGoal(const TaskGoal& goal);
+	/** Evaluates the TaskGoal */
+	SimTK::Vector getGoal(const SimTK::State& s) const;
 	/** Calculates the Jacobian matrix (\f$ J_t \f$) */
 	virtual SimTK::Matrix J(const SimTK::State& s) const = 0;
 	/** Calculates the task bias term \f$ b_t = - \dot{J} \dot{q} \f$ */
@@ -74,8 +109,8 @@ namespace OpenSim {
 	std::string body;
 	/** Offset of the task from the body's local frame. */
 	SimTK::Vec3 offset;
-	/** The goal of this task (task acceleration). */
-	SimTK::Vector goal;
+	/** A callable function or closure that evaluates the task goal. */
+	TaskGoal goal;
     };
     /**
      * \brief Position task primitive.

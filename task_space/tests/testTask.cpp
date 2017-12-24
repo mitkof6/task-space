@@ -1,3 +1,12 @@
+/**
+ * \file Tests the behavior of the TaskPriorityGraph when adding a prioritized
+ * task.
+ *
+ * @author Dimitar Stanev <jimstanev@gmail.com>
+ *
+ * @see <a href="https://simtk.org/projects/task-space">[SimTK Project]</a>, <a
+ * href="http://ieeexplore.ieee.org/document/8074739/">[Publication]</a>
+ */
 #include <iostream>
 #include <typeinfo>
 #include <OpenSim/Simulation/Model/Model.h>
@@ -26,7 +35,7 @@ void testGraphConstruction() {
     MUST_THROW_EXCEPTION(graph.addTask(ground, ground), ParentNotInGraphException);
 }
 
-int main(int argc, char *argv[argc]) {
+int main(int argc, char *argv[]) {
     try {
 	testGraphConstruction();
     } catch (exception &e) {
