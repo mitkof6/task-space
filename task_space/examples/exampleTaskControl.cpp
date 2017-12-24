@@ -4,6 +4,7 @@
 #include "TaskPriorityGraph.h"
 #include "TaskManager.h"
 #include "ConstraintProjection.h"
+#include "TaskBasedForce.h"
 
 using namespace std;
 using namespace OpenSim;
@@ -41,6 +42,7 @@ void testTaskControl() {
 
     TaskPriorityGraph graph;
     auto task = new PositionTask("block", Vec3(0));
+    task->setGoal(Vector(Vec3(1, 0, 0)));
     graph.addTask(task, NULL);
     model.addComponent(task);
 
@@ -49,9 +51,13 @@ void testTaskControl() {
     auto manager = new TaskManager(&graph, constraintModel);
     model.addComponent(manager);
 
+    auto forceController = new TaskBasedForce(manager);
+    model.addForce(forceController);
+
     auto state = model.initSystem();
     joint->updCoordinate(FreeJoint::Coord::TranslationY).setValue(state, 0.5);
     simulate(model, state, 1);
+    forceController->printResults("exampleTaskControl", ".");
 }
 
 int main(int argc, char *argv[argc]) {
