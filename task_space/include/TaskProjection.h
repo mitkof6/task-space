@@ -1,6 +1,3 @@
-#ifndef TASK_PROJECTION_H
-#define TASK_PROJECTION_H
-
 /**
  * \file This file contains the implementation of common utilities for task
  * space projection. TODO
@@ -10,6 +7,8 @@
  * @see <a href="https://simtk.org/projects/task-space">[SimTK Project]</a>, <a
  * href="http://ieeexplore.ieee.org/document/8074739/">[Publication]</a>
  */
+#ifndef TASK_PROJECTION_H
+#define TASK_PROJECTION_H
 
 #include <simbody/SimTKcommon.h>
 

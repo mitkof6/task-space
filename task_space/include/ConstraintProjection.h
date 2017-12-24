@@ -1,15 +1,13 @@
-#ifndef CONSTRAINT_PROJECTION_H
-#define CONSTRAINT_PROJECTION_H
-
 /**
- * \file This file contains the various implementations of the constrained
- * dynamics.
+ * \file This file contains various implementations of the constrained dynamics.
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *
  * @see <a href="https://simtk.org/projects/task-space">[SimTK Project]</a>, <a
  * href="http://ieeexplore.ieee.org/document/8074739/">[Publication]</a>
  */
+#ifndef CONSTRAINT_PROJECTION_H
+#define CONSTRAINT_PROJECTION_H
 
 #include <OpenSim/Simulation/Model/ModelComponent.h>
 
@@ -107,7 +105,7 @@ namespace OpenSim {
          */
         SimTK::Matrix PhiBarT(const SimTK::State& s) const;
     };
-
+    // TODO Aghili
 }
 
 #endif
