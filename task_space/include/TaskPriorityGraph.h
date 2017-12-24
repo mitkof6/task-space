@@ -1,6 +1,3 @@
-#ifndef TASK_PRIORITY_GRAPH_H
-#define TASK_PRIORITY_GRAPH_H
-
 /**
  * \file This file contains the implementation of the task priority graph.
  *
@@ -9,22 +6,27 @@
  * @see <a href="https://simtk.org/projects/task-space">[SimTK Project]</a>, <a
  * href="http://ieeexplore.ieee.org/document/8074739/">[Publication]</a>
  */
+#ifndef TASK_PRIORITY_GRAPH_H
+#define TASK_PRIORITY_GRAPH_H
 
 #include <list>
 #include <stdexcept>
 #include "KinematicTask.h"
 
 namespace OpenSim {
+    /** Thrown when the task exists in the graph, to avoid directed cycles. */
     class TaskExistsInGraphException : public std::logic_error {
 	using std::logic_error::logic_error;
     };
+    /** Thrown when the provided parent task does not exist in the graph. */
     class ParentNotInGraphException : public std::logic_error {
 	using std::logic_error::logic_error;
     };
-
+    // short definition
     typedef std::list<std::pair<KinematicTask*, KinematicTask*> > ListChildParent;
-
     /**
+     * \brief A priority sorted graph of task pairs (child, parent).
+     *
      * A container that holds a list of pairs (child, parent) in a priority
      * sorted order [high, low]. The pair contains a reference to the task and
      * the associated parent task. The priority graph is constructed by
@@ -72,7 +74,7 @@ namespace OpenSim {
 	void addTask(KinematicTask* task, KinematicTask* parent);
 	/** Get reference to the priority sorted list */
 	const ListChildParent& getPrioritySortedGraph() const;
-	/** <<  */
+	/** cout << graph << endl */
 	friend std::ostream& operator<<(std::ostream& os,
 					const TaskPriorityGraph& g) {
 	    for(auto pair : g.prioritySortedGraph) {

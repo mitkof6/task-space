@@ -1,6 +1,3 @@
-#ifndef INVERSE_DYNAMICS_MODEL_H
-#define INVERSE_DYNAMICS_MODEL_H
-
 /**
  * \file This file contains the implementation for the underlying representation
  * of the system's equations of motion using the following convention
@@ -21,6 +18,8 @@
  * @see <a href="https://simtk.org/projects/task-space">[SimTK Project]</a>, <a
  * href="http://ieeexplore.ieee.org/document/8074739/">[Publication]</a>
  */
+#ifndef INVERSE_DYNAMICS_MODEL_H
+#define INVERSE_DYNAMICS_MODEL_H
 
 #include <OpenSim/Simulation/Model/Model.h>
 
@@ -29,10 +28,9 @@
  */
 SimTK::Matrix calcMInv(const SimTK::State& s, const OpenSim::Model& model);
 /**
- * Calculates the total forces that act on the model (\f$ f \f$). This
- * requires that the model is realized to Stage::Dynamics. Muscle forces are
- * ignored since they are the actuation (i.e. \f$ \tau = R f_m \f$ and not
- * \f$ f \f$).
+ * Calculates the total forces that act on the model (\f$ f \f$). This requires
+ * that the model is realized to Stage::Dynamics. Muscle forces are ignored
+ * since they are the actuation (i.e. \f$ \tau = R f_m \f$ and not \f$ f \f$).
  */
 SimTK::Vector calcTotalGeneralizedForces(const SimTK::State& s,
 					 const OpenSim::Model& model);

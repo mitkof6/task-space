@@ -12,9 +12,9 @@ void TaskPriorityGraph::addTask(KinematicTask* task, KinematicTask* parent) {
 		"The task already exists in the TaskPriorityGraph (avoid cyclic graph)");
 	}
     }
-
     // find the parent task and insert after
-    auto parentIt = find_if(prioritySortedGraph.begin(), prioritySortedGraph.end(),
+    auto parentIt = find_if(prioritySortedGraph.begin(),
+			    prioritySortedGraph.end(),
 			    [&](const pair<KinematicTask*, KinematicTask*>& a) {
 				return a.first == parent;
 			    });
