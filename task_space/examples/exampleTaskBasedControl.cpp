@@ -11,11 +11,7 @@
  */
 #include <iostream>
 #include <OpenSim/OpenSim.h>
-#include "KinematicTask.h"
-#include "TaskPriorityGraph.h"
-#include "TaskManager.h"
-#include "ConstraintProjection.h"
-#include "TaskBasedForce.h"
+#include "TaskSpace.h"
 
 using namespace std;
 using namespace OpenSim;
@@ -93,6 +89,7 @@ void taskBasedControl() {
     simulate(model, state, 2);
     // export results
     forceController->printResults("exampleTaskControl", ".");
+    manager->printResults("exampleTaskControl", ".");
     reporter->print("exampleTaskContro_Reporter.sto");
 }
 

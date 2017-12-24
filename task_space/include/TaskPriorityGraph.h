@@ -59,7 +59,9 @@ namespace OpenSim {
     public:
 	/**
 	 * Adds a task and updates the priority sorted graph based on the parent
-	 * task.
+	 * task. This object does not take ownership of the
+	 * KinematicTask(s). They must be owned by the model
+	 * (e.g. model.addComponent()).
 	 *
 	 * @param task the task to be inserted
 	 *

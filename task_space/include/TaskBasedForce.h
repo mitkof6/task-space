@@ -18,14 +18,14 @@ namespace OpenSim {
     class TaskManager;
     /**
      * \brief Computes and applies the generalized forces that track the task
-     * goals.
+     * goals. 
      */
     class TaskBasedForce : public Force {
         OpenSim_DECLARE_CONCRETE_OBJECT(TaskBasedForce, Force);
     public:
         /**
-         * @param taskManagerThe controller does not takes ownership of the
-         * object.
+         * This object does not take ownership of the TaskManager. It must be
+         * owned by the model (e.g. model.addComponent()).
          */
         TaskBasedForce(TaskManager* taskManager);
 	/**
@@ -36,12 +36,16 @@ namespace OpenSim {
 	 */
         void printResults(std::string prefix, std::string dir);
     protected:
+	/** Apply task forces as generalizedForces. */
         void computeForce(const SimTK::State& state,
                           SimTK::Vector_<SimTK::SpatialVec>& bodyForces,
                           SimTK::Vector& generalizedForces) const override;
+	/** Perform some additional initialization. */
         void extendInitStateFromProperties(SimTK::State& s) const override;
     protected:
+	/** A reference to the task manager. */
         TaskManager* taskManager;
+	/** Stores the applied generalized forces. */
         mutable Storage appliedForces;
     }; 
 } 
