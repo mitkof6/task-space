@@ -27,6 +27,12 @@ Vector calcCoriolis(const State& s, const Model& model) {
     return c;
 }
 
+Matrix calcM(const State& s, const Model& model) {
+    Matrix M;
+    model.getMatterSubsystem().calcM(s, M);
+    return M;
+}
+
 Matrix calcMInv(const State& s, const Model& model) {
     Matrix MInv;
     model.getMatterSubsystem().calcMInv(s, MInv);
@@ -77,7 +83,9 @@ Matrix calcConstraintJacobian(const State& s, const Model& model) {
 }
 
 Vector calcConstraintBias(const State& s, const Model& model) {
+    // because calcBiasForAccelerationConstraints assumes P *udot - bias = 0 we
+    // must invert the results so that P * udot = bias
     Vector b;
     model.getMatterSubsystem().calcBiasForAccelerationConstraints(s, b);
-    return b;
+    return -1.0 * b;
 }

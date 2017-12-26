@@ -11,18 +11,18 @@ using namespace SimTK;
 TaskManager::TaskManager(TaskPriorityGraph* graph,
 			 ConstraintModel* constraintModel)
     : taskPriorityGraph(graph), constraintModel(constraintModel) {
-
 }
 
 Vector TaskManager::calcTaskTorques(const State& s) {
     taskCache.clear();
     auto graph = taskPriorityGraph->getPrioritySortedGraph();
-    // constraint related
-    Matrix McInv = constraintModel->McInv(s);
-    Matrix NcT = constraintModel->NcT(s);
-    Vector bc = constraintModel->bc(s);
-    Vector f = calcTotalGeneralizedForces(s, *_model);
-    Vector fperp = NcT * f;
+    // constraint model
+    auto constraintData = constraintModel->calcConstraintData(s);
+    auto McInv = constraintData.McInv;
+    auto NcT = constraintData.NcT;
+    auto bc = constraintData.bc;
+    auto f = calcTotalGeneralizedForces(s, *_model);
+    auto fperp = NcT * f;
     // local variables
     Vector tauTasks(s.getNU(), 0.0); // the total task torques
     Matrix NgT(s.getNU(), s.getNU()); // the total nullspace
@@ -65,7 +65,7 @@ Vector TaskManager::calcTaskTorques(const State& s) {
 	NgT = NtT * NgT;
     }
     // TODO selection matrix and constraint forces analytics
-    Vector tauNullspace = NgT * (f + bc);
+    auto tauNullspace = NgT * (f + bc);
     appendAnalytics(s, tauTasks, tauNullspace);
     return tauTasks + tauNullspace;
 }
@@ -89,6 +89,7 @@ void TaskManager::extendInitStateFromProperties(State& s) const {
     labels.append("task_magnitude");
     labels.append("nullspace_magnitude");
     labels.append("total_magnitude");
+    // setup storage
     analytics.setColumnLabels(labels);
     analytics.reset(0);
 }

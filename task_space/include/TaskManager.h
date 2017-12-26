@@ -1,7 +1,8 @@
 /**
  * \file This file contains the implementation of task manager, which collects
  * the prioritized tasks, the constraint model and applies constraint and task
- * projection to evaluate the generalized forces that track the task goals.
+ * projection to evaluate the generalized forces that track the task goals. For
+ * more details please refer to Section II(E-F).
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *
@@ -34,7 +35,7 @@ namespace OpenSim {
 	 */
 	TaskManager(TaskPriorityGraph* graph, ConstraintModel* constraintModel);
 	/**
-	 * Evaluates the total task forces.
+	 * Evaluates the total task forces using a priority based scheme.
 	 *
 	 * \f$ \tau = \sum_{t=1}^g J_{t|t-1*}^T f_t + N_{g*} \tau_0 \f$
 	 */

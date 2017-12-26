@@ -5,8 +5,8 @@ using namespace OpenSim;
 using namespace SimTK;
 
 Matrix calcLambda(const Matrix& Phi, const Matrix& MInv) {
-    Matrix Lambda;
     auto LambdaInv = Phi * MInv * ~Phi;
+    Matrix Lambda;
     FactorSVD svd(LambdaInv);
     svd.inverse(Lambda);
     return Lambda;
@@ -14,44 +14,53 @@ Matrix calcLambda(const Matrix& Phi, const Matrix& MInv) {
 
 /******************************************************************************/
 
-Matrix UnconstraintModel::McInv(const State& s) const {
-    return calcMInv(s, *_model);
-}
-
-Vector UnconstraintModel::bc(const State& s) const {
-    return Vector(s.getNU(), 0.0);
-}
-
-Matrix UnconstraintModel::NcT(const State& s) const {
-    Matrix eye(s.getNU(), s.getNU());
-    eye = 1;
-    return eye;
+UnconstraintModel::ConstraintData  UnconstraintModel::calcConstraintData(
+    const SimTK::State& s) const {
+    ConstraintData data;
+    data.McInv = calcMInv(s, *_model);
+    data.bc = Vector(s.getNU(), 0.0);
+    data.NcT = Matrix(s.getNU(), s.getNU());
+    data.NcT = 1;
+    return data;
 }
 
 /******************************************************************************/
 
-Matrix DeSapioModel::McInv(const State& s) const {
-    return calcMInv(s, *_model);
-}
-
-Vector DeSapioModel::bc(const State& s) const {
-    return  -1.0 * ~Phi(s) * Lambdac(s) * calcConstraintBias(s, *_model);
-}
-
-Matrix DeSapioModel::NcT(const State& s) const {
-    return 1 - ~Phi(s) * PhiBarT(s);
-}
-
-Matrix DeSapioModel::Lambdac(const State& s) const {
-    return calcLambda(Phi(s), McInv(s));
-}
-
-Matrix DeSapioModel::Phi(const State& s) const {
-    return calcConstraintJacobian(s, *_model);
-}
-
-Matrix DeSapioModel::PhiBarT(const State& s) const {
-    return Lambdac(s) * Phi(s) * McInv(s);
+DeSapioModel::ConstraintData  DeSapioModel::calcConstraintData(
+    const SimTK::State& s) const {
+    ConstraintData data;
+    // McInv
+    data.McInv = calcMInv(s, *_model);
+    // bc
+    auto Phi = calcConstraintJacobian(s, *_model);
+    auto PhiT = ~Phi;
+    auto Lambdac = calcLambda(Phi,data.McInv);
+    auto b = calcConstraintBias(s, *_model);
+    data.bc = -1.0 * PhiT * Lambdac * b;
+    // NcT
+    auto PhiBarT = Lambdac * Phi * data.McInv;
+    data.NcT = 1 - PhiT * PhiBarT;
+    return data;
 }
 
 /******************************************************************************/
+
+AghiliModel::ConstraintData  AghiliModel::calcConstraintData(
+    const SimTK::State& s) const {
+    ConstraintData data;
+    // NcT
+    auto Phi = calcConstraintJacobian(s, *_model);
+    Matrix PhiInv;
+    FactorSVD PhiSVD(Phi);
+    PhiSVD.inverse(PhiInv);
+    data.NcT = 1 - PhiInv * Phi; // Nc^T = Nc due to MPP properties
+    // McInv
+    auto M = calcM(s, *_model);
+    auto Ms = M + data.NcT * M - ~(data.NcT * M);
+    FactorSVD MsSVD(Ms);
+    MsSVD.inverse(data.McInv);
+    // bc
+    auto b = calcConstraintBias(s, *_model);
+    data.bc = -1.0 * M * PhiInv * b;
+    return data;
+}

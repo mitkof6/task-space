@@ -24,6 +24,10 @@
 #include <OpenSim/Simulation/Model/Model.h>
 
 /**
+ * Calculates the inertia mass matrix of the system.
+ */
+SimTK::Matrix calcM(const SimTK::State& s, const OpenSim::Model& model);
+/**
  * Calculates the inverse inertia mass matrix of the system.
  */
 SimTK::Matrix calcMInv(const SimTK::State& s, const OpenSim::Model& model);
@@ -40,7 +44,7 @@ SimTK::Vector calcTotalGeneralizedForces(const SimTK::State& s,
 SimTK::Matrix calcConstraintJacobian(const SimTK::State& s,
 				     const OpenSim::Model& model);
 /**
- * Calculate the constraint bias term \f$ b \f$.
+ * Calculate the constraint bias term \f$ b = \Phi \ddot{q} \f$.
  */
 SimTK::Vector calcConstraintBias(const SimTK::State& s,
 				 const OpenSim::Model& model);
