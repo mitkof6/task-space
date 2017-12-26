@@ -9,7 +9,6 @@
  * @see <a href="https://simtk.org/projects/task-space">[SimTK Project]</a>, <a
  * href="http://ieeexplore.ieee.org/document/8074739/">[Publication]</a>
  */
-#include <iostream>
 #include <OpenSim/OpenSim.h>
 #include "TaskSpace.h"
 

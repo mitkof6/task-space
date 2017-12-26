@@ -14,6 +14,22 @@ inverse dynamics model this implementation is able to simulate accurately models
 that use constraints. Examples include: absolute (Cartesian) coordinates, closed
 kinematics chains and complex joint configurations (e.g. shoulder, knee) [4].
 
+Examples of using this API can be found in the relevant example folder.
+
+- ExampleTaskBasedControl.cpp: a minimum example of controlling a single body in
+  task space.
+
+- ExampleAbsoluteCoordinates.cpp: a two body model built using absolute
+  coordinates and constraints for modeling the joint restrictions, with a
+  position planning controller (task space) for the end-effector body.
+
+- ExampleClosedKinematicChain.cpp: three bodies are arranged in a closed
+  kinematic chain topology and the planning is performed by defining the
+  orientation of one of the bodies in task space.
+
+References
+---
+
 [1] Sentis, L. (2007). Synthesis and Control of Whole-Body Behaviors in Humanoid
 	Systems. Stanford University. Retrieved from
 	http://dl.acm.org/citation.cfm?id=1354211
