@@ -24,48 +24,50 @@ Vector TaskManager::calcTaskTorques(const State& s) {
     Vector f = calcTotalGeneralizedForces(s, *_model);
     Vector fperp = NcT * f;
     // local variables
-    Vector tauTotal(s.getNU(), 0.0); // total task torques
-    Matrix NTTotal(s.getNU(), s.getNU()); // total task null space
-    Matrix NpT(s.getNU(), s.getNU()); // prioritized null space of higher priority task
-    Vector taup(s.getNU(), 0.0); // induced acceleration by higher priority tasks
-    NTTotal = 1;
-    NpT = NcT;
+    Vector tauTasks(s.getNU(), 0.0); // the total task torques
+    Matrix NgT(s.getNU(), s.getNU()); // the total nullspace
+    NgT = NcT;
+    Matrix NaT(s.getNU(), s.getNU()); // the aggregate nullspace of the higher
+				      // priority tasks
+    Vector taua(s.getNU(), 0.0); // the aggregate induced task torques of the
+				 // higher priority tasks
+
     // loop through the priority sorted graph [high, low]
     for (auto pair : graph) {
-	auto task = pair.first;
-	auto parent = pair.second;
-	// get parent's null space and force contribution
+	auto task = pair.first; // current task
+	auto parent = pair.second; // higher priority
+	// get parent's nullspace and force contribution
 	if (parent != NULL) {
-	    NpT = taskCache[parent].NT;
-	    taup = taskCache[parent].tau;
+	    NaT = taskCache[parent].NaT;
+	    taua = taskCache[parent].taua;
 	} else {
-	    NpT = 1;
-	    taup = 0;
+	    NaT = NcT; // constraints have the highest priority
+	    taua = 0;
 	}
 	// calculate task related data
 	auto xtddot = task->getGoal(s);
 	auto bt = task->b(s);
 	auto Jt = task->J(s);
 	auto JtT = ~Jt;
-	auto JtpT = calcJpT(NpT, JtT);
+	auto JtpT = calcJpT(NaT, JtT);
 	auto Lambdatp = calcLambda(Jt, McInv, JtpT);
 	auto JBartpT = calcJBarT(Lambdatp, Jt, McInv);
 	auto NtT = calcNtT(JtpT, JBartpT);
 	// calculate task forces and torques
-	auto taue = fperp + bc - taup;
-	auto ft = calcFt(Lambdatp, xtddot, bt, JBartpT, taue);
+	auto tau = fperp + bc - taua;
+	auto ft = calcFt(Lambdatp, xtddot, bt, JBartpT, tau);
 	auto taut = calcTau(JtpT, ft);
-	tauTotal += taut;
-	// update
-	taskCache[task].NT = NtT * NpT;
-	taskCache[task].tau = taup + taut;
-	NTTotal = NtT * NTTotal;
+	// cache the aggregate information of the task
+	taskCache[task].NaT = NtT * NaT;
+	taskCache[task].taua = taua + taut;
+	// update total task forces and nullspace
+	tauTasks += taut;
+	NgT = NtT * NgT;
     }
-    // TODO selection matrix
-    // nullspace forces
-    Vector tauNullspace = NTTotal * NcT * (f + bc);
-    appendAnalytics(s, tauTotal, tauNullspace);
-    return tauTotal + tauNullspace;
+    // TODO selection matrix and constraint forces analytics
+    Vector tauNullspace = NgT * (f + bc);
+    appendAnalytics(s, tauTasks, tauNullspace);
+    return tauTasks + tauNullspace;
 }
 
 void TaskManager::printResults(std::string prefix, std::string dir) {

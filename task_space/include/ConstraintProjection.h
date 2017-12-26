@@ -105,7 +105,6 @@ namespace OpenSim {
          */
         SimTK::Matrix PhiBarT(const SimTK::State& s) const;
     };
-    // TODO Aghili
 }
 
 #endif

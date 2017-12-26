@@ -36,7 +36,7 @@ namespace OpenSim {
 	/**
 	 * Evaluates the total task forces.
 	 *
-	 * \f$ \tau = \sum_{i=1}^g J_{i|i-1*}^T f_i + N_{g*} \tau_0 \f$
+	 * \f$ \tau = \sum_{t=1}^g J_{t|t-1*}^T f_t + N_{g*} \tau_0 \f$
 	 */
 	SimTK::Vector calcTaskTorques(const SimTK::State& s);
 	/**
@@ -55,11 +55,11 @@ namespace OpenSim {
 	/** The constraint model. */
 	ConstraintModel* constraintModel;
 	/** Temporary data used for evaluating the constraint forces. */
-	struct TaskTemporaryData {
-	    SimTK::Matrix NT;
-	    SimTK::Vector tau;
+	struct TaskData {
+	    SimTK::Matrix NaT;
+	    SimTK::Vector taua;
 	};
-	std::map<KinematicTask*, TaskTemporaryData> taskCache;
+	std::map<KinematicTask*, TaskData> taskCache;
 	/** Stores information to internal variables. */
 	mutable Storage analytics;
 	/** Add data to analytics. */
