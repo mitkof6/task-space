@@ -1,7 +1,7 @@
 /**
- * \file This file contains the implementation of the task based generalized
- * force controller, that uses task space projection to evaluate the generalized
- * forces that track the task goals and to apply them to the model.
+ * \file The task based generalized force is a torque controller that uses task
+ * space projection to evaluate the generalized forces that track the task goals
+ * and to apply them to the model.
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *

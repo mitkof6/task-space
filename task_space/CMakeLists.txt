@@ -17,7 +17,21 @@ set_target_properties(${target}
   PROJECT_LABEL "TaskSpaceProjection"
   FOLDER "Module")
 
+# examples
+foreach(example_program ${examples})
+  # NAME_WE stands for "name without extension"
+  get_filename_component(EXAMPLE_NAME ${example_program} NAME_WE)
+  add_executable(${EXAMPLE_NAME} ${example_program})
+  target_link_libraries(${EXAMPLE_NAME}  ${OpenSim_LIBRARIES} ${target})
+  set_target_properties(${EXAMPLE_NAME}
+    PROPERTIES
+    PROJECT_LABEL "Example - ${EXAMPLE_NAME}"
+    FOLDER "Examples")
+endforeach()
+
 # tests
+include(CTest)
+enable_testing()
 foreach(test_program ${tests})
   # NAME_WE stands for "name without extension"
   get_filename_component(TEST_NAME ${test_program} NAME_WE)
@@ -28,17 +42,4 @@ foreach(test_program ${tests})
     PROPERTIES
     PROJECT_LABEL "Test - ${TEST_NAME}"
     FOLDER "Tests")
-endforeach()
-
-# examples
-foreach(example_program ${examples})
-  # NAME_WE stands for "name without extension"
-  get_filename_component(EXAMPLE_NAME ${example_program} NAME_WE)
-  add_executable(${EXAMPLE_NAME} ${example_program})
-  target_link_libraries(${EXAMPLE_NAME}  ${OpenSim_LIBRARIES} ${target})
-  add_test(NAME ${EXAMPLE_NAME} COMMAND ${EXAMPLE_NAME})
-  set_target_properties(${EXAMPLE_NAME}
-    PROPERTIES
-    PROJECT_LABEL "Example - ${EXAMPLE_NAME}"
-    FOLDER "Examples")
 endforeach()

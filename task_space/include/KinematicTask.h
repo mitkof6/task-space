@@ -1,6 +1,7 @@
 /**
- * \file This file contains the implementation of various kinematic tasks
- * (i.e. position, orientation and spatial which is both).
+ * \file Implementation of the kinematic task primitives (i.e. position,
+ * orientation and spatial which is both). For more details please refer to
+ * Section II(D).
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *
@@ -44,13 +45,12 @@ namespace OpenSim {
      */
     typedef std::function<SimTK::Vector(const SimTK::State&)> TaskGoal;
     /**
-     * \brief An abstract class for kinematic tasks (e.g. position, orientation
-     * and spatial).
+     * \brief An abstract class for the kinematic task primitives.
      *
      * The task space position (\f$ x_t\f$) is a function of the generalized
      * coordinates (\f$ q \f$)
      *
-     * \f$ x_t = g(q),\ q \in \Re^n \f$ (1)
+     * \f$ x_t = g(q),\ q \in \Re^n \f$                                      (1)
      *
      * The first and second derivatives of Eq. (1) (the dot notation depicts a
      * derivative with respect to time) is given by
@@ -62,6 +62,8 @@ namespace OpenSim {
      * where \f$ J = J(q) \f$ is the task Jacobian matrix and the term \f$
      * \dot{J} \dot{q} = - b_t \f$ accounts for the time varying effect of the
      * Jacobian matrix.
+     *
+     * @see TaskProjection.h
      */
     class KinematicTask : public ModelComponent {
 	OpenSim_DECLARE_ABSTRACT_OBJECT(KinematicTask, ModelComponent);

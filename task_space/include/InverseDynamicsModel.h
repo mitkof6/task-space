@@ -1,6 +1,6 @@
 /**
- * \file This file contains the implementation for the underlying representation
- * of the system's equations of motion using the following convention
+ * \file A wrapper for evaluating the equations of motion using the following
+ * convention.  For more details please refer to Section II(B).
  *
  * \f$ M \ddot{q} + f + \Phi^T \lambda = \tau \f$
  *
@@ -24,15 +24,15 @@
 #include <OpenSim/Simulation/Model/Model.h>
 
 /**
- * Calculates the inertia mass matrix of the system.
+ * Calculates the inertia mass matrix.
  */
 SimTK::Matrix calcM(const SimTK::State& s, const OpenSim::Model& model);
 /**
- * Calculates the inverse inertia mass matrix of the system.
+ * Calculates the inverse inertia mass matrix.
  */
 SimTK::Matrix calcMInv(const SimTK::State& s, const OpenSim::Model& model);
 /**
- * Calculates the total forces that act on the model (\f$ f \f$). This requires
+ * Calculates the total force that act on the model (\f$ f \f$). This requires
  * that the model is realized to Stage::Dynamics. Muscle forces are ignored
  * since they are the actuation (i.e. \f$ \tau = R f_m \f$ and not \f$ f \f$).
  */

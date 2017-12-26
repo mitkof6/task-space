@@ -1,8 +1,8 @@
 /**
- * \file This file contains the implementation of task manager, which collects
- * the prioritized tasks, the constraint model and applies constraint and task
- * projection to evaluate the generalized forces that track the task goals. For
- * more details please refer to Section II(E-F).
+ * \file The task manager has access to the the prioritized task graph, the
+ * constraint model and applies constraint and task space projection to evaluate
+ * the generalized forces that track the task goals. For more details please
+ * refer to Section II(E-F).
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *
@@ -13,7 +13,6 @@
 #define TASK_MANAGER_H
 
 #include <map>
-#include <memory>
 #include <OpenSim/Simulation/Model/ModelComponent.h>
 #include <OpenSim/Common/Storage.h>
 
@@ -23,7 +22,7 @@ namespace OpenSim {
     class ConstraintModel;
     /**
      * \brief Collects the necessary components for computing the generalized
-     * forces using constraint and task projection.
+     * forces using constraint and task space projection.
      */
     class TaskManager : public ModelComponent {
 	OpenSim_DECLARE_CONCRETE_OBJECT(TaskManager, ModelComponent);
@@ -51,19 +50,19 @@ namespace OpenSim {
 	/** Perform some additional initialization. */
 	void extendInitStateFromProperties(SimTK::State& s) const override;
     private:
-	/** Priority sorted task graph. */
+	/** A reference to the priority sorted task graph. */
 	TaskPriorityGraph* taskPriorityGraph;
-	/** The constraint model. */
+	/** A reference to the constraint model. */
 	ConstraintModel* constraintModel;
 	/** Temporary data used for evaluating the constraint forces. */
 	struct TaskData {
-	    SimTK::Matrix NaT;
-	    SimTK::Vector taua;
+	    SimTK::Matrix NaT; // aggregate nullspace
+	    SimTK::Vector taua; // aggregate generalized forces
 	};
 	std::map<KinematicTask*, TaskData> taskCache;
 	/** Stores information to internal variables. */
 	mutable Storage analytics;
-	/** Add data to analytics. */
+	/** Appends data to analytics storage. */
 	void appendAnalytics(const SimTK::State& s,
 			     const SimTK::Vector& taskForces,
 			     const SimTK::Vector& nullspaceForces);

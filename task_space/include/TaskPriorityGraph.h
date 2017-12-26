@@ -1,5 +1,8 @@
 /**
- * \file This file contains the implementation of the task priority graph.
+ * \file Implements a priority sorted graph using lists as the underlying data
+ * structure representation. The elements of the list contain a pointer to a
+ * task (child) and a pointer to the task with higher priority (parent). The
+ * list is automatically rearranged upon insertion of the task pairs.
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *
@@ -14,7 +17,7 @@
 #include "KinematicTask.h"
 
 namespace OpenSim {
-    /** Thrown when the task exists in the graph, to avoid directed cycles. */
+    /** Thrown when the task exists in the graph to avoid directed cycles. */
     class TaskExistsInGraphException : public std::logic_error {
 	using std::logic_error::logic_error;
     };
@@ -63,9 +66,9 @@ namespace OpenSim {
 	 * KinematicTask(s). They must be owned by the model
 	 * (e.g. model.addComponent()).
 	 *
-	 * @param task the task to be inserted
+	 * @param task the task to be inserted.
 	 *
-	 * @param parent the associated parent task (higher priority)
+	 * @param parent the associated parent task (higher priority).
 	 *
 	 * \throws TaskExistsInGraphException if inserting a task that has been
 	 * already inserted.

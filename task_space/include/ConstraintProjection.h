@@ -1,6 +1,6 @@
 /**
- * \file This file contains various implementations of the constrained
- * dynamics. For more details please refer to Section II(C).
+ * \file The implementations of the constraint projection. For more details
+ * please refer to Section II(C).
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *

@@ -71,8 +71,8 @@ Matrix calcMInv(const State& s, const Model& model) {
 // }
 
 Vector calcTotalGeneralizedForces(const State& s, const Model& model) {
-    // TODO calcTotalGeneralizedForces(s, workingModel, value); value =
-    // calcCoriolis(s) + value;// add Coriolis because they are not computed
+    // TODO calcTotalGeneralizedForces(s, workingModel, value);
+    // value =  calcCoriolis(s) + value;// add Coriolis since they are not accounted
     return calcCoriolis(s, model) + calcGravity(s, model);
 }
 
@@ -83,8 +83,8 @@ Matrix calcConstraintJacobian(const State& s, const Model& model) {
 }
 
 Vector calcConstraintBias(const State& s, const Model& model) {
-    // because calcBiasForAccelerationConstraints assumes P *udot - bias = 0 we
-    // must invert the results so that P * udot = bias
+    // calcBiasForAccelerationConstraints assumes P *udot - bias = 0 we must
+    // invert the results so that P * udot = bias
     Vector b;
     model.getMatterSubsystem().calcBiasForAccelerationConstraints(s, b);
     return -1.0 * b;

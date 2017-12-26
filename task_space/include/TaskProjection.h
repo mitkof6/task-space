@@ -1,6 +1,6 @@
 /**
- * \file This file contains the implementation of common utilities for task
- * space projection. For more details please refer to Section II(E).
+ * \file Utilities for performing task space projection. For more details please
+ * refer to Section II(E).
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *
