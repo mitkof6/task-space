@@ -64,7 +64,7 @@ Vector TaskManager::calcTaskTorques(const State& s) {
 	tauTasks += taut;
 	NgT = NtT * NgT;
     }
-    // TODO selection matrix and constraint forces analytics
+    // TODO under-actuation and constraint forces analytics
     auto tauNullspace = NgT * (f + bc);
     appendAnalytics(s, tauTasks, tauNullspace);
     return tauTasks + tauNullspace;

@@ -1,7 +1,8 @@
 /**
  * \file An example of task space control for a model that is build using
- * absolute coordinates and constraints. For more details please refer to
- * Section Supplementary Material(D).
+ * absolute coordinates and constraints. Our model uses constraint projection so
+ * constraints are accounted in the dynamics of the task space controller. For
+ * more details please refer to Section Supplementary Material(D).
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *
