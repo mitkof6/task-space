@@ -2,13 +2,19 @@ from opensim_importer import readMotionFile, indices_containing_substring
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+################################################################################
 # parameters
 working_dir = os.getcwd() + '/../build/task_space/'
-sto_file = 'exampleTaskControl_TaskManager.sto'
-substring_filter = 'task'
-y_label = 'forces $(N | Nm)$'
-export_name = 'task_forces.pdf'
-max_cols = 3
+# sto_file = 'ExampleTaskBasedControl_TaskManager.sto'
+# sto_file = 'ExampleAbsoluteCoordinates_TaskManager.sto'
+# substring_filter = 'body'
+# y_label = 'forces $(N | Nm)$'
+sto_file = 'ExampleAbsoluteCoordinates_BodyKinematics_pos_global.sto'
+substring_filter = 'body'
+y_label = 'coordinates $(deg | rad)$'
+export_name = ''
+max_cols = 6
+################################################################################
 # load data
 header, labels, data = readMotionFile(working_dir + sto_file)
 indices = indices_containing_substring(labels, substring_filter)
@@ -24,7 +30,8 @@ for p, i in enumerate(indices):
     ax[p].set_title(labels[i])
     ax[p].set_xlabel('time $(s)$')
     ax[p].set_ylabel(y_label)
-# export figure
+    # export figure
 fig.tight_layout()
-fig.savefig(working_dir + export_name, dpi=300)
 fig.show()
+if export_name != '':
+    fig.savefig(working_dir + export_name, dpi=300)

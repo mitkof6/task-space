@@ -1,5 +1,5 @@
 /**
- * \file Example of utilizing the task based projection in order to control a
+ * \file An example of utilizing the task based projection in order to control a
  * model in task space. In this example a block is created and a position task
  * is assigned. The goal is prescribed using a PD tracking controller and a
  * forward simulation is performed.
@@ -65,8 +65,9 @@ void taskBasedControl() {
     // chose controller
     auto forceController = new TaskBasedForce(manager);
     model.addForce(forceController);
-    // initialize model
+    // build and initialize model
     auto state = model.initSystem();
+    // initial configuration
     joint->updCoordinate(FreeJoint::Coord::TranslationY).setValue(state, 0.5);
     // define task goal
     auto x0 = fromVectorToVec3(task->x(state));
@@ -88,9 +89,9 @@ void taskBasedControl() {
     //simulate
     simulate(model, state, 2);
     // export results
-    forceController->printResults("exampleTaskControl", ".");
-    manager->printResults("exampleTaskControl", ".");
-    reporter->print("exampleTaskContro_Reporter.sto");
+    forceController->printResults("ExampleTaskBasedControl", ".");
+    manager->printResults("ExampleTaskBasedControl", ".");
+    reporter->print("ExampleTaskBasedContro_Reporter.sto");
 }
 
 int main(int argc, char *argv[]) {
