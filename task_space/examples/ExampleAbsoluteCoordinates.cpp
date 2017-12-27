@@ -84,11 +84,20 @@ void absoluteCoordinates() {
     // chose constraint model
     auto constraintModel = new AghiliModel();
     model.addComponent(constraintModel);
-    // construct task manager
-    auto manager = new TaskManager(&graph, constraintModel);
-    model.addComponent(manager);
-    // chose controller
-    auto forceController = new TaskBasedForce(manager);
+    // construct task dynamics
+    auto taskDynamics = new TaskDynamics(&graph, constraintModel);
+    model.addComponent(taskDynamics);
+    /**
+     * Define the control strategy \f$ \tau = \sum_{t=1}^g J_{t|t-1*}^T f_t +
+     * N_{g*}^T (f + b_c)\f$ as a callable function/closure ([&] captures the
+     * current scope). This function accepts the state and returns a Vector.
+     */
+    auto controlStrategy = [&](const State& s) -> Vector {
+	auto data = taskDynamics->calcTaskDynamicsData(s);
+	return data.tauTasks + data.NgT * (data.f + data.bc) ;
+    };
+    // construct a torque controller and supply the control strategy
+    auto forceController = new TaskBasedForce(controlStrategy);
     model.addForce(forceController);
     // *************************************************************************
     // build and initialize model
@@ -100,9 +109,9 @@ void absoluteCoordinates() {
     // define task goal
     auto x0 = fromVectorToVec3(task->x(state));
     /**
-     * This is a closure (a callable function that captures the scope) that
-     * implements a proportional-derivative (PD) tracking controller. The task
-     * accepts a std::function which takes the state and returns a Vector.
+     * This implements a proportional-derivative (PD) tracking controller for
+     * tracking the task goal. The task accepts a std::function which takes the
+     * state and returns a Vector.
      */
     auto pd = [&](const State& s) -> Vector { // [&] captures the current scope
         auto x = fromVectorToVec3(task->x(s));
@@ -118,7 +127,6 @@ void absoluteCoordinates() {
     simulate(model, state, 2);
     // export results
     forceController->printResults("ExampleAbsoluteCoordinates", ".");
-    manager->printResults("ExampleAbsoluteCoordinates", ".");
     bodyKinematics->printResults("ExampleAbsoluteCoordinates", ".");
 }
 

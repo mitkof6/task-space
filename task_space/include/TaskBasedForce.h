@@ -11,23 +11,32 @@
 #ifndef TASK_BASED_FORCE_H
 #define TASK_BASED_FORCE_H
 
+#include <functional>
 #include <OpenSim/Simulation/Model/Model.h>
 #include <OpenSim/Simulation/Model/Force.h>
 
 namespace OpenSim {
-    class TaskManager;
+    /**
+     * A function that evaluates the control strategy and returns the torques
+     * that must be applied to actuate the model.
+     *
+     * @see TaskDynamics.h 
+     */
+    typedef std::function<SimTK::Vector(const SimTK::State& s)> ControlStrategy;
     /**
      * \brief Computes and applies the generalized forces that track the task
-     * goals. 
+     * goals provided a function for evaluating the control strategy.
+     *
+     * @see TaskDynamics.h
      */
     class TaskBasedForce : public Force {
         OpenSim_DECLARE_CONCRETE_OBJECT(TaskBasedForce, Force);
     public:
         /**
-         * This object does not take ownership of the TaskManager. It must be
-         * owned by the model (e.g. model.addComponent()).
+         * @param controlStrategy is a function that accepts the state and
+         * returns a Vector of generalized forces.
          */
-        TaskBasedForce(TaskManager* taskManager);
+        TaskBasedForce(const ControlStrategy& controlStrategy);
 	/**
 	 * Prints the applied forces to a .sto file format.
 	 *
@@ -43,10 +52,10 @@ namespace OpenSim {
 	/** Perform some additional initialization. */
         void extendInitStateFromProperties(SimTK::State& s) const override;
     protected:
-	/** A reference to the task manager. */
-        TaskManager* taskManager;
 	/** Stores the applied generalized forces. */
         mutable Storage appliedForces;
+	/** Control strategy. */
+	ControlStrategy controlStrategy;
     }; 
 } 
 

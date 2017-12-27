@@ -12,7 +12,7 @@
 #include "KinematicTask.h"
 #include "TaskPriorityGraph.h"
 #include "ConstraintProjection.h"
-#include "TaskManager.h"
+#include "TaskDynamics.h"
 #include "TaskBasedForce.h"
 
 #endif

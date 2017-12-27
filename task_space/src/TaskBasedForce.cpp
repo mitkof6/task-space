@@ -1,12 +1,11 @@
 #include "TaskBasedForce.h"
-#include "TaskManager.h"
 
 using namespace std;
 using namespace OpenSim;
 using namespace SimTK;
 
-TaskBasedForce::TaskBasedForce(TaskManager* taskManager)
-    : taskManager(taskManager) {
+TaskBasedForce::TaskBasedForce(const ControlStrategy& controlStrategy)
+    : controlStrategy(controlStrategy) {
     // TODO when evaluating all forces
     // taskManager->updDynamicCompensator().addExcludedForces(this);
 }
@@ -18,7 +17,7 @@ void TaskBasedForce::printResults(std::string prefix, std::string dir) {
 void TaskBasedForce::computeForce(const State& s,
 				  Vector_<SpatialVec>& bodyForces,
                                   Vector & generalizedForces) const {
-    Vector forces = taskManager->calcTaskTorques(s);
+    auto forces = controlStrategy(s);
     appliedForces.append(s.getTime(), forces.size(), &forces[0], true);
     generalizedForces += forces;
 }
