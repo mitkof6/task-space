@@ -13,6 +13,6 @@
 #include "TaskPriorityGraph.h"
 #include "ConstraintProjection.h"
 #include "TaskDynamics.h"
-#include "TaskBasedForce.h"
+#include "TaskBasedTorqueController.h"
 
 #endif

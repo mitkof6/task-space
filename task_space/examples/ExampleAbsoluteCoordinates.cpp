@@ -97,8 +97,8 @@ void absoluteCoordinates() {
 	return data.tauTasks + data.NgT * (data.f + data.bc) ;
     };
     // construct a torque controller and supply the control strategy
-    auto forceController = new TaskBasedForce(controlStrategy);
-    model.addForce(forceController);
+    auto controller = new TaskBasedTorqueController(controlStrategy);
+    model.addController(controller);
     // *************************************************************************
     // build and initialize model
     auto state = model.initSystem();
@@ -126,7 +126,7 @@ void absoluteCoordinates() {
     //simulate
     simulate(model, state, 2);
     // export results
-    forceController->printResults("ExampleAbsoluteCoordinates", ".");
+    controller->printResults("ExampleAbsoluteCoordinates", ".");
     bodyKinematics->printResults("ExampleAbsoluteCoordinates", ".");
 }
 

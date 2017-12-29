@@ -26,29 +26,29 @@ void taskBasedControl() {
     model.setUseVisualizer(true);
     Vec3 halfLength(0.2, 0.2, 0.2);
     auto block = new OpenSim::Body("block", 1, Vec3(0),
-				   Inertia::brick(halfLength));
+        Inertia::brick(halfLength));
     auto blockGeom = new OpenSim::Brick(halfLength);
     block->attachGeometry(blockGeom);
     model.addBody(block);
     auto joint = new FreeJoint("joint",
-			       model.getGround(), Vec3(0), Vec3(0),
-			       *block, Vec3(0), Vec3(0));
+        model.getGround(), Vec3(0), Vec3(0),
+        *block, Vec3(0), Vec3(0));
     model.addJoint(joint);
     // add reporter
     auto reporter = new ConsoleReporter();
     reporter->set_report_time_interval(0.1);
     reporter->addToReport(joint->getCoordinate(FreeJoint::Coord::TranslationX)
-			  .getOutput("value"), "X");
+        .getOutput("value"), "X");
     reporter->addToReport(joint->getCoordinate(FreeJoint::Coord::TranslationY)
-			  .getOutput("value"), "Y");
+        .getOutput("value"), "Y");
     reporter->addToReport(joint->getCoordinate(FreeJoint::Coord::TranslationZ)
-			  .getOutput("value"), "Z");
+        .getOutput("value"), "Z");
     reporter->addToReport(joint->getCoordinate(FreeJoint::Coord::Rotation1X)
-			  .getOutput("value"), "thetaX");
+        .getOutput("value"), "thetaX");
     reporter->addToReport(joint->getCoordinate(FreeJoint::Coord::Rotation2Y)
-			  .getOutput("value"), "thetaY");
+        .getOutput("value"), "thetaY");
     reporter->addToReport(joint->getCoordinate(FreeJoint::Coord::Rotation3Z)
-			  .getOutput("value"), "thetaZ");
+        .getOutput("value"), "thetaZ");
     model.addComponent(reporter);
     // construct task priority graph
     TaskPriorityGraph graph;
@@ -67,12 +67,12 @@ void taskBasedControl() {
      * function accepts the state and returns a Vector.
      */
     auto controlStrategy = [&](const State& s) -> Vector {
-	auto data = taskDynamics->calcTaskDynamicsData(s);
-	return data.tauTasks;
+        auto data = taskDynamics->calcTaskDynamicsData(s);
+        return data.tauTasks;
     };
     // construct a torque controller and supply the control strategy
-    auto forceController = new TaskBasedForce(controlStrategy);
-    model.addForce(forceController);
+    auto controller = new TaskBasedTorqueController(controlStrategy);
+    model.addController(controller);
     // build and initialize model
     auto state = model.initSystem();
     // initial configuration
@@ -85,29 +85,29 @@ void taskBasedControl() {
      * state and returns a Vector.
      */
     auto pd = [&](const State& s) -> Vector { // [&] captures the current scope
-	auto x = fromVectorToVec3(task->x(s));
-	auto u = fromVectorToVec3(task->u(s));
-	double kp = 100, kd = 20;
-	auto xd = x0 + Vec3(sin(2 * Pi * s.getTime()), 0, 0);
-	auto ud = Vec3(2 * Pi * cos(2 * Pi * s.getTime()), 0, 0);
-	auto ad = Vec3(-pow(2 * Pi, 2) * sin(2 * Pi * s.getTime()), 0, 0);
-	return Vector(ad + kp * (xd - x) + kd * (ud - u));
+        auto x = fromVectorToVec3(task->x(s));
+        auto u = fromVectorToVec3(task->u(s));
+        double kp = 100, kd = 20;
+        auto xd = x0 + Vec3(sin(2 * Pi * s.getTime()), 0, 0);
+        auto ud = Vec3(2 * Pi * cos(2 * Pi * s.getTime()), 0, 0);
+        auto ad = Vec3(-pow(2 * Pi, 2) * sin(2 * Pi * s.getTime()), 0, 0);
+        return Vector(ad + kp * (xd - x) + kd * (ud - u));
     };
     task->setGoal(pd);
     //simulate
     simulate(model, state, 2);
     // export results
-    forceController->printResults("ExampleTaskBasedControl", ".");
+    controller->printResults("ExampleTaskBasedControl", ".");
     reporter->print("ExampleTaskBasedContro_Reporter.sto");
 }
 
 int main(int argc, char *argv[]) {
     try {
-	taskBasedControl();
+        taskBasedControl();
     } catch (exception &e) {
-	cout << typeid(e).name() << ": " << e.what() << endl;
-	// getchar();e
-	return -1;
+        cout << typeid(e).name() << ": " << e.what() << endl;
+        // getchar();e
+        return -1;
     }
     return 0;
 }
