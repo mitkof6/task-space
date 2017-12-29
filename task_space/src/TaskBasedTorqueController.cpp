@@ -5,8 +5,9 @@ using namespace OpenSim;
 using namespace SimTK;
 using namespace std;
 
-TaskBasedTorqueController::TaskBasedTorqueController(const ControlStrategy&
-    controlStrategy) : Controller(), controlStrategy(controlStrategy) {
+TaskBasedTorqueController::TaskBasedTorqueController(
+    const ControlStrategy& controlStrategy)
+    : Controller(), controlStrategy(controlStrategy) {
 }
 
 void TaskBasedTorqueController::printResults(string prefix, string dir) {
@@ -14,7 +15,7 @@ void TaskBasedTorqueController::printResults(string prefix, string dir) {
 }
 
 void TaskBasedTorqueController::computeControls(const State& s,
-    Vector& controls) const {
+                                                Vector& controls) const {
     // evaluate control strategy
     auto  forces = controlStrategy(s);
     appliedForces.append(s.getTime(), forces.size(), &forces[0], true);
@@ -23,8 +24,7 @@ void TaskBasedTorqueController::computeControls(const State& s,
     for (int i = 0; i < getActuatorSet().getSize(); i++) {
         auto act = dynamic_cast<const CoordinateActuator*>(
             &getActuatorSet().get(i));
-        SimTK_ASSERT(act, 
-            "TaskBasedTorqueController::computeControls dynamic cast failed");
+        SimTK_ASSERT(act, "TaskBasedTorqueController::computeControls dynamic cast failed");
         Coordinate* aCoord = act->getCoordinate();
         if (aCoord->isConstrained(s)) {
             actControls = 0.0;
@@ -40,11 +40,11 @@ void TaskBasedTorqueController::extendConnectToModel(Model& model) {
     // construct labels for the applied forces
     Array<string> storageLabels;
     storageLabels.append("time");
-    // create an actuator for each generalized coordinate in the model 
-    // add these actuators to the model and set their indexes 
+    // create an actuator for each generalized coordinate in the model
+    // add these actuators to the model and set their indexes
     auto& cs = _model->getCoordinateSet();
     for (int i = 0; i < cs.getSize(); i++) {
-       
+
         std::string name = cs.get(i).getName() + "_control";
         CoordinateActuator* actuator = NULL;
         if (_model->getForceSet().contains(name)) {

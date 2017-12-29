@@ -26,29 +26,29 @@ void taskBasedControl() {
     model.setUseVisualizer(true);
     Vec3 halfLength(0.2, 0.2, 0.2);
     auto block = new OpenSim::Body("block", 1, Vec3(0),
-        Inertia::brick(halfLength));
+                                   Inertia::brick(halfLength));
     auto blockGeom = new OpenSim::Brick(halfLength);
     block->attachGeometry(blockGeom);
     model.addBody(block);
     auto joint = new FreeJoint("joint",
-        model.getGround(), Vec3(0), Vec3(0),
-        *block, Vec3(0), Vec3(0));
+                               model.getGround(), Vec3(0), Vec3(0),
+                               *block, Vec3(0), Vec3(0));
     model.addJoint(joint);
     // add reporter
     auto reporter = new ConsoleReporter();
     reporter->set_report_time_interval(0.1);
     reporter->addToReport(joint->getCoordinate(FreeJoint::Coord::TranslationX)
-        .getOutput("value"), "X");
+                          .getOutput("value"), "X");
     reporter->addToReport(joint->getCoordinate(FreeJoint::Coord::TranslationY)
-        .getOutput("value"), "Y");
+                          .getOutput("value"), "Y");
     reporter->addToReport(joint->getCoordinate(FreeJoint::Coord::TranslationZ)
-        .getOutput("value"), "Z");
+                          .getOutput("value"), "Z");
     reporter->addToReport(joint->getCoordinate(FreeJoint::Coord::Rotation1X)
-        .getOutput("value"), "thetaX");
+                          .getOutput("value"), "thetaX");
     reporter->addToReport(joint->getCoordinate(FreeJoint::Coord::Rotation2Y)
-        .getOutput("value"), "thetaY");
+                          .getOutput("value"), "thetaY");
     reporter->addToReport(joint->getCoordinate(FreeJoint::Coord::Rotation3Z)
-        .getOutput("value"), "thetaZ");
+                          .getOutput("value"), "thetaZ");
     model.addComponent(reporter);
     // construct task priority graph
     TaskPriorityGraph graph;

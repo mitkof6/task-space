@@ -62,59 +62,59 @@ namespace OpenSim {
      * Vector tau = (1 - data.NgT * AInv) * data.tauTasks;
      */
     class TaskDynamics : public ModelComponent {
-	OpenSim_DECLARE_CONCRETE_OBJECT(TaskDynamics, ModelComponent);
+        OpenSim_DECLARE_CONCRETE_OBJECT(TaskDynamics, ModelComponent);
     public:
-	/**
-	 * This object does not take ownership of the TaskPriorityGraph and the
-	 * ConstraintModel. They must be owned by the model
-	 * (e.g. model.addComponent()).
-	 */
-	TaskDynamics(TaskPriorityGraph* graph, ConstraintModel* constraintModel);
-	/**
-	 * Data used for implementing different control strategies.
-	 */
-	struct TaskDynamicsData {
-	    /**
-	     * The total generalized forces of the tasks.
-	     *
-	     * \f$ \tau = \sum_{t=1}^g J_{t|t-1*}^T f_t \f$
-	     *
-	     * @see TaskProjection.h
-	     */
-	    SimTK::Vector tauTasks;
-	    /**
-	     * The total null space transpose.
-	     *
-	     * \f$ N_{g*}^T = \prod_{t=1}^g N^T_{t|t-1*} N^T_{i-1*}, \; N_{0*} =
-	     * N_c^T (constraints)\f$
-	     *
-	     * @see TaskProjection.h
-	     */
-	    SimTK::Matrix NgT;
-	    /**
-	     * Total acting forces.
-	     *
-	     * \f$ M \ddot{q} + f = \tau \f$
-	     *
-	     * @see InverseDynamicsModel.h
-	     */
-	    SimTK::Vector f;
-	    /**
-	     * The constraint bias term \f$ b_c \f$.
-	     *
-	     * @see ConstraintProjection.h
-	     */
-	    SimTK::Vector bc;
-	};
-	/**
-	 * Computes the TaskDynamicsData.
-	 */
-	TaskDynamicsData calcTaskDynamicsData(const SimTK::State& s);
+        /**
+         * This object does not take ownership of the TaskPriorityGraph and the
+         * ConstraintModel. They must be owned by the model
+         * (e.g. model.addComponent()).
+         */
+        TaskDynamics(TaskPriorityGraph* graph, ConstraintModel* constraintModel);
+        /**
+         * Data used for implementing different control strategies.
+         */
+        struct TaskDynamicsData {
+            /**
+             * The total generalized forces of the tasks.
+             *
+             * \f$ \tau = \sum_{t=1}^g J_{t|t-1*}^T f_t \f$
+             *
+             * @see TaskProjection.h
+             */
+            SimTK::Vector tauTasks;
+            /**
+             * The total null space transpose.
+             *
+             * \f$ N_{g*}^T = \prod_{t=1}^g N^T_{t|t-1*} N^T_{i-1*}, \; N_{0*} =
+             * N_c^T (constraints)\f$
+             *
+             * @see TaskProjection.h
+             */
+            SimTK::Matrix NgT;
+            /**
+             * Total acting forces.
+             *
+             * \f$ M \ddot{q} + f = \tau \f$
+             *
+             * @see InverseDynamicsModel.h
+             */
+            SimTK::Vector f;
+            /**
+             * The constraint bias term \f$ b_c \f$.
+             *
+             * @see ConstraintProjection.h
+             */
+            SimTK::Vector bc;
+        };
+        /**
+         * Computes the TaskDynamicsData.
+         */
+        TaskDynamicsData calcTaskDynamicsData(const SimTK::State& s);
     private:
-	/** A reference to the priority sorted task graph. */
-	TaskPriorityGraph* taskPriorityGraph;
-	/** A reference to the constraint model. */
-	ConstraintModel* constraintModel;
+        /** A reference to the priority sorted task graph. */
+        TaskPriorityGraph* taskPriorityGraph;
+        /** A reference to the constraint model. */
+        ConstraintModel* constraintModel;
     };
 }
 

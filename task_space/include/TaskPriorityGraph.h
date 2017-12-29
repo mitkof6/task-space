@@ -19,11 +19,11 @@
 namespace OpenSim {
     /** Thrown when the task exists in the graph to avoid directed cycles. */
     class TaskExistsInGraphException : public std::logic_error {
-	using std::logic_error::logic_error;
+        using std::logic_error::logic_error;
     };
     /** Thrown when the provided parent task does not exist in the graph. */
     class ParentNotInGraphException : public std::logic_error {
-	using std::logic_error::logic_error;
+        using std::logic_error::logic_error;
     };
     // short definition
     typedef std::list<std::pair<KinematicTask*, KinematicTask*> > ListChildParent;
@@ -60,41 +60,41 @@ namespace OpenSim {
      */
     class TaskPriorityGraph {
     public:
-	/**
-	 * Adds a task and updates the priority sorted graph based on the parent
-	 * task. This object does not take ownership of the
-	 * KinematicTask(s). They must be owned by the model
-	 * (e.g. model.addComponent()).
-	 *
-	 * @param task the task to be inserted.
-	 *
-	 * @param parent the associated parent task (higher priority).
-	 *
-	 * \throws TaskExistsInGraphException if inserting a task that has been
-	 * already inserted.
-	 *
-	 * \throws ParentNotInGraphException if the parent task (!NULL) is not
-	 * in the graph.
-	 */
-	void addTask(KinematicTask* task, KinematicTask* parent);
-	/** Get reference to the priority sorted list */
-	const ListChildParent& getPrioritySortedGraph() const;
-	/** cout << graph << endl */
-	friend std::ostream& operator<<(std::ostream& os,
-					const TaskPriorityGraph& g) {
-	    for(auto pair : g.prioritySortedGraph) {
-		if (pair.second==NULL) {
-		    os << "Prent: 0\n\tChild: " << *pair.first << std::endl;
-		} else {
-		os << "Prent: " << *pair.second << "\n\tChild: "
-		   << *pair.first << std::endl;
-		}
-	    }
-	    return os;
-	};
+        /**
+         * Adds a task and updates the priority sorted graph based on the parent
+         * task. This object does not take ownership of the
+         * KinematicTask(s). They must be owned by the model
+         * (e.g. model.addComponent()).
+         *
+         * @param task the task to be inserted.
+         *
+         * @param parent the associated parent task (higher priority).
+         *
+         * \throws TaskExistsInGraphException if inserting a task that has been
+         * already inserted.
+         *
+         * \throws ParentNotInGraphException if the parent task (!NULL) is not
+         * in the graph.
+         */
+        void addTask(KinematicTask* task, KinematicTask* parent);
+        /** Get reference to the priority sorted list */
+        const ListChildParent& getPrioritySortedGraph() const;
+        /** cout << graph << endl */
+        friend std::ostream& operator<<(std::ostream& os,
+                                        const TaskPriorityGraph& g) {
+            for(auto pair : g.prioritySortedGraph) {
+                if (pair.second==NULL) {
+                    os << "Prent: 0\n\tChild: " << *pair.first << std::endl;
+                } else {
+                    os << "Prent: " << *pair.second << "\n\tChild: "
+                       << *pair.first << std::endl;
+                }
+            }
+            return os;
+        };
     private:
-	/** A list containing the sorted tasks in priority order [high->low] */
-	ListChildParent prioritySortedGraph;
+        /** A list containing the sorted tasks in priority order [high->low] */
+        ListChildParent prioritySortedGraph;
     };
 }
 

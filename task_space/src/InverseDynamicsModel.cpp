@@ -28,23 +28,32 @@ Vector calcCoriolis(const State& s, const Model& model) {
 }
 
 /**
-*
-*/
-Model* workingModel;
+ * This function calculates the total applied forces. In order to calculate them
+ * the model must be realized to Stage::Dynamics. This method is typically
+ * called in mixed dynamics scheme thus while the model is numerically
+ * integrated (forward dynamics) we may be interested in the acting forces so
+ * that a controller (e.g. inverse dynamics torque controller) can calculate the
+ * controls correctly. If however the original model is realized to
+ * Stage::Dynamics the controller's computeControls will be called again and
+ * this will cause an infinite loop. To avoid this problem upon first entrance
+ * to this function a working copy of the model is created without the
+ * controller and this working model is realized to Stage::Dynamics. Each time
+ * the working state is updated from the current state of the simulating model
+ * and the variables of the working model's working state.
+ */
 Vector calcTotalForces(const State& s, const Model& model) {
-    // create a working instance of the model, upon first entrance to this 
+    // create a working instance of the model, upon first entrance to this
     // function
-    static bool initialized;
-    if (!initialized) {
-        initialized = true;
+    static Model* workingModel = NULL;
+    if (workingModel == NULL) {
         workingModel = model.clone();
         workingModel->updControllerSet().setSize(0);
         workingModel->setUseVisualizer(false);
         workingModel->initSystem();
     }
-    // create working state from s and override model defaults 
+    // create working state from s and add working model's stuff after (IMPORTANT)
     State workingState = s;
-    workingState = workingModel->getWorkingState();
+    workingState = workingModel->getWorkingState(); // needed for this to work!
     // disable any actuators when computing the total force
     const Set<Actuator>& as = workingModel->getActuators();
     for (int i = 0; i < as.getSize(); i++) {
@@ -80,7 +89,7 @@ Matrix calcMInv(const State& s, const Model& model) {
 Vector calcTotalGeneralizedForces(const State& s, const Model& model) {
     // compute all acting forces add Coriolis since they are not accounted
     return  calcCoriolis(s, model) + calcTotalForces(s, model);
-    // compute only Coriolis and gravity
+    // compute only Coriolis and gravity (works always)
     //return calcCoriolis(s, model) + calcGravity(s, model);
 }
 

@@ -33,20 +33,25 @@ SimTK::Matrix calcM(const SimTK::State& s, const OpenSim::Model& model);
 SimTK::Matrix calcMInv(const SimTK::State& s, const OpenSim::Model& model);
 /**
  * Calculates the total force that act on the model (\f$ f \f$). This requires
- * that the model is realized to Stage::Dynamics. Muscle forces are ignored
- * since they are the actuation (i.e. \f$ \tau = R f_m \f$ and not \f$ f \f$).
+ * that the model is realized to Stage::Dynamics. A working model is used as
+ * this method may be called by a controller during numerical integration and
+ * all controllers of the working model are removed to avoid infinite loops. The
+ * actuators of the working model are disabled since they are the actuation
+ * (i.e. muscles \f$ \tau = R f_m \f$ and not \f$ f \f$). Call this method only
+ * from objects that are derived from OpenSim::Controller and never from objects
+ * that are derived from OpenSim::Force.
  */
 SimTK::Vector calcTotalGeneralizedForces(const SimTK::State& s,
-					 const OpenSim::Model& model);
+                                         const OpenSim::Model& model);
 /**
  * Calculates the constraint Jacobian matrix (\f$ \Phi \f$).
  */
 SimTK::Matrix calcConstraintJacobian(const SimTK::State& s,
-				     const OpenSim::Model& model);
+                                     const OpenSim::Model& model);
 /**
  * Calculate the constraint bias term \f$ b = \Phi \ddot{q} \f$.
  */
 SimTK::Vector calcConstraintBias(const SimTK::State& s,
-				 const OpenSim::Model& model);
+                                 const OpenSim::Model& model);
 
 #endif

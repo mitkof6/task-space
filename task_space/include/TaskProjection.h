@@ -12,14 +12,14 @@
 
 #include <SimTKmath.h>
 
- /**
-  * Calculates the prioritized, transposed task Jacobian matrix.
-  *
-  * \f$ \J_{t|t-1*}^T = N_{t-1*}^T J_t^T \f$
-  *
-  * @param NaT is the aggregate null space matrix of the higher priority tasks
-  * @param JT is the transposed task Jacobian matrix
-  */
+/**
+ * Calculates the prioritized, transposed task Jacobian matrix.
+ *
+ * \f$ \J_{t|t-1*}^T = N_{t-1*}^T J_t^T \f$
+ *
+ * @param NaT is the aggregate null space matrix of the higher priority tasks
+ * @param JT is the transposed task Jacobian matrix
+ */
 SimTK::Matrix calcJpT(const SimTK::Matrix& NaT, const SimTK::Matrix& JT);
 /**
  * Calculates the task inertia mass matrix. If JT = JpT then this calculates the
@@ -32,7 +32,7 @@ SimTK::Matrix calcJpT(const SimTK::Matrix& NaT, const SimTK::Matrix& JT);
  * @param JT is the transposed task Jacobian matrix
  */
 SimTK::Matrix calcLambda(const SimTK::Matrix& J, const SimTK::Matrix& MInv,
-    const SimTK::Matrix& JT);
+                         const SimTK::Matrix& JT);
 /**
  * Calculates the dynamically consistent generalized inverse, transpose of the
  * task Jacobian matrix. If \f$ \Lambda = \Lambda_{t|t-1*} \f$ then \f$
@@ -46,7 +46,7 @@ SimTK::Matrix calcLambda(const SimTK::Matrix& J, const SimTK::Matrix& MInv,
  * @param MInv is the inverse system mass matrix
  */
 SimTK::Matrix calcJBarT(const SimTK::Matrix& Lambda, const SimTK::Matrix& J,
-    const SimTK::Matrix& MInv);
+                        const SimTK::Matrix& MInv);
 /**
  * Calculates the task's transposed null space matrix. If JT = JpT and JBarT =
  * JBarpT then this is the prioritized null space of the task.
@@ -84,8 +84,8 @@ SimTK::Matrix calcNpT(const SimTK::Matrix& NtT, const SimTK::Matrix& NaT);
  * @param tau are the generalized forces that act on the model
  */
 SimTK::Vector calcFt(const SimTK::Matrix& Lambda, const SimTK::Vector& xddot,
-    const SimTK::Vector& bt, const SimTK::Matrix& JBarT,
-    const SimTK::Vector& tau);
+                     const SimTK::Vector& bt, const SimTK::Matrix& JBarT,
+                     const SimTK::Vector& tau);
 /**
  * Calculates the joint space generalized force contribution of the task. If JT
  * = JpT then this is the prioritized generalized force contribution of the

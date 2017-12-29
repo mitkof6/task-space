@@ -28,7 +28,7 @@ Matrix calcNpT(const Matrix& NtT, const Matrix& NaT) {
 }
 
 Vector calcFt(const Matrix& Lambda, const Vector& xddot, const Vector& bt,
-	      const Matrix& JBarT, const Vector& tau) {
+              const Matrix& JBarT, const Vector& tau) {
     return Lambda * (xddot + bt) + JBarT * tau;
 }
 

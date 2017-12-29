@@ -93,8 +93,8 @@ void absoluteCoordinates() {
      * current scope). This function accepts the state and returns a Vector.
      */
     auto controlStrategy = [&](const State& s) -> Vector {
-	auto data = taskDynamics->calcTaskDynamicsData(s);
-	return data.tauTasks + data.NgT * (data.f + data.bc) ;
+        auto data = taskDynamics->calcTaskDynamicsData(s);
+        return data.tauTasks + data.NgT * (data.f + data.bc) ;
     };
     // construct a torque controller and supply the control strategy
     auto controller = new TaskBasedTorqueController(controlStrategy);
@@ -132,7 +132,7 @@ void absoluteCoordinates() {
 
 int main(int argc, char *argv[]) {
     try {
-	absoluteCoordinates();
+        absoluteCoordinates();
     } catch (exception &e) {
         cout << typeid(e).name() << ": " << e.what() << endl;
         // getchar();e

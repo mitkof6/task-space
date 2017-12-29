@@ -19,11 +19,11 @@ namespace OpenSim {
     class ConstraintModel : public ModelComponent {
         OpenSim_DECLARE_ABSTRACT_OBJECT(ConstraintModel, ModelComponent);
     public:
-	struct ConstraintData {
-	    SimTK::Matrix McInv, NcT;
-	    SimTK::Vector bc;
-	};
-	virtual ConstraintData calcConstraintData(const SimTK::State& s) const = 0;
+        struct ConstraintData {
+            SimTK::Matrix McInv, NcT;
+            SimTK::Vector bc;
+        };
+        virtual ConstraintData calcConstraintData(const SimTK::State& s) const = 0;
     };
     /**
      * This model assumes that there are not constraints.
@@ -35,7 +35,7 @@ namespace OpenSim {
     class UnconstraintModel : public ConstraintModel {
         OpenSim_DECLARE_CONCRETE_OBJECT(UnconstraintModel, ConstraintModel);
     public:
-	ConstraintData calcConstraintData(const SimTK::State& s) const override;
+        ConstraintData calcConstraintData(const SimTK::State& s) const override;
     };
     /**
      * This model uses the inertia weighted generalized inverse of the
@@ -73,7 +73,7 @@ namespace OpenSim {
     class DeSapioModel : public ConstraintModel {
         OpenSim_DECLARE_CONCRETE_OBJECT(DeSapioModel, ConstraintModel);
     public:
-	ConstraintData calcConstraintData(const SimTK::State& s) const override;
+        ConstraintData calcConstraintData(const SimTK::State& s) const override;
     };
     /**
      * This model make uses of the Moore - Penrose pseudoinverse (MPP) and the
@@ -110,7 +110,7 @@ namespace OpenSim {
     class AghiliModel : public ConstraintModel {
         OpenSim_DECLARE_CONCRETE_OBJECT(AghiliModel, ConstraintModel);
     public:
-	ConstraintData calcConstraintData(const SimTK::State& s) const override;
+        ConstraintData calcConstraintData(const SimTK::State& s) const override;
     };
 }
 

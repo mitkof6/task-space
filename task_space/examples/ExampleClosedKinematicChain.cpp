@@ -102,7 +102,7 @@ void closedKinematicChain() {
     // chose constraint model
     auto constraintModel = new AghiliModel();
     model.addComponent(constraintModel);
-       // construct task dynamics
+    // construct task dynamics
     auto taskDynamics = new TaskDynamics(&graph, constraintModel);
     model.addComponent(taskDynamics);
     /**
@@ -111,8 +111,8 @@ void closedKinematicChain() {
      * current scope). This function accepts the state and returns a Vector.
      */
     auto controlStrategy = [&](const State& s) -> Vector {
-	auto data = taskDynamics->calcTaskDynamicsData(s);
-	return data.tauTasks + data.NgT * (data.f + data.bc) ;
+        auto data = taskDynamics->calcTaskDynamicsData(s);
+        return data.tauTasks + data.NgT * (data.f + data.bc) ;
     };
     // construct a torque controller and supply the control strategy
     auto controller = new TaskBasedTorqueController(controlStrategy);

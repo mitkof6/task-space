@@ -55,37 +55,37 @@ PositionTask::PositionTask(std::string body, Vec3 offset)
 Matrix PositionTask::J(const State& s) const {
     Matrix J;
     _model->getMatterSubsystem()
-	.calcStationJacobian(s,
-			     _model->getBodySet().get(body)
-			     .getMobilizedBodyIndex(), offset, J);
+        .calcStationJacobian(s,
+                             _model->getBodySet().get(body)
+                             .getMobilizedBodyIndex(), offset, J);
     return J;
 }
 
 Vector PositionTask::b(const State& s) const {
     Vec3 JdotQdot = _model->getMatterSubsystem().
-	calcBiasForStationJacobian(
-	    s, _model->getBodySet().get(body).getMobilizedBodyIndex(), offset);
+        calcBiasForStationJacobian(
+            s, _model->getBodySet().get(body).getMobilizedBodyIndex(), offset);
     return Vector(-1.0 * JdotQdot);
 }
 
 Vector PositionTask::x(const State& s) const {
     Vec3 temp;
     _model->getSimbodyEngine()
-	.getPosition(s, _model->getBodySet().get(body), offset, temp);
+        .getPosition(s, _model->getBodySet().get(body), offset, temp);
     return Vector(temp);
 }
 
 Vector PositionTask::u(const State& s) const {
     Vec3 temp;
     _model->getSimbodyEngine()
-	.getVelocity(s, _model->getBodySet().get(body), offset, temp);
+        .getVelocity(s, _model->getBodySet().get(body), offset, temp);
     return Vector(temp);
 }
 
 Vector PositionTask::a(const State& s) const {
     Vec3 temp;
     _model->getSimbodyEngine()
-	.getAcceleration(s, _model->getBodySet().get(body), offset, temp);
+        .getAcceleration(s, _model->getBodySet().get(body), offset, temp);
     return Vector(temp);
 }
 
@@ -99,13 +99,13 @@ OrientationTask::OrientationTask(std::string body, Vec3 offset)
 Matrix OrientationTask::J(const State& s) const {
     Matrix J;
     _model->getMatterSubsystem().calcFrameJacobian(
-	s, _model->getBodySet().get(body).getMobilizedBodyIndex(), offset, J);
+        s, _model->getBodySet().get(body).getMobilizedBodyIndex(), offset, J);
     return J(0, 0, 3, J.ncol());
 }
 
 Vector OrientationTask::b(const State& s) const {
     SpatialVec jdu = _model->getMatterSubsystem().calcBiasForFrameJacobian(
-	s, _model->getBodySet().get(body).getMobilizedBodyIndex(), offset);
+        s, _model->getBodySet().get(body).getMobilizedBodyIndex(), offset);
     return Vector(-1.0 * jdu[0]);
 }
 
@@ -113,23 +113,23 @@ Vector OrientationTask::x(const State& s) const {
     double dirCos[3][3];
     Vec3 o;
     _model->getSimbodyEngine()
-	.getDirectionCosines(s, _model->getBodySet().get(body), dirCos);
+        .getDirectionCosines(s, _model->getBodySet().get(body), dirCos);
     _model->getSimbodyEngine()
-	.convertDirectionCosinesToAngles(dirCos, &o[0], &o[1], &o[2]);
+        .convertDirectionCosinesToAngles(dirCos, &o[0], &o[1], &o[2]);
     return Vector(o);
 }
 
 Vector OrientationTask::u(const State& s) const {
     Vec3 w;
     _model->getSimbodyEngine()
-	.getAngularVelocity(s,_model->getBodySet().get(body), w);
+        .getAngularVelocity(s,_model->getBodySet().get(body), w);
     return Vector(w);
 }
 
 Vector OrientationTask::a(const State& s) const {
     Vec3 aw;
     _model->getSimbodyEngine()
-	.getAngularAcceleration(s,_model->getBodySet().get(body), aw);
+        .getAngularAcceleration(s,_model->getBodySet().get(body), aw);
     return Vector(aw);
 }
 
@@ -143,13 +143,13 @@ SpatialTask::SpatialTask(std::string body, Vec3 offset)
 Matrix SpatialTask::J(const State& s) const {
     Matrix J;
     _model->getMatterSubsystem().calcFrameJacobian(
-	s, _model->getBodySet().get(body).getMobilizedBodyIndex(), offset, J);
+        s, _model->getBodySet().get(body).getMobilizedBodyIndex(), offset, J);
     return J;
 }
 
 Vector SpatialTask::b(const State& s) const {
     SpatialVec jdu = _model->getMatterSubsystem().calcBiasForFrameJacobian(
-	s, _model->getBodySet().get(body).getMobilizedBodyIndex(), offset);
+        s, _model->getBodySet().get(body).getMobilizedBodyIndex(), offset);
     return -1.0 * spatialToVector(jdu);
 }
 
@@ -157,28 +157,28 @@ Vector SpatialTask::x(const State& s) const {
     double dirCos[3][3];
     Vec3 o, p;
     _model->getSimbodyEngine()
-	.getPosition(s, _model->getBodySet().get(body), offset, p);
+        .getPosition(s, _model->getBodySet().get(body), offset, p);
     _model->getSimbodyEngine()
-	.getDirectionCosines(s, _model->getBodySet().get(body), dirCos);
+        .getDirectionCosines(s, _model->getBodySet().get(body), dirCos);
     _model->getSimbodyEngine()
-	.convertDirectionCosinesToAngles(dirCos, &o[0], &o[1], &o[2]);
+        .convertDirectionCosinesToAngles(dirCos, &o[0], &o[1], &o[2]);
     return toVector(o, p);
 }
 
 Vector SpatialTask::u(const State& s) const {
     Vec3 w, v;
     _model->getSimbodyEngine()
-	.getVelocity(s, _model->getBodySet().get(body), offset, v);
+        .getVelocity(s, _model->getBodySet().get(body), offset, v);
     _model->getSimbodyEngine()
-	.getAngularVelocity(s,_model->getBodySet().get(body), w);
+        .getAngularVelocity(s,_model->getBodySet().get(body), w);
     return toVector(w, v);
 }
 
 Vector SpatialTask::a(const State& s) const {
     Vec3 aw, a;
     _model->getSimbodyEngine()
-	.getAcceleration(s, _model->getBodySet().get(body), offset, a);
+        .getAcceleration(s, _model->getBodySet().get(body), offset, a);
     _model->getSimbodyEngine()
-	.getAngularAcceleration(s, _model->getBodySet().get(body), aw);
+        .getAngularAcceleration(s, _model->getBodySet().get(body), aw);
     return toVector(aw, a);
 }

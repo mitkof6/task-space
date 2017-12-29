@@ -66,53 +66,53 @@ namespace OpenSim {
      * @see TaskProjection.h
      */
     class KinematicTask : public ModelComponent {
-	OpenSim_DECLARE_ABSTRACT_OBJECT(KinematicTask, ModelComponent);
+        OpenSim_DECLARE_ABSTRACT_OBJECT(KinematicTask, ModelComponent);
     public:
-	KinematicTask(std::string body, SimTK::Vec3 offset);
-	/**
-	 * Set the task goal by providing a callable std::function which accepts
-	 * the State and returns a Vector.
-	 *
-	 * @param TaskGoal a function or closure
-	 */
-	void setGoal(const TaskGoal& goal);
-	/** Evaluates the TaskGoal */
-	SimTK::Vector getGoal(const SimTK::State& s) const;
-	/** Calculates the Jacobian matrix (\f$ J_t \f$) */
-	virtual SimTK::Matrix J(const SimTK::State& s) const = 0;
-	/** Calculates the task bias term \f$ b_t = - \dot{J} \dot{q} \f$ */
-	virtual SimTK::Vector b(const SimTK::State& s) const = 0;
-	/**
-	 * Calculates the task position.
-	 *
-	 *  \throws Exception if the state is not realized to Stage::Position.
-	 */
-	virtual SimTK::Vector x(const SimTK::State& s) const = 0;
-	/**
-	 * Calculates the task velocity.
-	 *
-	 *  \throws Exception if the state is not realized to Stage::Velocity.
-	 */
-	virtual SimTK::Vector u(const SimTK::State& s) const = 0;
-	/**
-	 * Calculates the task acceleration.
-	 *
-	 *  \throws Exception if the state is not realized to
-	 *  Stage::Acceleration.
-	 */
-	virtual SimTK::Vector a(const SimTK::State& s) const = 0;
-	friend std::ostream& operator<<(std::ostream& os,
-					const KinematicTask& k) {
-	    return os << "[Body: " << k.body << ", offset: " << k.offset << "]"
-		      << std::endl;
-	};
+        KinematicTask(std::string body, SimTK::Vec3 offset);
+        /**
+         * Set the task goal by providing a callable std::function which accepts
+         * the State and returns a Vector.
+         *
+         * @param TaskGoal a function or closure
+         */
+        void setGoal(const TaskGoal& goal);
+        /** Evaluates the TaskGoal */
+        SimTK::Vector getGoal(const SimTK::State& s) const;
+        /** Calculates the Jacobian matrix (\f$ J_t \f$) */
+        virtual SimTK::Matrix J(const SimTK::State& s) const = 0;
+        /** Calculates the task bias term \f$ b_t = - \dot{J} \dot{q} \f$ */
+        virtual SimTK::Vector b(const SimTK::State& s) const = 0;
+        /**
+         * Calculates the task position.
+         *
+         *  \throws Exception if the state is not realized to Stage::Position.
+         */
+        virtual SimTK::Vector x(const SimTK::State& s) const = 0;
+        /**
+         * Calculates the task velocity.
+         *
+         *  \throws Exception if the state is not realized to Stage::Velocity.
+         */
+        virtual SimTK::Vector u(const SimTK::State& s) const = 0;
+        /**
+         * Calculates the task acceleration.
+         *
+         *  \throws Exception if the state is not realized to
+         *  Stage::Acceleration.
+         */
+        virtual SimTK::Vector a(const SimTK::State& s) const = 0;
+        friend std::ostream& operator<<(std::ostream& os,
+                                        const KinematicTask& k) {
+            return os << "[Body: " << k.body << ", offset: " << k.offset << "]"
+                      << std::endl;
+        };
     protected:
-	/** Name of the body that the task is attached to. */
-	std::string body;
-	/** Offset of the task from the body's local frame. */
-	SimTK::Vec3 offset;
-	/** A callable function or closure that evaluates the task goal. */
-	TaskGoal goal;
+        /** Name of the body that the task is attached to. */
+        std::string body;
+        /** Offset of the task from the body's local frame. */
+        SimTK::Vec3 offset;
+        /** A callable function or closure that evaluates the task goal. */
+        TaskGoal goal;
     };
     /**
      * \brief Position task primitive.
@@ -128,14 +128,14 @@ namespace OpenSim {
      * @see KinematicTask
      */
     class PositionTask : public KinematicTask {
-	OpenSim_DECLARE_CONCRETE_OBJECT(PositionTask, KinematicTask);
+        OpenSim_DECLARE_CONCRETE_OBJECT(PositionTask, KinematicTask);
     public:
-	PositionTask(std::string body, SimTK::Vec3 offset);
-	SimTK::Matrix J(const SimTK::State& s) const override;
-	SimTK::Vector b(const SimTK::State& s) const override;
-	SimTK::Vector x(const SimTK::State& s) const override;
-	SimTK::Vector u(const SimTK::State& s) const override;
-	SimTK::Vector a(const SimTK::State& s) const override;
+        PositionTask(std::string body, SimTK::Vec3 offset);
+        SimTK::Matrix J(const SimTK::State& s) const override;
+        SimTK::Vector b(const SimTK::State& s) const override;
+        SimTK::Vector x(const SimTK::State& s) const override;
+        SimTK::Vector u(const SimTK::State& s) const override;
+        SimTK::Vector a(const SimTK::State& s) const override;
     };
     /**
      * \brief Orientation task primitive.
@@ -151,14 +151,14 @@ namespace OpenSim {
      * @see KinematicTask
      */
     class OrientationTask : public KinematicTask {
-	OpenSim_DECLARE_CONCRETE_OBJECT(OrientationTask, KinematicTask);
+        OpenSim_DECLARE_CONCRETE_OBJECT(OrientationTask, KinematicTask);
     public:
-	OrientationTask(std::string body, SimTK::Vec3 offset);
-	SimTK::Matrix J(const SimTK::State& s) const override;
-	SimTK::Vector b(const SimTK::State& s) const override;
-	SimTK::Vector x(const SimTK::State& s) const override;
-	SimTK::Vector u(const SimTK::State& s) const override;
-	SimTK::Vector a(const SimTK::State& s) const override;
+        OrientationTask(std::string body, SimTK::Vec3 offset);
+        SimTK::Matrix J(const SimTK::State& s) const override;
+        SimTK::Vector b(const SimTK::State& s) const override;
+        SimTK::Vector x(const SimTK::State& s) const override;
+        SimTK::Vector u(const SimTK::State& s) const override;
+        SimTK::Vector a(const SimTK::State& s) const override;
     };
     /**
      * \brief Spatial task primitive (both position and orientation).
@@ -174,14 +174,14 @@ namespace OpenSim {
      * @see KinematicTask
      */
     class SpatialTask : public KinematicTask {
-	OpenSim_DECLARE_CONCRETE_OBJECT(SpatialTask, KinematicTask);
+        OpenSim_DECLARE_CONCRETE_OBJECT(SpatialTask, KinematicTask);
     public:
-	SpatialTask(std::string body, SimTK::Vec3 offset);
-	SimTK::Matrix J(const SimTK::State& s) const override;
-	SimTK::Vector b(const SimTK::State& s) const override;
-	SimTK::Vector x(const SimTK::State& s) const override;
-	SimTK::Vector u(const SimTK::State& s) const override;
-	SimTK::Vector a(const SimTK::State& s) const override;
+        SpatialTask(std::string body, SimTK::Vec3 offset);
+        SimTK::Matrix J(const SimTK::State& s) const override;
+        SimTK::Vector b(const SimTK::State& s) const override;
+        SimTK::Vector x(const SimTK::State& s) const override;
+        SimTK::Vector u(const SimTK::State& s) const override;
+        SimTK::Vector a(const SimTK::State& s) const override;
     };
 }
 
