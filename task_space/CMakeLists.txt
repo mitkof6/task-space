@@ -29,6 +29,14 @@ foreach(example_program ${examples})
     FOLDER "Examples")
 endforeach()
 
+set(ADDITIONAL_FILES
+    "examples/arm26.osim"
+)
+
+foreach(dataFile ${ADDITIONAL_FILES})
+	file(COPY "${dataFile}" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+endforeach()
+
 # tests
 if(BUILD_TESTING)
 	enable_testing()

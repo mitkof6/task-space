@@ -68,9 +68,11 @@ void absoluteCoordinates() {
     // connect the two free bodies
     auto pointConstraint1 = new PointConstraint(*ground, Vec3(0),
                                                 *body1_body, body1_distal);
+    pointConstraint1->setName("pc1");
     model.addConstraint(pointConstraint1);
     auto pointConstraint2 = new PointConstraint(*body1_body, body2_proximal,
                                                 *body2_body, body2_distal);
+    pointConstraint2->setName("pc2");
     model.addConstraint(pointConstraint2);
     // body kinematics
     auto bodyKinematics = new BodyKinematics(&model);
@@ -102,6 +104,10 @@ void absoluteCoordinates() {
     // *************************************************************************
     // build and initialize model
     auto state = model.initSystem();
+    // configure visualizer
+    model.updVisualizer().updSimbodyVisualizer().setBackgroundColor(Vec3(0));
+    model.updVisualizer().updSimbodyVisualizer()
+        .setBackgroundType(Visualizer::BackgroundType::SolidColor);
     model.updMatterSubsystem().setShowDefaultGeometry(true);
     // initial configuration
     ground_body1->upd_coordinates(2).setValue(state, convertDegreesToRadians(q1));

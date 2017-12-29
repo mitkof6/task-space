@@ -74,7 +74,6 @@ Vector calcTotalForces(const State& s, const Model& model) {
     workingModel->getMatterSubsystem()
         .multiplyBySystemJacobianTranspose(workingState, bodyForces, jointForces);
     // in our conviction we subtract their contribution
-    std::cout << jointForces << generalizedForces << std::endl;
     return -1.0 * generalizedForces - jointForces;
 }
 

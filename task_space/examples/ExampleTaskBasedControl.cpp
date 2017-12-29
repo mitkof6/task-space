@@ -75,6 +75,11 @@ void taskBasedControl() {
     model.addController(controller);
     // build and initialize model
     auto state = model.initSystem();
+    // configure visualizer
+    model.updVisualizer().updSimbodyVisualizer().setBackgroundColor(Vec3(0));
+    model.updVisualizer().updSimbodyVisualizer()
+        .setBackgroundType(Visualizer::BackgroundType::SolidColor);
+    model.updMatterSubsystem().setShowDefaultGeometry(true);
     // initial configuration
     joint->updCoordinate(FreeJoint::Coord::TranslationY).setValue(state, 0.5);
     // define task goal function/closure
