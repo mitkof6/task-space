@@ -51,12 +51,12 @@ Vector calcTotalForces(const State& s, const Model& model) {
         workingModel->setUseVisualizer(false);
         workingModel->initSystem();
     }
-    // create working state from s and add working model's stuff after (IMPORTANT)
-    State workingState = workingModel->getWorkingState(); // needed for this to work!
-    workingState.updQ() = s.getQ();
-    workingState.updU() = s.getU();
-    workingState.updZ() = s.getZ();
-    workingState.updY() = s.getY();
+    // initialize working state from s
+    State& workingState = workingModel->updWorkingState();
+    workingState.setQ(s.getU());
+    workingState.setU(s.getU());
+    workingState.setZ(s.getZ());
+    workingState.setY(s.getY());
     // disable any actuators when computing the total force
     const Set<Actuator>& as = workingModel->getActuators();
     for (int i = 0; i < as.getSize(); i++) {
