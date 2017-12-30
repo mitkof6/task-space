@@ -22,15 +22,17 @@ Vec3 fromVectorToVec3(const Vector& v) {
 }
 
 void closedKinematicChain() {
+    // parameters
     string taskBody = "body1";
     const double q1 = -0.0;
     double body3_length = 1;
-    // model
+
+    // create model
     Model model;
-    // configure the visualizer
     model.setUseVisualizer(true);
-    // construct model
     auto& ground = model.getGround();
+
+    // construct body-joints
     // body1
     double body1_m = 1, body1_length = 1, body1_radius = 0.03;
     Vec3 body1_com = Vec3(0);
@@ -49,6 +51,7 @@ void closedKinematicChain() {
         .setDefaultValue(SimTK::convertDegreesToRadians(q1));
     model.addBody(body1_body);
     model.addJoint(ground_body1);
+
     // body2
     double body2_m = 1, body2_length = 1, body2_radius = 0.03;
     Vec3 body2_com = Vec3(0);
@@ -67,6 +70,7 @@ void closedKinematicChain() {
         .setDefaultValue(SimTK::convertDegreesToRadians(q1));
     model.addBody(body2_body);
     model.addJoint(ground_body2);
+
     // body3
     double body3_m = 1, body3_radius = 0.03;
     Vec3 body3_com = Vec3(0);
@@ -83,7 +87,8 @@ void closedKinematicChain() {
                                                body3_distal, Vec3(0));
     model.addBody(body3_body);
     model.addJoint(ground_body3);
-    // connect two free bodies
+
+    // connect the two free bodies with constraints 
     auto pointConstraint1 = new PointConstraint(*body1_body, body1_proximal,
                                                 *body3_body, body3_distal);
     pointConstraint1->setName("pc1");
@@ -92,21 +97,27 @@ void closedKinematicChain() {
                                                 *body3_body, body3_proximal);
     pointConstraint2->setName("pc2");
     model.addConstraint(pointConstraint2);
+
     // body kinematics
     auto bodyKinematics = new BodyKinematics(&model);
     bodyKinematics->setInDegrees(false);
     model.addAnalysis(bodyKinematics);
+
     // construct task priority graph
     TaskPriorityGraph graph;
-    auto task = new OrientationTask(taskBody, Vec3(0)); // upper body
+    auto task = new OrientationTask(taskBody, Vec3(0)); // body3
     graph.addTask(task, NULL);
     model.addComponent(task);
-    // chose constraint model
-    auto constraintModel = new AghiliModel();
+
+    // Aghili's constraint model minimizes control torques by maximizing the  
+    // reaction forces of the constraints
+    auto constraintModel = new AghiliModel(); 
     model.addComponent(constraintModel);
+
     // construct task dynamics
     auto taskDynamics = new TaskDynamics(&graph, constraintModel);
     model.addComponent(taskDynamics);
+
     /**
      * Define the control strategy \f$ \tau = \sum_{t=1}^g J_{t|t-1*}^T f_t +
      * N_{g*}^T (f + b_c)\f$ as a callable function/closure ([&] captures the
@@ -114,30 +125,34 @@ void closedKinematicChain() {
      */
     auto controlStrategy = [&](const State& s) -> Vector {
         auto data = taskDynamics->calcTaskDynamicsData(s);
-        return data.tauTasks + data.NgT * (data.f + data.bc) ;
+        return data.tauTasks + data.NgT * (data.f + data.bc);
     };
     // construct a torque controller and supply the control strategy
     auto controller = new TaskBasedTorqueController(controlStrategy);
     model.addController(controller);
-    // *************************************************************************
+
+
     // build and initialize model
     auto& state = model.initSystem();
+
     // configure visualizer
     model.updVisualizer().updSimbodyVisualizer().setBackgroundColor(Vec3(0));
     model.updVisualizer().updSimbodyVisualizer()
         .setBackgroundType(Visualizer::BackgroundType::SolidColor);
     model.updMatterSubsystem().setShowDefaultGeometry(true);
-    // initial configuration
+
+    // initial configuration (pose)
     model.updCoordinateSet()[0].setValue(state, convertDegreesToRadians(q1));
     model.updCoordinateSet()[1].setValue(state, convertDegreesToRadians(q1));
+
     // define task goal
     auto x0 = fromVectorToVec3(task->x(state));
     /**
      * This implements a proportional-derivative (PD) tracking controller for
      * tracking the task goal. The task accepts a std::function which takes the
-     * state and returns a Vector.
+     * state and returns a Vector ([&] captures the current scope).
      */
-    auto pd = [&](const State& s) -> Vector { // [&] captures the current scope
+    auto pd = [&](const State& s) -> Vector {  
         auto x = fromVectorToVec3(task->x(s));
         auto u = fromVectorToVec3(task->u(s));
         double kp = 100, kd = 20;
@@ -147,8 +162,10 @@ void closedKinematicChain() {
         return Vector(ad + kp * (xd - x) + kd * (ud - u));
     };
     task->setGoal(pd);
+
     //simulate
     simulate(model, state, 2);
+
     // export results
     controller->printResults("ExampleClosedKinematicChain", ".");
     bodyKinematics->printResults("ExampleClosedKinematicChain", ".");
@@ -159,7 +176,7 @@ int main(int argc, char *argv[]) {
         closedKinematicChain();
     } catch (exception &e) {
         cout << typeid(e).name() << ": " << e.what() << endl;
-        // getchar();e
+        // getchar();
         return -1;
     }
     return 0;

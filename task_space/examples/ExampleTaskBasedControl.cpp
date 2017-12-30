@@ -34,7 +34,8 @@ void taskBasedControl() {
                                model.getGround(), Vec3(0), Vec3(0),
                                *block, Vec3(0), Vec3(0));
     model.addJoint(joint);
-    // add reporter
+
+    // add coordinate console reporter
     auto reporter = new ConsoleReporter();
     reporter->set_report_time_interval(0.1);
     reporter->addToReport(joint->getCoordinate(FreeJoint::Coord::TranslationX)
@@ -50,17 +51,21 @@ void taskBasedControl() {
     reporter->addToReport(joint->getCoordinate(FreeJoint::Coord::Rotation3Z)
                           .getOutput("value"), "thetaZ");
     model.addComponent(reporter);
+
     // construct task priority graph
     TaskPriorityGraph graph;
     auto task = new PositionTask("block", Vec3(0));
     graph.addTask(task, NULL);
     model.addComponent(task);
+
     // chose constraint model
     auto constraintModel = new UnconstraintModel();
     model.addComponent(constraintModel);
+
     // construct task dynamics
     auto taskDynamics = new TaskDynamics(&graph, constraintModel);
     model.addComponent(taskDynamics);
+
     /**
      * Define the control strategy \f$ \tau = \sum_{t=1}^g J_{t|t-1*}^T f_t \f$
      * as a callable function/closure ([&] captures the current scope). This
@@ -73,15 +78,19 @@ void taskBasedControl() {
     // construct a torque controller and supply the control strategy
     auto controller = new TaskBasedTorqueController(controlStrategy);
     model.addController(controller);
+
     // build and initialize model
     auto state = model.initSystem();
+
     // configure visualizer
     model.updVisualizer().updSimbodyVisualizer().setBackgroundColor(Vec3(0));
     model.updVisualizer().updSimbodyVisualizer()
         .setBackgroundType(Visualizer::BackgroundType::SolidColor);
     model.updMatterSubsystem().setShowDefaultGeometry(true);
-    // initial configuration
+
+    // initial configuration 
     joint->updCoordinate(FreeJoint::Coord::TranslationY).setValue(state, 0.5);
+
     // define task goal function/closure
     auto x0 = fromVectorToVec3(task->x(state));
     /**
@@ -99,8 +108,10 @@ void taskBasedControl() {
         return Vector(ad + kp * (xd - x) + kd * (ud - u));
     };
     task->setGoal(pd);
+
     //simulate
     simulate(model, state, 2);
+
     // export results
     controller->printResults("ExampleTaskBasedControl", ".");
     reporter->print("ExampleTaskBasedContro_Reporter.sto");
@@ -111,7 +122,7 @@ int main(int argc, char *argv[]) {
         taskBasedControl();
     } catch (exception &e) {
         cout << typeid(e).name() << ": " << e.what() << endl;
-        // getchar();e
+        // getchar();
         return -1;
     }
     return 0;

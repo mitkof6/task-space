@@ -53,6 +53,8 @@ Vector calcTotalForces(const State& s, const Model& model) {
     }
     // initialize working state from s
     State& workingState = workingModel->updWorkingState();
+    // setting the working state causes segmentation fault on Arch-Linux but 
+    // on Windows everything works normal TODO: should investigate
     workingState.setQ(s.getU());
     workingState.setU(s.getU());
     workingState.setZ(s.getZ());

@@ -27,10 +27,11 @@ void absoluteCoordinates() {
     const double q2 = 90;
     const double l = 1;
     const string taskBodyName = "body2";
+
     // model
     Model model;
-    // configure the visualizer
     model.setUseVisualizer(true);
+
     // construct model
     auto ground = &model.updGround();
     // body1
@@ -49,6 +50,7 @@ void absoluteCoordinates() {
         Vec3(0), Vec3(0), *body1_body, body1_distal, Vec3(0));
     model.addBody(body1_body);
     model.addJoint(ground_body1);
+
     // body2
     double body2_m = 1, body2_length = 1, body2_radius = 0.03;
     Vec3 body2_com = Vec3(0);
@@ -65,6 +67,7 @@ void absoluteCoordinates() {
         body1_proximal, Vec3(0), *body2_body, body2_distal, Vec3(0));
     model.addBody(body2_body);
     model.addJoint(body1_body2);
+
     // connect the two free bodies
     auto pointConstraint1 = new PointConstraint(*ground, Vec3(0),
                                                 *body1_body, body1_distal);
@@ -74,21 +77,26 @@ void absoluteCoordinates() {
                                                 *body2_body, body2_distal);
     pointConstraint2->setName("pc2");
     model.addConstraint(pointConstraint2);
+
     // body kinematics
     auto bodyKinematics = new BodyKinematics(&model);
     bodyKinematics->setInDegrees(false);
     model.addAnalysis(bodyKinematics);
+
     // construct task priority graph
     TaskPriorityGraph graph;
     auto task = new PositionTask(taskBodyName, Vec3(0, l, 0)); // end effector
     graph.addTask(task, NULL);
     model.addComponent(task);
+
     // chose constraint model
     auto constraintModel = new AghiliModel();
     model.addComponent(constraintModel);
+
     // construct task dynamics
     auto taskDynamics = new TaskDynamics(&graph, constraintModel);
     model.addComponent(taskDynamics);
+
     /**
      * Define the control strategy \f$ \tau = \sum_{t=1}^g J_{t|t-1*}^T f_t +
      * N_{g*}^T (f + b_c)\f$ as a callable function/closure ([&] captures the
@@ -101,25 +109,28 @@ void absoluteCoordinates() {
     // construct a torque controller and supply the control strategy
     auto controller = new TaskBasedTorqueController(controlStrategy);
     model.addController(controller);
-    // *************************************************************************
+
     // build and initialize model
     auto state = model.initSystem();
+
     // configure visualizer
     model.updVisualizer().updSimbodyVisualizer().setBackgroundColor(Vec3(0));
     model.updVisualizer().updSimbodyVisualizer()
         .setBackgroundType(Visualizer::BackgroundType::SolidColor);
     model.updMatterSubsystem().setShowDefaultGeometry(true);
-    // initial configuration
+
+    // initial configuration (pose)
     ground_body1->upd_coordinates(2).setValue(state, convertDegreesToRadians(q1));
     body1_body2->upd_coordinates(2).setValue(state, convertDegreesToRadians(q2));
+
     // define task goal
     auto x0 = fromVectorToVec3(task->x(state));
     /**
      * This implements a proportional-derivative (PD) tracking controller for
      * tracking the task goal. The task accepts a std::function which takes the
-     * state and returns a Vector.
+     * state and returns a Vector ([&] captures the current scope).
      */
-    auto pd = [&](const State& s) -> Vector { // [&] captures the current scope
+    auto pd = [&](const State& s) -> Vector {
         auto x = fromVectorToVec3(task->x(s));
         auto u = fromVectorToVec3(task->u(s));
         double kp = 100, kd = 20;
@@ -129,8 +140,10 @@ void absoluteCoordinates() {
         return Vector(ad + kp * (xd - x) + kd * (ud - u));
     };
     task->setGoal(pd);
+
     //simulate
     simulate(model, state, 2);
+
     // export results
     controller->printResults("ExampleAbsoluteCoordinates", ".");
     bodyKinematics->printResults("ExampleAbsoluteCoordinates", ".");
@@ -141,7 +154,7 @@ int main(int argc, char *argv[]) {
         absoluteCoordinates();
     } catch (exception &e) {
         cout << typeid(e).name() << ": " << e.what() << endl;
-        // getchar();e
+        // getchar();
         return -1;
     }
     return 0;
