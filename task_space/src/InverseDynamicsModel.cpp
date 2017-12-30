@@ -1,5 +1,6 @@
 #include "InverseDynamicsModel.h"
 
+using namespace std;
 using namespace OpenSim;
 using namespace SimTK;
 
@@ -53,6 +54,8 @@ Vector calcTotalForces(const State& s, const Model& model) {
     }
     // initialize working state from s
     State& workingState = workingModel->updWorkingState();
+    workingState.setTime(s.getTime());
+    workingModel->initStateWithoutRecreatingSystem(workingState);
     // setting the working state causes segmentation fault on Arch-Linux but 
     // on Windows everything works normal TODO: should investigate
     workingState.setQ(s.getU());
@@ -92,6 +95,9 @@ Matrix calcMInv(const State& s, const Model& model) {
 }
 
 Vector calcTotalGeneralizedForces(const State& s, const Model& model) {
+    // for testing
+    //cout << calcCoriolis(s, model) + calcTotalForces(s, model) 
+    //    - (calcCoriolis(s, model) + calcGravity(s, model)) << endl;
     // compute all acting forces add Coriolis since they are not accounted
     return  calcCoriolis(s, model) + calcTotalForces(s, model);
     // compute only Coriolis and gravity (works always)
