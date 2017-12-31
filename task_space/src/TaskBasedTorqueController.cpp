@@ -7,7 +7,7 @@ using namespace std;
 
 TaskBasedTorqueController::TaskBasedTorqueController(
     const ControlStrategy& controlStrategy)
-    : Controller(), controlStrategy(controlStrategy) {
+    : controlStrategy(controlStrategy) {
 }
 
 void TaskBasedTorqueController::printResults(string prefix, string dir) {
@@ -15,7 +15,7 @@ void TaskBasedTorqueController::printResults(string prefix, string dir) {
 }
 
 void TaskBasedTorqueController::computeControls(const State& s,
-                                                Vector& controls) const {
+    Vector& controls) const {
     // evaluate control strategy
     auto  forces = controlStrategy(s);
     appliedForces.append(s.getTime(), forces.size(), &forces[0], true);
@@ -44,7 +44,6 @@ void TaskBasedTorqueController::extendConnectToModel(Model& model) {
     // add these actuators to the model and set their indexes
     auto& cs = _model->getCoordinateSet();
     for (int i = 0; i < cs.getSize(); i++) {
-
         std::string name = cs.get(i).getName() + "_control";
         CoordinateActuator* actuator = NULL;
         if (_model->getForceSet().contains(name)) {
