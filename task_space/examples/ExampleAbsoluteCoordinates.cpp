@@ -18,7 +18,7 @@ using namespace OpenSim;
 using namespace SimTK;
 
 Vec3 fromVectorToVec3(const Vector& v) {
-    return Vec3(&v(0, 3)[0]);
+    return Vec3(v[0], v[1], v[2]);
 }
 
 void absoluteCoordinates() {
@@ -104,7 +104,7 @@ void absoluteCoordinates() {
      */
     auto controlStrategy = [&](const State& s) -> Vector {
         auto data = taskDynamics->calcTaskDynamicsData(s);
-        return data.tauTasks + data.NgT * (data.f + data.bc) ;
+        return data.tauTasks + data.NgT * (data.f + data.bc);
     };
     // construct a torque controller and supply the control strategy
     auto controller = new TaskBasedTorqueController(controlStrategy);

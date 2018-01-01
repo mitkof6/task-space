@@ -16,14 +16,17 @@ void TaskPriorityGraph::addTask(KinematicTask* task, KinematicTask* parent) {
     auto parentIt = find_if(prioritySortedGraph.begin(),
                             prioritySortedGraph.end(),
                             [&](const pair<KinematicTask*, KinematicTask*>& a) {
-                                return a.first == parent;
-                            });
+        return a.first == parent;
+    });
     if (parent != NULL && parentIt == prioritySortedGraph.end()) {
         throw ParentNotInGraphException(
             "The parent does not exist in the priority graph");
     }
     // insert after
-    prioritySortedGraph.insert(++parentIt, make_pair(task, parent));
+    if (parentIt != prioritySortedGraph.end()) {
+        parentIt++;
+    }
+    prioritySortedGraph.insert(parentIt, make_pair(task, parent));
 }
 
 const ListChildParent& TaskPriorityGraph::getPrioritySortedGraph() const {

@@ -31,6 +31,7 @@ endforeach()
 
 set(ADDITIONAL_FILES
     "examples/arm26.osim"
+	"examples/arm26_ideal_muscles.osim"
 )
 
 foreach(dataFile ${ADDITIONAL_FILES})

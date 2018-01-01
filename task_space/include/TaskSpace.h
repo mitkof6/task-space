@@ -14,5 +14,6 @@
 #include "ConstraintProjection.h"
 #include "TaskDynamics.h"
 #include "TaskBasedTorqueController.h"
+#include "TaskBasedComputedMuscleControl.h"
 
 #endif

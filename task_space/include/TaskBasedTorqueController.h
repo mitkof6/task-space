@@ -50,7 +50,7 @@ namespace OpenSim {
     protected:
         /** Controller. */
         void computeControls(const SimTK::State& s,
-            SimTK::Vector& controls) const override;
+                             SimTK::Vector& controls) const override;
         /** Add CoordinateActuatros for controlling the model. */
         void extendConnectToModel(Model& model) override;
     private:

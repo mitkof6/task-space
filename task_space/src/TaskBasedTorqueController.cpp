@@ -6,8 +6,7 @@ using namespace SimTK;
 using namespace std;
 
 TaskBasedTorqueController::TaskBasedTorqueController(
-    const ControlStrategy& controlStrategy)
-    : controlStrategy(controlStrategy) {
+    const ControlStrategy& controlStrategy) : controlStrategy(controlStrategy) {
 }
 
 void TaskBasedTorqueController::printResults(string prefix, string dir) {
@@ -15,10 +14,10 @@ void TaskBasedTorqueController::printResults(string prefix, string dir) {
 }
 
 void TaskBasedTorqueController::computeControls(const State& s,
-    Vector& controls) const {
+                                                Vector& controls) const {
     // evaluate control strategy
-    auto  forces = controlStrategy(s);
-    appliedForces.append(s.getTime(), forces.size(), &forces[0], true);
+    auto  tau = controlStrategy(s);
+    appliedForces.append(s.getTime(), tau.size(), &tau[0], true);
     // apply forces as controls to the CoordinateActuators
     Vector actControls(1, 0.0);
     for (int i = 0; i < getActuatorSet().getSize(); i++) {
@@ -29,7 +28,7 @@ void TaskBasedTorqueController::computeControls(const State& s,
         if (aCoord->isConstrained(s)) {
             actControls = 0.0;
         } else {
-            actControls = forces[i];
+            actControls = tau[i];
         }
         getActuatorSet()[i].addInControls(actControls, controls);
     }
@@ -52,9 +51,9 @@ void TaskBasedTorqueController::extendConnectToModel(Model& model) {
             actuator = new CoordinateActuator();
             actuator->setCoordinate(&cs.get(i));
             actuator->setName(name);
-            // Since this object is creating these actuators for its
-            // own devices, it should take ownership of them, so that when
-            // the controller is removed, so are all the actuators it added.
+            // since this object is creating these actuators for its own
+            // devices, it should take ownership of them, so that when the
+            // controller is removed, so are all the actuators it added
             adoptSubcomponent(actuator);
             setNextSubcomponentInSystem(*actuator);
         }

@@ -44,7 +44,7 @@ namespace OpenSim {
     protected:
         /** Controller. */
         void computeControls(const SimTK::State& s,
-            SimTK::Vector& controls) const override;
+                             SimTK::Vector& controls) const override;
         /** Adds reserve actuators. */
         void extendConnectToModel(Model& model) override;
     private:
@@ -62,7 +62,7 @@ namespace OpenSim {
         struct OptimizationParameters {
             int numActuators;
             int numResidualActuators;
-            int gamma = 1;
+            int gamma = 1000;
             int activationExponent = 2;
             int maxResidualForce = 1000;
         };
@@ -70,18 +70,19 @@ namespace OpenSim {
         MuscleOptimizationTarget(OptimizationParameters parameters);
 
         void prepareToOptimize(const SimTK::Vector& desiredTau,
-            const SimTK::Matrix& momentArm, const SimTK::Vector& maxForce);
+                               const SimTK::Matrix& momentArm,
+                               const SimTK::Vector& maxForce);
 
         void evaluateObjective(const SimTK::State& s, const SimTK::Vector& x);
     protected:
         int objectiveFunc(const SimTK::Vector& x, bool newPar,
-            SimTK::Real& f) const override;
+                          SimTK::Real& f) const override;
         int gradientFunc(const SimTK::Vector& x, bool newPar,
-            SimTK::Vector& gradient) const override;
+                         SimTK::Vector& gradient) const override;
         int constraintFunc(const SimTK::Vector& x, bool newPar,
-            SimTK::Vector& constraints) const override;
+                           SimTK::Vector& constraints) const override;
         int constraintJacobian(const SimTK::Vector& x, bool newPar,
-            SimTK::Matrix& jac) const override;
+                               SimTK::Matrix& jac) const override;
     private:
         OptimizationParameters parameters;
         SimTK::Matrix R;

@@ -17,7 +17,7 @@ using namespace OpenSim;
 using namespace SimTK;
 
 Vec3 fromVectorToVec3(const Vector& v) {
-    return Vec3(&v(0, 3)[0]);
+    return Vec3(v[0], v[1], v[2]);
 }
 
 void taskBasedControl() {
@@ -88,7 +88,7 @@ void taskBasedControl() {
         .setBackgroundType(Visualizer::BackgroundType::SolidColor);
     model.updMatterSubsystem().setShowDefaultGeometry(true);
 
-    // initial configuration 
+    // initial configuration
     joint->updCoordinate(FreeJoint::Coord::TranslationY).setValue(state, 0.5);
 
     // define task goal function/closure

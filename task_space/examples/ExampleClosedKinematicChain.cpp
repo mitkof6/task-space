@@ -18,7 +18,7 @@ using namespace OpenSim;
 using namespace SimTK;
 
 Vec3 fromVectorToVec3(const Vector& v) {
-    return Vec3(&v(0, 3)[0]);
+    return Vec3(v[0], v[1], v[2]);
 }
 
 void closedKinematicChain() {
@@ -88,7 +88,7 @@ void closedKinematicChain() {
     model.addBody(body3_body);
     model.addJoint(ground_body3);
 
-    // connect the two free bodies with constraints 
+    // connect the two free bodies with constraints
     auto pointConstraint1 = new PointConstraint(*body1_body, body1_proximal,
                                                 *body3_body, body3_distal);
     pointConstraint1->setName("pc1");
@@ -109,9 +109,9 @@ void closedKinematicChain() {
     graph.addTask(task, NULL);
     model.addComponent(task);
 
-    // Aghili's constraint model minimizes control torques by maximizing the  
+    // Aghili's constraint model minimizes control torques by maximizing the
     // reaction forces of the constraints
-    auto constraintModel = new AghiliModel(); 
+    auto constraintModel = new AghiliModel();
     model.addComponent(constraintModel);
 
     // construct task dynamics
@@ -130,7 +130,6 @@ void closedKinematicChain() {
     // construct a torque controller and supply the control strategy
     auto controller = new TaskBasedTorqueController(controlStrategy);
     model.addController(controller);
-
 
     // build and initialize model
     auto& state = model.initSystem();
@@ -152,7 +151,7 @@ void closedKinematicChain() {
      * tracking the task goal. The task accepts a std::function which takes the
      * state and returns a Vector ([&] captures the current scope).
      */
-    auto pd = [&](const State& s) -> Vector {  
+    auto pd = [&](const State& s) -> Vector {
         auto x = fromVectorToVec3(task->x(s));
         auto u = fromVectorToVec3(task->u(s));
         double kp = 100, kd = 20;
