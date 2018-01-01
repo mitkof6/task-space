@@ -19,7 +19,7 @@ Vec3 fromVectorToVec3(const Vector& v) {
 
 void arm26Simulation() {
     // load model
-    Model model("arm26.osim");
+    Model model("arm26_ideal_muscles.osim");
     model.setUseVisualizer(true);
 
     // body kinematics
@@ -32,9 +32,9 @@ void arm26Simulation() {
     auto humerusTask = new OrientationTask("r_humerus", Vec3(0, -0.18, 0));
     graph.addTask(humerusTask, NULL); // humerus has the highest priority
     model.addComponent(humerusTask);
-    //auto ulnaTask = new OrientationTask("r_ulna_radius_hand", Vec3(0.02, -0.4, 0.1));
-    //graph.addTask(ulnaTask, humerusTask); // ulna is prioritized by humerus
-    //model.addComponent(ulnaTask);
+    auto ulnaTask = new OrientationTask("r_ulna_radius_hand", Vec3(0.02, -0.4, 0.1));
+    graph.addTask(ulnaTask, humerusTask); // ulna is prioritized by humerus
+    model.addComponent(ulnaTask);
 
     // chose constraint model
     auto constraintModel = new UnconstraintModel();
@@ -51,7 +51,7 @@ void arm26Simulation() {
     */
     auto controlStrategy = [&](const State& s) -> Vector {
         auto data = taskDynamics->calcTaskDynamicsData(s);
-        return data.tauTasks;
+        return data.tauTasks + data.NgT * (data.f + data.bc);
     };
     // construct a torque controller and supply the control strategy
     auto controller = new TaskBasedComputedMuscleControl(controlStrategy);
@@ -68,16 +68,16 @@ void arm26Simulation() {
 
     // define task goals as a function/closure
     // make elbow humerus motionless
-    auto humerusx0 = fromVectorToVec3(humerusTask->x(state));
     /**
     * This implements a proportional-derivative (PD) tracking controller for
     * tracking the task goal. The task accepts a std::function which takes the
     * state and returns a Vector ([&] captures the current scope).
     */
+    auto humerusx0 = fromVectorToVec3(humerusTask->x(state));
     auto humerusGoal = [&](const State& s) -> Vector {
         auto x = fromVectorToVec3(humerusTask->x(s));
         auto u = fromVectorToVec3(humerusTask->u(s));
-        double kp = 0, kd = 0;
+        double kp = 100, kd = 20;
         auto xd = humerusx0;
         auto ud = Vec3(0);
         auto ad = Vec3(0);
@@ -85,18 +85,18 @@ void arm26Simulation() {
     };
     humerusTask->setGoal(humerusGoal);
 
-    //// make the ulna rotate around z-axis
-    //auto ulnax0 = fromVectorToVec3(ulnaTask->x(state));
-    //auto ulnaGoal = [&](const State& s) -> Vector {
-    //    auto x = fromVectorToVec3(ulnaTask->x(s));
-    //    auto u = fromVectorToVec3(ulnaTask->u(s));
-    //    double kp = 100, kd = 20;
-    //    auto xd = ulnax0 + Vec3(0, 0, Pi / 4 * (sin(1 * Pi * s.getTime()) + 1));
-    //    auto ud = Vec3(0, 0, 1 * Pi * Pi / 4 * cos(1 * Pi * s.getTime()));
-    //    auto ad = Vec3(0, 0, -pow(1 * Pi, 2) * Pi / 4 * sin(1 * Pi * s.getTime()));
-    //    return Vector(ad + kp * (xd - x) + kd * (ud - u));
-    //};
-    //ulnaTask->setGoal(ulnaGoal);
+    // make the ulna rotate around z-axis
+    auto ulnax0 = fromVectorToVec3(ulnaTask->x(state));
+    auto ulnaGoal = [&](const State& s) -> Vector {
+        auto x = fromVectorToVec3(ulnaTask->x(s));
+        auto u = fromVectorToVec3(ulnaTask->u(s));
+        double kp = 100, kd = 20;
+        auto xd = ulnax0 + Vec3(0, 0, Pi / 4 * (sin(1 * Pi * s.getTime()) + 1));
+        auto ud = Vec3(0, 0, 1 * Pi * Pi / 4 * cos(1 * Pi * s.getTime()));
+        auto ad = Vec3(0, 0, -pow(1 * Pi, 2) * Pi / 4 * sin(1 * Pi * s.getTime()));
+        return Vector(ad + kp * (xd - x) + kd * (ud - u));
+    };
+    ulnaTask->setGoal(ulnaGoal);
 
     //simulate
     simulate(model, state, 2);
