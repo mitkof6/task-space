@@ -16,21 +16,11 @@ void TaskBasedTorqueController::printResults(string prefix, string dir) {
 void TaskBasedTorqueController::computeControls(const State& s,
                                                 Vector& controls) const {
     // evaluate control strategy
-    auto  tau = controlStrategy(s);
+    auto tau = controlStrategy(s);
     appliedForces.append(s.getTime(), tau.size(), &tau[0], true);
     // apply forces as controls to the CoordinateActuators
-    Vector actControls(1, 0.0);
     for (int i = 0; i < getActuatorSet().getSize(); i++) {
-        auto act = dynamic_cast<const CoordinateActuator*>(
-            &getActuatorSet().get(i));
-        SimTK_ASSERT(act, "TaskBasedTorqueController::computeControls dynamic cast failed");
-        Coordinate* aCoord = act->getCoordinate();
-        if (aCoord->isConstrained(s)) {
-            actControls = 0.0;
-        } else {
-            actControls = tau[i];
-        }
-        getActuatorSet()[i].addInControls(actControls, controls);
+        getActuatorSet()[i].addInControls(Vector(1, tau[i]), controls);
     }
 }
 
@@ -41,12 +31,12 @@ void TaskBasedTorqueController::extendConnectToModel(Model& model) {
     storageLabels.append("time");
     // create an actuator for each generalized coordinate in the model
     // add these actuators to the model and set their indexes
-    auto& cs = _model->getCoordinateSet();
+    auto& cs = model.getCoordinateSet();
     for (int i = 0; i < cs.getSize(); i++) {
-        std::string name = cs.get(i).getName() + "_control";
+        string name = cs.get(i).getName() + "_control";
         CoordinateActuator* actuator = NULL;
-        if (_model->getForceSet().contains(name)) {
-            actuator = (CoordinateActuator*) &_model->getForceSet().get(name);
+        if (model.getForceSet().contains(name)) {
+            actuator = (CoordinateActuator*) &model.getForceSet().get(name);
         } else {
             actuator = new CoordinateActuator();
             actuator->setCoordinate(&cs.get(i));

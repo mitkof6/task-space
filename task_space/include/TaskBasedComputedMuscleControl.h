@@ -55,6 +55,7 @@ namespace OpenSim {
         /** Optimizer */
         SimTK::ReferencePtr<SimTK::Optimizer> optimizer;
         SimTK::ReferencePtr<MuscleOptimizationTarget> target;
+        mutable SimTK::Vector activations;
     };
 
     class MuscleOptimizationTarget : public SimTK::OptimizerSystem {
@@ -62,9 +63,11 @@ namespace OpenSim {
         struct OptimizationParameters {
             int numActuators;
             int numResidualActuators;
-            int gamma = 1000;
+            int numConstraints;
+            double alpha = 1;
+            double beta = 2;
             int activationExponent = 2;
-            int maxResidualForce = 1000;
+            double maxResidualForce = 50;
         };
 
         MuscleOptimizationTarget(OptimizationParameters parameters);

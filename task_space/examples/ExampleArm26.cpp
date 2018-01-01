@@ -19,7 +19,7 @@ Vec3 fromVectorToVec3(const Vector& v) {
 
 void arm26Simulation() {
     // load model
-    Model model("arm26_ideal_muscles.osim");
+    Model model("arm26.osim");
     model.setUseVisualizer(true);
 
     // body kinematics
