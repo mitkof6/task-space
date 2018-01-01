@@ -66,25 +66,41 @@ void TaskBasedComputedMuscleControl::computeControls(const State& s,
                                                      Vector& controls) const {
     // evaluate control strategy
     auto tau = controlStrategy(s);
-    cout << "Control Strategy: " << tau << endl;
+    //cout << "Control Strategy: " << tau << endl;
     // calculate moment arm
     auto R = calcMomentArm(s, *_model);
+    //cout << R << endl;
 
     // calculate max force for activation = 1
     auto Fmax = calcMaxActuatorForce(s, *_model);
+    //cout << Fmax << endl;
 
     // perform optimization
+    Vector tauReserve(getActuatorSet().getSize(), 0.0);
     try {
         target->prepareToOptimize(tau, R, Fmax);
         optimizer->optimize(activations);
     } catch (const SimTK::Exception::Base& ex) {
         cout << "OPTIMIZATION FAILED..." << endl;
         cout << ex.getMessage() << endl;
+        //activations = previouslyValidActivations;
+        target->constraintFunc(activations, true, tauReserve);
     }
     target->evaluateObjective(s, activations);
 
-    // update controls
-    controls += activations;
+    // correspond residuals to reserve actuators
+    for (int i = 0; i < getActuatorSet().getSize(); i++) {
+        getActuatorSet()[i].addInControls(Vector(1, tauReserve[i]), controls);
+    }
+    // correspond activations to controls
+    for (int i = 0; i < _model->getActuators().getSize(); i++) {
+        _model->getActuators()[i].addInControls(Vector(1, activations[i]),
+                                                controls);
+    }
+
+    // store
+    //cout << controls << endl;
+    controlStorage.crop(0, s.getTime());
     controlStorage.append(s.getTime(), controls.size(), &controls[0]);
 }
 
@@ -94,37 +110,37 @@ void TaskBasedComputedMuscleControl::extendConnectToModel(Model& model) {
     // create a reserve actuator for each generalized coordinate in the model
     // add these actuators to the model and set their indexes
     int numActuators = model.getActuators().getSize();
-    int numReserveActuators = 0;
     auto& cs = model.getCoordinateSet();
-    //for (int i = 0; i < cs.getSize(); i++) {
-    //    std::string name = cs.get(i).getName() + "_reserve";
-    //    CoordinateActuator* actuator = NULL;
-    //    if (model.getForceSet().contains(name)) {
-    //        actuator = (CoordinateActuator*) &model.getForceSet().get(name);
-    //    } else {
-    //        actuator = new CoordinateActuator();
-    //        actuator->setCoordinate(&cs.get(i));
-    //        actuator->setName(name);
-    //        // since this object is creating these actuators for its own
-    //        // devices, it should take ownership of them, so that when the
-    //        // controller is removed, so are all the actuators it added
-    //        adoptSubcomponent(actuator);
-    //        setNextSubcomponentInSystem(*actuator);
-    //        numReserveActuators++;
-    //    }
-    //    actuator->setOptimalForce(1.0);
-    //    updActuators().adoptAndAppend(actuator);
-    //}
+    for (int i = 0; i < cs.getSize(); i++) {
+        std::string name = cs.get(i).getName() + "_reserve";
+        CoordinateActuator* actuator = NULL;
+        if (model.getForceSet().contains(name)) {
+            actuator = (CoordinateActuator*) &model.getForceSet().get(name);
+        } else {
+            actuator = new CoordinateActuator();
+            actuator->setCoordinate(&cs.get(i));
+            actuator->setName(name);
+            // since this object is creating these actuators for its own
+            // devices, it should take ownership of them, so that when the
+            // controller is removed, so are all the actuators it added
+            adoptSubcomponent(actuator);
+            setNextSubcomponentInSystem(*actuator);
+        }
+        actuator->setOptimalForce(1.0);
+        updActuators().adoptAndAppend(actuator);
+    }
 
     // construct labels for the actuators
     Array<string> storageLabels;
     storageLabels.append("time");
+    // reserve actuators are listed first in the controls vector
+    for (int i = 0; i < getActuatorSet().getSize(); i++) {
+        storageLabels.append(getActuatorSet()[i].getName());
+    }
+    // model actuators
     auto& act = model.getActuators();
     for (int i = 0; i < act.getSize(); i++) {
         storageLabels.append(act[i].getName());
-    }
-    for (int i = 0; i < getActuatorSet().getSize(); i++) {
-        storageLabels.append(getActuatorSet()[i].getName());
     }
     // configure Storage
     controlStorage.setColumnLabels(storageLabels);
@@ -133,25 +149,16 @@ void TaskBasedComputedMuscleControl::extendConnectToModel(Model& model) {
     // configure optimization target
     MuscleOptimizationTarget::OptimizationParameters targetParameters;
     targetParameters.numActuators = numActuators;
-    targetParameters.numResidualActuators = numReserveActuators;
     targetParameters.numConstraints = cs.getSize();
+    targetParameters.activationExponent = 2;
     target = new MuscleOptimizationTarget(targetParameters);
-
-    // parameter bounds
-    Vector lowerBounds(numActuators + numReserveActuators);
-    Vector upperBounds(numActuators + numReserveActuators);
-    for (int i = 0; i < numActuators + numReserveActuators; i++) {
-        if (i < numActuators) {
-            lowerBounds[i] = 0;
-            upperBounds[i] = 1;
-        } else {
-            /*lowerBounds[i] = -SimTK::Infinity;
-            upperBounds[i] = SimTK::Infinity;*/
-            lowerBounds[i] = -targetParameters.maxResidualForce;
-            upperBounds[i] = targetParameters.maxResidualForce;
-        }
+    Vector lowerBounds(targetParameters.numActuators);
+    Vector upperBounds(targetParameters.numActuators);
+    for (int i = 0; i < targetParameters.numActuators; i++) {
+        lowerBounds[i] = 0;
+        upperBounds[i] = 1;
     }
-    target->setNumParameters(numActuators + numReserveActuators);
+    target->setNumParameters(targetParameters.numActuators);
     target->setNumEqualityConstraints(targetParameters.numConstraints);
     target->setParameterLimits(lowerBounds, upperBounds);
     activations = Vector(target->getNumParameters(), 0.0);
@@ -160,9 +167,9 @@ void TaskBasedComputedMuscleControl::extendConnectToModel(Model& model) {
     optimizer = new Optimizer(target.getRef(), OptimizerAlgorithm::InteriorPoint);
     optimizer->setConvergenceTolerance(1E-4);
     optimizer->setConstraintTolerance(1E-4);
-    optimizer->setMaxIterations(500);
-    optimizer->setLimitedMemoryHistory(500);
-    optimizer->setDiagnosticsLevel(3);
+    optimizer->setMaxIterations(1500);
+    optimizer->setLimitedMemoryHistory(1500);
+    optimizer->setDiagnosticsLevel(0);
     //optimizer->setAdvancedBoolOption("warm_start", true);
     //optimizer->setAdvancedRealOption("obj_scaling_factor", 1);
     //optimizer->setAdvancedRealOption("nlp_scaling_max_gradient", 1);
@@ -189,15 +196,7 @@ void MuscleOptimizationTarget::prepareToOptimize(const Vector& desiredTau,
 void MuscleOptimizationTarget::evaluateObjective(const State& s,
                                                  const Vector& x) {
     double actuatorObj;
-    Vector temp(getNumParameters(), 0.0);
-    temp(0, parameters.numActuators) = x(0, parameters.numActuators);
-    objectiveFunc(temp, true, actuatorObj);
-
-    double residualActuatorObj;
-    temp = Vector(getNumParameters(), 0.0);
-    temp(parameters.numActuators, parameters.numResidualActuators) =
-        x(parameters.numActuators, parameters.numResidualActuators);
-    objectiveFunc(temp, true, residualActuatorObj);
+    objectiveFunc(x, true, actuatorObj);
 
     Vector constraints(getNumConstraints());
     constraintFunc(x, true, constraints);
@@ -205,7 +204,6 @@ void MuscleOptimizationTarget::evaluateObjective(const State& s,
     cout << "Optimization Statistics" << endl
         << "\ttime.................: " << s.getTime() << endl
         << "\tactuators............: " << actuatorObj << endl
-        << "\tresiduals............: " << residualActuatorObj << endl
         << "\tconstraint violation.: " << sqrt(~constraints * constraints)
         << endl;
 }
@@ -213,43 +211,21 @@ void MuscleOptimizationTarget::evaluateObjective(const State& s,
 int MuscleOptimizationTarget::objectiveFunc(const Vector& x, bool newPar,
                                             Real& f) const {
     f = 0.0;
-    // actuators [0, 1]
-    for (int i = 0; i < parameters.numActuators; i++) {
-        f += parameters.alpha * pow(x[i], parameters.activationExponent)
-            / parameters.numActuators;
-    }
-    // residual actuators [-max, max]
-    for (int i = parameters.numActuators; i < getNumParameters(); i++) {
-        f +=
-            parameters.beta *
-            pow(abs(x[i]) / parameters.maxResidualForce,
-                parameters.activationExponent) /
-            parameters.numResidualActuators;
+    for (int i = 0; i < getNumParameters(); i++) {
+        f += pow(abs(x[i]), parameters.activationExponent);
     }
     return 0;
 }
 
 int MuscleOptimizationTarget::gradientFunc(const Vector& x, bool newPar,
                                            Vector& gradient) const {
-    // actuators [0, 1]
-    for (int i = 0; i < parameters.numActuators; i++) {
-        gradient[i] =
-            parameters.alpha * parameters.activationExponent *
-            pow(x[i], parameters.activationExponent - 1) /
-            parameters.numActuators;
-    }
-    // residual actuators
-    for (int i = parameters.numActuators; i < getNumParameters(); i++) {
+    for (int i = 0; i < getNumParameters(); i++) {
         if (x[i] > 0) {
-            gradient[i] =
-                parameters.beta * parameters.activationExponent *
-                pow(abs(x[i]) / parameters.maxResidualForce, parameters.activationExponent - 1) /
-                (parameters.numResidualActuators * parameters.maxResidualForce);
+            gradient[i] = parameters.activationExponent *
+                pow(abs(x[i]), parameters.activationExponent - 1);
         } else {
-            gradient[i] =
-                -parameters.beta * parameters.activationExponent *
-                pow(abs(x[i]) / parameters.maxResidualForce, parameters.activationExponent - 1) /
-                (parameters.numResidualActuators * parameters.maxResidualForce);
+            gradient[i] = -parameters.activationExponent *
+                pow(abs(x[i]), parameters.activationExponent - 1);
         }
     }
     return 0;
@@ -257,27 +233,17 @@ int MuscleOptimizationTarget::gradientFunc(const Vector& x, bool newPar,
 
 int MuscleOptimizationTarget::constraintFunc(const Vector& x, bool newPar,
                                              Vector& constraints) const {
-    // a = activations
-    Vector a = x(0, parameters.numActuators);
-    //cout << "a " << a << endl;
     // tau = R * Fmax * a
-    Vector actuatorTorque = R * Fmax.elementwiseMultiply(a);
+    Vector actuatorTorque = R * Fmax.elementwiseMultiply(x);
     //cout << "M " << actuatorTorque << endl;
-    // get residual actuator
-    Vector residualTorques(tau.size(), 0.0);
-    if (parameters.numResidualActuators != 0) {
-        residualTorques = x(parameters.numActuators,
-                            parameters.numResidualActuators);
-    }
-    //cout << "R " << residualTorques << endl;
     // R * Fmax * a + tau_res - tau_des = 0
-    constraints = actuatorTorque + residualTorques - tau;
+    constraints = tau - actuatorTorque;
     //cout << "C " << constraints << endl;
-
     return 0;
 }
 
 int MuscleOptimizationTarget::constraintJacobian(const Vector& x, bool newPar,
                                                  Matrix& jac) const {
+    throw logic_error("Not implemented yet");
     return 0;
 }

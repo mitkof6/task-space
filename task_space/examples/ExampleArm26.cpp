@@ -99,7 +99,7 @@ void arm26Simulation() {
     ulnaTask->setGoal(ulnaGoal);
 
     //simulate
-    simulate(model, state, 2);
+    simulate(model, state, 2, true);
 
     // export results
     controller->printResults("ExampleArm26", ".");

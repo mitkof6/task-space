@@ -62,12 +62,8 @@ namespace OpenSim {
     public:
         struct OptimizationParameters {
             int numActuators;
-            int numResidualActuators;
             int numConstraints;
-            double alpha = 1;
-            double beta = 2;
-            int activationExponent = 2;
-            double maxResidualForce = 50;
+            int activationExponent;
         };
 
         MuscleOptimizationTarget(OptimizationParameters parameters);
@@ -77,7 +73,7 @@ namespace OpenSim {
                                const SimTK::Vector& maxForce);
 
         void evaluateObjective(const SimTK::State& s, const SimTK::Vector& x);
-    protected:
+
         int objectiveFunc(const SimTK::Vector& x, bool newPar,
                           SimTK::Real& f) const override;
         int gradientFunc(const SimTK::Vector& x, bool newPar,
