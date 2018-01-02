@@ -21,22 +21,23 @@ namespace OpenSim {
      *
      * @see TaskDynamics.h
      */
-    typedef std::function<SimTK::Vector(const SimTK::State& s)> ControlStrategy;
+    typedef
+        std::function<SimTK::Vector(const SimTK::State& s)> ControlStrategy;
     /**
      * \brief Computes and applies the generalized forces that track the task
      * goals provided a function for evaluating the control strategy (@see
      * TaskDynamics.h).
      *
      * As this is a generalized force controller that evaluates the control
-     * strategy and applies the forces to the model. As this is a Controller and
-     * not a Force, CoordinateActuators are appended to the model and actuated
-     * according to the control strategy.
+     * strategy and applies the forces to the model. As this is a Controller
+     * and not a Force, CoordinateActuators are appended to the model and
+     * actuated according to the control strategy.
      */
     class TaskBasedTorqueController : public Controller {
         OpenSim_DECLARE_CONCRETE_OBJECT(TaskBasedTorqueController, Controller);
     public:
         /**
-         * @param controlStrategy is a function that accepts the state and
+         * @param controlStrategy is a function that accepts a state and
          * returns a Vector of generalized forces.
          */
         TaskBasedTorqueController(const ControlStrategy& controlStrategy);

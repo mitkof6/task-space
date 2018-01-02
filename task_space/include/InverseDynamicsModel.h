@@ -1,6 +1,6 @@
 /**
  * \file A wrapper for evaluating the equations of motion using the following
- * convention.  For more details please refer to Section II(B).
+ * convention. For more details please refer to Section II(B).
  *
  * \f$ M \ddot{q} + f + \Phi^T \lambda = \tau \f$
  *
@@ -23,9 +23,9 @@
 
 #include <OpenSim/Simulation/Model/Model.h>
 
-/**
- * Calculates the inertia mass matrix.
- */
+ /**
+  * Calculates the inertia mass matrix.
+  */
 SimTK::Matrix calcM(const SimTK::State& s, const OpenSim::Model& model);
 /**
  * Calculates the inverse inertia mass matrix.

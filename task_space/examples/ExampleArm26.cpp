@@ -20,6 +20,7 @@ Vec3 fromVectorToVec3(const Vector& v) {
 void arm26Simulation() {
     // load model
     Model model("arm26.osim");
+    // Model model("arm26_ideal_muscles.osim"); // test with PathActuators
     model.setName("ExampleArm26");
     model.setUseVisualizer(true);
 
@@ -54,7 +55,8 @@ void arm26Simulation() {
         auto data = taskDynamics->calcTaskDynamicsData(s);
         return data.tauTasks + data.NgT * (data.f + data.bc);
     };
-    // construct a torque controller and supply the control strategy
+    // construct controller (choose between a torque or muscle controller)
+    // auto controller = new TaskBasedTorqueController(controlStrategy);
     auto controller = new TaskBasedComputedMuscleControl(controlStrategy);
     model.addController(controller);
 

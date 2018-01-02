@@ -55,11 +55,12 @@ Matrix calcMomentArm(const State& s, const Model& model) {
 /******************************************************************************/
 
 TaskBasedComputedMuscleControl::TaskBasedComputedMuscleControl(
-    const ControlStrategy & controlStrategy) : controlStrategy(controlStrategy) {
+    const ControlStrategy & controlStrategy)
+    : controlStrategy(controlStrategy) {
 }
 
 void TaskBasedComputedMuscleControl::printResults(string prefix, string dir) {
-    STOFileAdapter::write(controlStorage,
+    STOFileAdapter::write(controlsDataTable,
                           dir + "/" + prefix +
                           "_TaskBasedComputedMuscleControl.sto");
 }
@@ -68,41 +69,38 @@ void TaskBasedComputedMuscleControl::computeControls(const State& s,
                                                      Vector& controls) const {
     // evaluate control strategy
     auto tau = controlStrategy(s);
-    cout << s.getTime() << " Control Strategy: " << tau << endl;
     // calculate moment arm
     auto R = calcMomentArm(s, *_model);
-    //cout << R << endl;
-
     // calculate max force for activation = 1
     auto Fmax = calcMaxActuatorForce(s, *_model);
-    //cout << Fmax << endl;
 
-    // perform optimization
+    // optimization
     Vector tauReserve(getActuatorSet().getSize(), 0.0);
-    Vector activations = getInitialActivation(s);
+    Vector activations = getInitialActivations(s);
     try {
         target->prepareToOptimize(tau, R, Fmax);
         optimizer->optimize(activations);
     } catch (const SimTK::Exception::Base& ex) {
-        cout << "OPTIMIZATION FAILED..." << endl;
+        cout << "Optimization failed..." << endl;
         cout << ex.getMessage() << endl;
+        cout << "Reserve actuators will be applied" << endl;
+        // cout << "Control strategy: " << tau << endl;
         target->constraintFunc(activations, true, tauReserve);
     }
     target->evaluateObjective(s, activations);
-
-    // correspond residuals to reserve actuators
+    // correspond residuals to reserve actuators in controls vector
     for (int i = 0; i < getActuatorSet().getSize(); i++) {
         getActuatorSet()[i].addInControls(Vector(1, tauReserve[i]), controls);
     }
-    // correspond activations to controls
+    // correspond activations in controls vector
     for (int i = 0; i < _model->getActuators().getSize(); i++) {
         _model->getActuators()[i].addInControls(Vector(1, activations[i]),
                                                 controls);
     }
 
-    //cout << "C: " << controls << endl;
-    // append data
-    controlStorage.appendRow(s.getTime(), controls.transpose().getAsRowVector());
+    // append controls in data table
+    controlsDataTable.appendRow(s.getTime(),
+                                controls.transpose().getAsRowVector());
 }
 
 void TaskBasedComputedMuscleControl::extendConnectToModel(Model& model) {
@@ -132,18 +130,17 @@ void TaskBasedComputedMuscleControl::extendConnectToModel(Model& model) {
     }
 
     // construct labels for the actuators
-    vector<string> storageLabels;
+    vector<string> columnLabels;
     // reserve actuators are listed first in the controls vector
     for (int i = 0; i < getActuatorSet().getSize(); i++) {
-        storageLabels.push_back(getActuatorSet()[i].getName());
+        columnLabels.push_back(getActuatorSet()[i].getName());
     }
-    // model actuators
+    // append model actuators after reserve actuators
     auto& act = model.getActuators();
     for (int i = 0; i < act.getSize(); i++) {
-        storageLabels.push_back(act[i].getName());
+        columnLabels.push_back(act[i].getName());
     }
-    // configure Storage
-    controlStorage.setColumnLabels(storageLabels);
+    controlsDataTable.setColumnLabels(columnLabels);
 
     // configure optimization target
     MuscleOptimizationTarget::OptimizationParameters targetParameters;
@@ -160,36 +157,38 @@ void TaskBasedComputedMuscleControl::extendConnectToModel(Model& model) {
     target->setNumParameters(targetParameters.numActuators);
     target->setNumEqualityConstraints(targetParameters.numConstraints);
     target->setParameterLimits(lowerBounds, upperBounds);
-    activations = Vector(target->getNumParameters(), 0.0);
 
     // optimization
-    optimizer = new Optimizer(target.getRef(), OptimizerAlgorithm::InteriorPoint);
+    optimizer = new Optimizer(target.getRef(),
+                              OptimizerAlgorithm::InteriorPoint);
     optimizer->setConvergenceTolerance(1E-4);
     optimizer->setConstraintTolerance(1E-4);
-    optimizer->setMaxIterations(30);
-    optimizer->setLimitedMemoryHistory(100);
-    optimizer->setDiagnosticsLevel(3);
+    //optimizer->setMaxIterations(500);
+    //optimizer->setLimitedMemoryHistory(100);
+    optimizer->setDiagnosticsLevel(0);
     //optimizer->setAdvancedBoolOption("warm_start", true);
     //optimizer->setAdvancedRealOption("obj_scaling_factor", 1);
     //optimizer->setAdvancedRealOption("nlp_scaling_max_gradient", 1);
     optimizer->useNumericalGradient(false);
-    optimizer->useNumericalJacobian(true);
+    optimizer->useNumericalJacobian(false);
 }
 
-Vector TaskBasedComputedMuscleControl::getInitialActivation(const State& s) const {
+Vector TaskBasedComputedMuscleControl::getInitialActivations(const State& s)
+const {
     // the integrator may go back in time so remove the future rows
     double t = s.getTime();
-    while (controlStorage.getNumRows() != 0 &&
-           t <= controlStorage.getIndependentColumn().back()) {
-        controlStorage.removeRowAtIndex(controlStorage.getNumRows() - 1);
+    while (controlsDataTable.getNumRows() != 0 &&
+           t <= controlsDataTable.getIndependentColumn().back()) {
+        controlsDataTable.removeRowAtIndex(controlsDataTable.getNumRows() - 1);
     }
     // if storage is empty return zero activations
     int nActivations = target->getNumParameters();
-    if (controlStorage.getNumRows() == 0) {
+    if (controlsDataTable.getNumRows() == 0) {
         return Vector(nActivations, 0.0);
     }
     // else return the last row (note that activations are the last m elements)
-    auto row = controlStorage.getRowAtIndex(controlStorage.getNumRows() - 1);
+    auto row = controlsDataTable.getRowAtIndex(controlsDataTable.getNumRows()
+                                               - 1);
     Vector activations(nActivations, 0.0);
     for (int i = 0; i < nActivations; i++) {
         activations[i] = row.getAnyElt(0, row.size() - nActivations + i);
@@ -199,7 +198,8 @@ Vector TaskBasedComputedMuscleControl::getInitialActivation(const State& s) cons
 
 /******************************************************************************/
 
-MuscleOptimizationTarget::MuscleOptimizationTarget(OptimizationParameters parameters)
+MuscleOptimizationTarget::MuscleOptimizationTarget(
+    OptimizationParameters parameters)
     : OptimizerSystem(), parameters(parameters) {
     SimTK_ASSERT_ALWAYS(parameters.activationExponent > 0,
                         "MuscleOptimizationTarget: activationExponent > 0");
@@ -255,15 +255,18 @@ int MuscleOptimizationTarget::constraintFunc(const Vector& x, bool newPar,
                                              Vector& constraints) const {
     // tau = R * Fmax * a
     Vector actuatorTorque = R * Fmax.elementwiseMultiply(x);
-    //cout << "M " << actuatorTorque << endl;
-    // R * Fmax * a + tau_res - tau_des = 0
+    // tau_des - tau = 0
     constraints = tau - actuatorTorque;
-    //cout << "C " << constraints << endl;
     return 0;
 }
 
 int MuscleOptimizationTarget::constraintJacobian(const Vector& x, bool newPar,
                                                  Matrix& jac) const {
-    throw logic_error("Not implemented yet");
+    // d/da = -R Fmax dA/da
+    for (int i = 0; i < jac.nrow(); i++) {
+        for (int j = 0; j < jac.ncol(); j++) {
+            jac[i][j] = -R(i, j) * Fmax(j);
+        }
+    }
     return 0;
 }
