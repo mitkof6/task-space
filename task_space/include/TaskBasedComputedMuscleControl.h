@@ -49,13 +49,14 @@ namespace OpenSim {
         void extendConnectToModel(Model& model) override;
     private:
         /** Stores the computed controls. */
-        mutable Storage controlStorage;
+        mutable DataTable controlStorage;
         /** Control strategy. */
         ControlStrategy controlStrategy;
         /** Optimizer */
         SimTK::ReferencePtr<SimTK::Optimizer> optimizer;
         SimTK::ReferencePtr<MuscleOptimizationTarget> target;
         mutable SimTK::Vector activations;
+        SimTK::Vector getInitialActivation(const SimTK::State& s) const;
     };
 
     class MuscleOptimizationTarget : public SimTK::OptimizerSystem {

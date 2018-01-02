@@ -48,14 +48,19 @@ Vector calcTotalForces(const State& s, const Model& model) {
     static Model* workingModel = NULL;
     if (workingModel == NULL) {
         workingModel = model.clone();
-        workingModel->updControllerSet().setSize(0);
         workingModel->setUseVisualizer(false);
-        auto workingState = workingModel->initSystem();
+        // remove controllers to avoid infinite loop
+        workingModel->updControllerSet().setSize(0);
         // disable any actuators when computing the total force
-        const Set<Actuator>& as = workingModel->getActuators();
-        for (int i = 0; i < as.getSize(); i++) {
-            as[i].setAppliesForce(workingState, false);
+        auto& fs = workingModel->updForceSet();
+        for (int i = 0; i < fs.getSize(); i++) {
+            auto pathActuator = dynamic_cast<PathActuator*>(&fs[i]);
+            if (pathActuator) {
+                pathActuator->set_appliesForce(false);
+            }
         }
+        workingModel->finalizeFromProperties();
+        workingModel->initSystem();
     }
 
     // initialize working state from s

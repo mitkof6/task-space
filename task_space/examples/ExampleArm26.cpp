@@ -20,6 +20,7 @@ Vec3 fromVectorToVec3(const Vector& v) {
 void arm26Simulation() {
     // load model
     Model model("arm26.osim");
+    model.setName("ExampleArm26");
     model.setUseVisualizer(true);
 
     // body kinematics
@@ -99,7 +100,7 @@ void arm26Simulation() {
     ulnaTask->setGoal(ulnaGoal);
 
     //simulate
-    simulate(model, state, 2, true);
+    simulate(model, state, 2.0, true);
 
     // export results
     controller->printResults("ExampleArm26", ".");
