@@ -41,14 +41,14 @@
        std:: exception();                                                     \
     }                                                                         \    while(fals  e)
 
-/**
- * Tests whether the supplied statement throws a particular exception.
- *
- * @param statement he statement to be executed
- *
- * @param exc the statement must throw this exception
- */
-#define MUST_THROW_ECEPTION(statement, exc)                                   \
+  /**
+   * Tests whether the supplied statement throws a particular exception.
+   *
+   * @param statement he statement to be executed
+   *
+   * @param exc the statement must throw this exception
+   */
+#define MUST_THROW_EXCEPTION(statement, exc)                                  \
     do {                                                                      \
     int threw = 0;                                                            \
     try {                                                                     \

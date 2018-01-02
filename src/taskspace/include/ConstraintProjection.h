@@ -24,7 +24,7 @@ namespace OpenSim {
         /** \brief Calculated by calcConstraintData(). */
         struct ConstraintData {
             /** Constraint inertia mass matrix inverse.*/
-            SimTK::Matrix McInv, NcT;
+            SimTK::Matrix McInv;
             /** Constraint nullspace matrix. */
             SimTK::Matrix NcT;
             /** Constraint bias term. */
