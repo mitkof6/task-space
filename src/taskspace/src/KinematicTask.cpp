@@ -33,8 +33,7 @@ Vector spatialToVector(const SpatialVec& spatial) {
 /******************************************************************************/
 
 KinematicTask::KinematicTask(std::string body, Vec3 offset)
-    : body(body), offset(offset)
-{
+    : body(body), offset(offset) {
 }
 
 void KinematicTask::setGoal(const TaskGoal& g) {
@@ -48,8 +47,7 @@ SimTK::Vector KinematicTask::getGoal(const State& s) const {
 /******************************************************************************/
 
 PositionTask::PositionTask(std::string body, Vec3 offset)
-    : KinematicTask(body, offset)
-{
+    : KinematicTask(body, offset) {
 }
 
 Matrix PositionTask::J(const State& s) const {
@@ -64,7 +62,7 @@ Matrix PositionTask::J(const State& s) const {
 Vector PositionTask::b(const State& s) const {
     Vec3 JdotQdot = _model->getMatterSubsystem().
         calcBiasForStationJacobian(
-            s, _model->getBodySet().get(body).getMobilizedBodyIndex(), offset);
+        s, _model->getBodySet().get(body).getMobilizedBodyIndex(), offset);
     return Vector(-1.0 * JdotQdot);
 }
 
@@ -92,8 +90,7 @@ Vector PositionTask::a(const State& s) const {
 /******************************************************************************/
 
 OrientationTask::OrientationTask(std::string body, Vec3 offset)
-    : KinematicTask(body, offset)
-{
+    : KinematicTask(body, offset) {
 }
 
 Matrix OrientationTask::J(const State& s) const {
@@ -122,22 +119,21 @@ Vector OrientationTask::x(const State& s) const {
 Vector OrientationTask::u(const State& s) const {
     Vec3 w;
     _model->getSimbodyEngine()
-        .getAngularVelocity(s,_model->getBodySet().get(body), w);
+        .getAngularVelocity(s, _model->getBodySet().get(body), w);
     return Vector(w);
 }
 
 Vector OrientationTask::a(const State& s) const {
     Vec3 aw;
     _model->getSimbodyEngine()
-        .getAngularAcceleration(s,_model->getBodySet().get(body), aw);
+        .getAngularAcceleration(s, _model->getBodySet().get(body), aw);
     return Vector(aw);
 }
 
 /******************************************************************************/
 
 SpatialTask::SpatialTask(std::string body, Vec3 offset)
-    : KinematicTask(body, offset)
-{
+    : KinematicTask(body, offset) {
 }
 
 Matrix SpatialTask::J(const State& s) const {
@@ -170,7 +166,7 @@ Vector SpatialTask::u(const State& s) const {
     _model->getSimbodyEngine()
         .getVelocity(s, _model->getBodySet().get(body), offset, v);
     _model->getSimbodyEngine()
-        .getAngularVelocity(s,_model->getBodySet().get(body), w);
+        .getAngularVelocity(s, _model->getBodySet().get(body), w);
     return toVector(w, v);
 }
 

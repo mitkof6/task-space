@@ -29,6 +29,7 @@ void closedKinematicChain() {
 
     // create model
     Model model;
+    model.setName("ExampleClosedKinematicChain");
     model.setUseVisualizer(true);
     auto& ground = model.getGround();
 
@@ -163,7 +164,7 @@ void closedKinematicChain() {
     task->setGoal(pd);
 
     //simulate
-    simulate(model, state, 2);
+    simulate(model, state, 2, true);
 
     // export results
     controller->printResults("ExampleClosedKinematicChain", ".");

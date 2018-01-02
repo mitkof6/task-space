@@ -34,7 +34,7 @@ DeSapioModel::ConstraintData  DeSapioModel::calcConstraintData(
     // bc
     auto Phi = calcConstraintJacobian(s, *_model);
     auto PhiT = ~Phi;
-    auto Lambdac = calcLambda(Phi,data.McInv);
+    auto Lambdac = calcLambda(Phi, data.McInv);
     auto b = calcConstraintBias(s, *_model);
     data.bc = -1.0 * PhiT * Lambdac * b;
     // NcT

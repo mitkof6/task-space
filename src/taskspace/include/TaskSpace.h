@@ -1,5 +1,7 @@
 /**
- * \file Includes the necessary task space utilities.
+ * @file TaskSpace.h
+ *
+ * \brief Includes the necessary task space utilities.
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *

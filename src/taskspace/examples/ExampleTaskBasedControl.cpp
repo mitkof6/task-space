@@ -23,7 +23,9 @@ Vec3 fromVectorToVec3(const Vector& v) {
 void taskBasedControl() {
     // create model
     Model model;
+    model.setName("ExampleTaskBasedControl");
     model.setUseVisualizer(true);
+
     Vec3 halfLength(0.2, 0.2, 0.2);
     auto block = new OpenSim::Body("block", 1, Vec3(0),
                                    Inertia::brick(halfLength));
@@ -110,7 +112,7 @@ void taskBasedControl() {
     task->setGoal(pd);
 
     //simulate
-    simulate(model, state, 2);
+    simulate(model, state, 2, true);
 
     // export results
     controller->printResults("ExampleTaskBasedControl", ".");

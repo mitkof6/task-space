@@ -1,5 +1,7 @@
 /**
- * \file Implements a priority sorted graph using lists as the underlying data
+ * @file TaskPriorityGraph.h
+ *
+ * \brief Implements a priority sorted graph using lists as the underlying data
  * structure representation. The elements of the list contain a pointer to a
  * task (child) and a pointer to the task with higher priority (parent). The
  * list is automatically rearranged upon insertion of the task pairs.
@@ -17,16 +19,21 @@
 #include "KinematicTask.h"
 
 namespace OpenSim {
-    /** Thrown when the task exists in the graph to avoid directed cycles. */
+    /** \brief Thrown when the task exists in the graph to avoid directed
+     * cycles.
+     */
     class TaskExistsInGraphException : public std::logic_error {
         using std::logic_error::logic_error;
     };
-    /** Thrown when the provided parent task does not exist in the graph. */
+    /** \brief Thrown when the provided parent task does not exist in the
+     * graph.
+     */
     class ParentNotInGraphException : public std::logic_error {
         using std::logic_error::logic_error;
     };
-    // short definition
-    typedef std::list<std::pair<KinematicTask*, KinematicTask*> > ListChildParent;
+    /** short definition */
+    typedef
+        std::list<std::pair<KinematicTask*, KinematicTask*> > ListChildParent;
     /**
      * \brief A priority sorted graph of task pairs (child, parent).
      *
@@ -43,7 +50,7 @@ namespace OpenSim {
      *          /
      *       tibia               priority = 3
      *
-     *
+     * \code{.cpp}
      * TaskPriorityGraph graph;
      * auto pelvis = new SpatialTask("pelvis", Vec3(0));
      * graph.addTask(pelvis, NULL);
@@ -53,10 +60,13 @@ namespace OpenSim {
      * graph.addTask(tibia, femur);
      * auto torso = new OrientationTask("torso", Vec3(0));
      * graph.addTask(torso, pelvis);
+     * \endcode
      *
-     * prioritySortedGraph = [{pelvis, 0}, {torso, pelvis}, {femur, pelvis},
-     * {tibia, femur}]
-     *
+     * prioritySortedGraph = [
+     *     {pelvis, 0},
+     *     {torso, pelvis},
+     *     {femur, pelvis},
+     *     {tibia, femur}]
      */
     class TaskPriorityGraph {
     public:
@@ -79,15 +89,15 @@ namespace OpenSim {
         void addTask(KinematicTask* task, KinematicTask* parent);
         /** Get reference to the priority sorted list */
         const ListChildParent& getPrioritySortedGraph() const;
-        /** cout << graph << endl */
+        /** cout << graph << endl; */
         friend std::ostream& operator<<(std::ostream& os,
                                         const TaskPriorityGraph& g) {
-            for(auto pair : g.prioritySortedGraph) {
-                if (pair.second==NULL) {
+            for (auto pair : g.prioritySortedGraph) {
+                if (pair.second == NULL) {
                     os << "Prent: 0\n\tChild: " << *pair.first << std::endl;
                 } else {
                     os << "Prent: " << *pair.second << "\n\tChild: "
-                       << *pair.first << std::endl;
+                        << *pair.first << std::endl;
                 }
             }
             return os;

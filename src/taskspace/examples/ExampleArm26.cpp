@@ -1,5 +1,8 @@
 /**
- * \file TODO
+ * \file This example demonstrates multi-tasking control of a musculoskeletal
+ * system. Two tasks are used in prioritized scheme and an optimization is
+ * performed for mapping the task space generalized forces to muscle
+ * excitations.
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *
@@ -55,7 +58,7 @@ void arm26Simulation() {
         auto data = taskDynamics->calcTaskDynamicsData(s);
         return data.tauTasks + data.NgT * (data.f + data.bc);
     };
-    // construct controller (choose between a torque or muscle controller)
+    // define the controller (choose between a torque or muscle controller)
     // auto controller = new TaskBasedTorqueController(controlStrategy);
     auto controller = new TaskBasedComputedMuscleControl(controlStrategy);
     model.addController(controller);

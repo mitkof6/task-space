@@ -1,6 +1,8 @@
 /**
- * \file A controller that computes the generalized forces to track the
- * task goals.
+ * @file TaskBasedTorqueController.h
+ *
+ * \brief A controller that computes the generalized forces to track the task
+ * goals.
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *

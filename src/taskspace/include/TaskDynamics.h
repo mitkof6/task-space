@@ -1,7 +1,9 @@
 /**
- * \file Task dynamics combines task and constraint space projection to evaluate
- * the task force contribution accounting for the task prioritzation and model
- * constraints. For more details please refer to Section II(E-F).
+ * @file TaskDynamics.h
+ *
+ * \brief Task dynamics combines task and constraint space projection to
+ * evaluate the task force contribution accounting for the task prioritzation
+ * and model constraints. For more details please refer to Section II(E-F).
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *
@@ -32,20 +34,25 @@ namespace OpenSim {
      * example we can choose to utilize the task forces and minimize the
      * nullspace forces or model under-actuated systems [1].
      *
-     * Example 1 (control without nullspace forces \$f \tau_0 = 0 \f$):
+     * Example 1 (control without nullspace forces \f$ \tau_0 = 0 \f$):
      *
      * \f$ \tau = \sum_{t=1}^g J_{t|t-1*}^T f_t \f$
      *
+     * \code{.cpp}
      * auto data = taksDynamics->calcTaskDynamicsData();
+     *
      * Vector tau = data.tauTasks;
+     * \endcode
      *
      * Example 2 (compensate gravity, Coriolis and constraint bias using the
      * nullspace):
      *
      * \f$ \tau = \sum_{t=1}^g J_{t|t-1*}^T f_t + N_{g*}^T (f + b_c) \f$
      *
+     * \code{.cpp}
      * auto data = taskDynamics.calcTaskDynamicsData();
      * Vector tau = data.tauTasks + data.NgT * (data.f + data.bc);
+     * \endcode
      *
      * Example 3 (utilize the nullspace in order to model under-actuated
      * systems when the system contains passive DoFs [1]):
@@ -53,6 +60,7 @@ namespace OpenSim {
      * \f$ \tau = (I - N_{g*}^T [(I - B) N_{g*}^T]^+) \sum_{t=1}^g
      * J_{t|t-1*}^T f_t \f$
      *
+     * \code{.cpp}
      * Matrx B; // diagonal with "1" for active DoFs and "0" for passive
      * auto data = taskDynamics.calcTaskDynamicsData();
      * auto A = (1 - B) * data.NgT;
@@ -60,6 +68,7 @@ namespace OpenSim {
      * FactorSVD svd(A);
      * svd.inverse(AInv);
      * Vector tau = (1 - data.NgT * AInv) * data.tauTasks;
+     * \endcode
      */
     class TaskDynamics : public ModelComponent {
         OpenSim_DECLARE_CONCRETE_OBJECT(TaskDynamics, ModelComponent);
@@ -71,7 +80,7 @@ namespace OpenSim {
          */
         TaskDynamics(TaskPriorityGraph* graph, ConstraintModel* constraintModel);
         /**
-         * Data used for implementing different control strategies.
+         * \brief Data used for implementing different control strategies.
          */
         struct TaskDynamicsData {
             /**
@@ -85,8 +94,8 @@ namespace OpenSim {
             /**
              * The total null space transpose.
              *
-             * \f$ N_{g*}^T = \prod_{t=1}^g N^T_{t|t-1*} N^T_{i-1*}, \; N_{0*} =
-             * N_c^T (constraints)\f$
+             * \f$ N_{g*}^T = \prod_{t=1}^g N^T_{t|t-1*} N^T_{i-1*}, \; N_{0*}
+             * = N_c^T (constraints)\f$
              *
              * @see TaskProjection.h
              */

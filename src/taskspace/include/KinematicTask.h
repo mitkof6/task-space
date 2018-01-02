@@ -1,5 +1,7 @@
 /**
- * \file Implementation of the kinematic task primitives (i.e. position,
+ * @file KinematicTask.h
+ *
+ * \brief Implementation of the kinematic task primitives (i.e. position,
  * orientation and spatial which is both). For more details please refer to
  * Section II(D).
  *
@@ -23,7 +25,7 @@ namespace OpenSim {
      * accelerations.
      *
      * Example:
-     *
+     * \code{.cpp}
      * TaskPriorityGraph graph;
      * auto task = new PositionTask("block", Vec3(0));
      * graph.addTask(task, NULL);
@@ -40,8 +42,9 @@ namespace OpenSim {
      *     return Vector(ad + kp * (xd - x) + kd * (ud - u));
      * };
      * task->setGoal(pd);
+     * \endcode
      *
-     * @see exampleTaskBasedControl.cpp
+     * @see ExampleTaskBasedControl.cpp
      */
     typedef std::function<SimTK::Vector(const SimTK::State&)> TaskGoal;
     /**
@@ -50,7 +53,7 @@ namespace OpenSim {
      * The task space position (\f$ x_t\f$) is a function of the generalized
      * coordinates (\f$ q \f$)
      *
-     * \f$ x_t = g(q),\ q \in \Re^n \f$                                      (1)
+     * \f$ x_t = g(q),\ q \in \Re^n \f$                                     (1)
      *
      * The first and second derivatives of Eq. (1) (the dot notation depicts a
      * derivative with respect to time) is given by
@@ -68,12 +71,18 @@ namespace OpenSim {
     class KinematicTask : public ModelComponent {
         OpenSim_DECLARE_ABSTRACT_OBJECT(KinematicTask, ModelComponent);
     public:
+        /**
+        * Abstract kinematic task.
+        *
+        * @param body the body name
+        * @param offset offset vector in body frame
+        */
         KinematicTask(std::string body, SimTK::Vec3 offset);
         /**
-         * Set the task goal by providing a callable std::function which accepts
-         * the State and returns a Vector.
+         * Set the task goal by providing a callable std::function which
+         * accepts the State and returns a Vector.
          *
-         * @param TaskGoal a function or closure
+         * @param goal a function or closure
          */
         void setGoal(const TaskGoal& goal);
         /** Evaluates the TaskGoal */
@@ -101,10 +110,11 @@ namespace OpenSim {
          *  Stage::Acceleration.
          */
         virtual SimTK::Vector a(const SimTK::State& s) const = 0;
+        /** cout << task << endl;*/
         friend std::ostream& operator<<(std::ostream& os,
                                         const KinematicTask& k) {
             return os << "[Body: " << k.body << ", offset: " << k.offset << "]"
-                      << std::endl;
+                << std::endl;
         };
     protected:
         /** Name of the body that the task is attached to. */
@@ -130,6 +140,12 @@ namespace OpenSim {
     class PositionTask : public KinematicTask {
         OpenSim_DECLARE_CONCRETE_OBJECT(PositionTask, KinematicTask);
     public:
+        /**
+        * Position task.
+        *
+        * @param body the body name
+        * @param offset offset vector in body frame
+        */
         PositionTask(std::string body, SimTK::Vec3 offset);
         SimTK::Matrix J(const SimTK::State& s) const override;
         SimTK::Vector b(const SimTK::State& s) const override;
@@ -153,6 +169,12 @@ namespace OpenSim {
     class OrientationTask : public KinematicTask {
         OpenSim_DECLARE_CONCRETE_OBJECT(OrientationTask, KinematicTask);
     public:
+        /**
+        * Orientation task.
+        *
+        * @param body the body name
+        * @param offset offset vector in body frame
+        */
         OrientationTask(std::string body, SimTK::Vec3 offset);
         SimTK::Matrix J(const SimTK::State& s) const override;
         SimTK::Vector b(const SimTK::State& s) const override;
@@ -176,6 +198,12 @@ namespace OpenSim {
     class SpatialTask : public KinematicTask {
         OpenSim_DECLARE_CONCRETE_OBJECT(SpatialTask, KinematicTask);
     public:
+        /**
+        * Spatial task.
+        *
+        * @param body the body name
+        * @param offset offset vector in body frame
+        */
         SpatialTask(std::string body, SimTK::Vec3 offset);
         SimTK::Matrix J(const SimTK::State& s) const override;
         SimTK::Vector b(const SimTK::State& s) const override;

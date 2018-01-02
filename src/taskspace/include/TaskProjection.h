@@ -1,6 +1,8 @@
 /**
- * \file Utilities for performing task space projection. For more details please
- * refer to Section II(E).
+ * @file TaskProjection.h
+ *
+ * \brief Utilities for performing task space projection. For more details
+ * please refer to Section II(E).
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *
@@ -12,14 +14,14 @@
 
 #include <SimTKmath.h>
 
-/**
- * Calculates the prioritized, transposed task Jacobian matrix.
- *
- * \f$ \J_{t|t-1*}^T = N_{t-1*}^T J_t^T \f$
- *
- * @param NaT is the aggregate null space matrix of the higher priority tasks
- * @param JT is the transposed task Jacobian matrix
- */
+ /**
+  * Calculates the prioritized, transposed task Jacobian matrix.
+  *
+  * \f$ \J_{t|t-1*}^T = N_{t-1*}^T J_t^T \f$
+  *
+  * @param NaT is the aggregate null space matrix of the higher priority tasks
+  * @param JT is the transposed task Jacobian matrix
+  */
 SimTK::Matrix calcJpT(const SimTK::Matrix& NaT, const SimTK::Matrix& JT);
 /**
  * Calculates the task inertia mass matrix. If JT = JpT then this calculates the
@@ -41,7 +43,7 @@ SimTK::Matrix calcLambda(const SimTK::Matrix& J, const SimTK::Matrix& MInv,
  *
  * \f$ \bar{J}_{t|t-1*}^T = \Lambda_{t|t-1*} J_t M^{-1} \f$
  *
- * @param Lmabda is the inertia mass matrix of the task
+ * @param Lambda is the inertia mass matrix of the task
  * @param J is the task Jacobian matrix
  * @param MInv is the inverse system mass matrix
  */

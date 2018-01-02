@@ -30,6 +30,7 @@ void absoluteCoordinates() {
 
     // model
     Model model;
+    model.setName("ExampleAbsoluteCoordinates");
     model.setUseVisualizer(true);
 
     // construct model
@@ -142,7 +143,7 @@ void absoluteCoordinates() {
     task->setGoal(pd);
 
     //simulate
-    simulate(model, state, 2);
+    simulate(model, state, 2, true);
 
     // export results
     controller->printResults("ExampleAbsoluteCoordinates", ".");

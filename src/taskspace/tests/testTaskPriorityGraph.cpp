@@ -37,11 +37,11 @@ void testGraphConstruction() {
 
 int main(int argc, char *argv[]) {
     try {
-	testGraphConstruction();
+        testGraphConstruction();
     } catch (exception &e) {
-	cout << typeid(e).name() << ": " << e.what() << endl;
-	// getchar();e
-	return -1;
+        cout << typeid(e).name() << ": " << e.what() << endl;
+        // getchar();e
+        return -1;
     }
     return 0;
 }

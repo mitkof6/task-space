@@ -1,12 +1,14 @@
 /**
-* \file A controller that computes the actuators (muscles) excitations through
-*  an optimization procedure in order to track the task goals. For more details
-*  please refer to Section II(I).
-*
-* @author Dimitar Stanev <jimstanev@gmail.com>
-*
-* @see <a href="https://simtk.org/projects/task-space">[SimTK Project]</a>, <a
-* href="http://ieeexplore.ieee.org/document/8074739/">[Publication]</a>
+ * @file TaskBasedComputedMuscleControl.h
+ *
+ * \brief A controller that computes the muscles excitations through an
+ * optimization procedure in order to track the task goals. For more details
+ * please refer to Section II(H, I).
+ *
+ * @author Dimitar Stanev <jimstanev@gmail.com>
+ *
+ * @see <a href="https://simtk.org/projects/task-space">[SimTK Project]</a>, <a
+ * href="http://ieeexplore.ieee.org/document/8074739/">[Publication]</a>
 */
 #ifndef TASK_BASED_COMPUTED_MUSCLE_CONTROL_H
 #define TASK_BASED_COMPUTED_MUSCLE_CONTROL_H
@@ -52,7 +54,7 @@ namespace OpenSim {
          * Computes the actuator controls. If the optimization is infeasible
          * reserve actuators are used to compensate for the residual forces.
          *
-         * \$f \tau_{r} = \tau - R(q) f_m \odot \alpha \f$
+         * \f$ \tau_{r} = \tau - R(q) f_m \odot \alpha \f$
          */
         void computeControls(const SimTK::State& s,
                              SimTK::Vector& controls) const override;
@@ -80,18 +82,24 @@ namespace OpenSim {
     *
     * The optimization problem is defined as follows
     *
-    * \f$ \underset{\alpha}{\text{minimize}} \sum_{i=1}^{m} |\alpha_i|^e \f$
+    * minimize \f$ \sum_{i=1}^{m} |\alpha_i|^e \f$ for \f$ \alpha \f$
     *
-    * \f$  \text{subject to} \tau = R(q) f_m \odot \alpha) \f$
+    * subject to \f$ \tau = R(q) f_m \odot \alpha \f$
     */
     class MuscleOptimizationTarget : public SimTK::OptimizerSystem {
     public:
-        /** Optimization parameters. */
+        /** \brief Optimization parameters. */
         struct OptimizationParameters {
+            /** The number of parameters corresponds to the numActuators. */
             int numActuators;
+            /** The number of constraint equations. */
             int numConstraints;
+            /** The activation exponent*/
             int activationExponent;
         };
+        /**
+        * @param parameters the optimization parameters.
+        */
         MuscleOptimizationTarget(OptimizationParameters parameters);
         /** This function must be called before performing an optimization. */
         void prepareToOptimize(const SimTK::Vector& desiredTau,
@@ -112,6 +120,7 @@ namespace OpenSim {
         int constraintJacobian(const SimTK::Vector& x, bool newPar,
                                SimTK::Matrix& jac) const override;
     private:
+        /** Parameters. */
         OptimizationParameters parameters;
         /** Muscle moment arm matrix. */
         SimTK::Matrix R;

@@ -1,5 +1,5 @@
-# TaskSpaceProjection
-set(target TaskSpaceProjection)
+# TaskSpace
+set(target TaskSpace)
 
 file(GLOB includes include/*.h)
 file(GLOB sources src/*.cpp)
