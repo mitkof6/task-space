@@ -28,8 +28,9 @@ Examples of using this API can be found in the relevant example folder.
   kinematic chain topology and the planning is performed by defining the
   orientation of one of the bodies in task space.
 
-- ExampleArm26.cpp: a musculoskeletal model that controlled using multiple
-  prioritized tasks using Task Space Computed Muscle Control [5].
+- ExampleArm26.cpp: a musculoskeletal model that is controlled by multiple
+  prioritized tasks where the muscle excitation that track the task goals are
+  estimated using Task Space Computed Muscle Control [5].
 
 References
 ---
