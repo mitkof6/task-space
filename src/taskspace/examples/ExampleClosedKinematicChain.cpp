@@ -1,11 +1,11 @@
 /**
  * @file ExampleClosedKinematicChain.cpp
  *
- * \brief This example demonstrating working example of controlling (task space)
- * a model of a closed kinematic chain topology that is build using absolute
- * (Cartesian) coordinates. Since the underlying dynamics use constraint
- * projection, constraints are implicitly accounted. For more details please
- * refer to Section Supplementary Material(E).
+ * \brief This example demonstrating working example of controlling (task
+ * space) a model of a closed kinematic chain topology that is build using
+ * absolute (Cartesian) coordinates. Since the underlying dynamics use
+ * constraint projection, constraints are implicitly accounted. For more
+ * details please refer to Section Supplementary Material(E).
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *
@@ -106,20 +106,19 @@ void closedKinematicChain() {
     bodyKinematics->setInDegrees(false);
     model.addAnalysis(bodyKinematics);
 
-    // construct task priority graph
-    TaskPriorityGraph graph;
-    auto task = new OrientationTask(taskBody, Vec3(0)); // body3
-    graph.addTask(task, NULL);
-    model.addComponent(task);
-
     // Aghili's constraint model minimizes control torques by maximizing the
     // reaction forces of the constraints
     auto constraintModel = new AghiliModel();
     model.addComponent(constraintModel);
 
     // construct task dynamics
-    auto taskDynamics = new TaskDynamics(&graph, constraintModel);
+    auto taskDynamics = new TaskDynamics(constraintModel);
     model.addComponent(taskDynamics);
+
+    // construct task
+    auto task = new OrientationTask(taskBody, Vec3(0)); // body3
+    taskDynamics->addTask(task, NULL);
+    model.addComponent(task);
 
     /**
      * Define the control strategy \f$ \tau = \sum_{t=1}^g J_{t|t-1*}^T f_t +

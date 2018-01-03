@@ -11,9 +11,8 @@
  */
 #include <iostream>
 #include <typeinfo>
-#include <OpenSim/Simulation/Model/Model.h>
-#include "KinematicTask.h"
-#include "TaskPriorityGraph.h"
+#include <KinematicTask.h>
+#include <TaskDynamics.h>
 #include "TestUtil.h"
 
 using namespace std;
@@ -21,20 +20,22 @@ using namespace OpenSim;
 using namespace SimTK;
 
 void testGraphConstruction() {
-    TaskPriorityGraph graph;
+    TaskDynamics dynamics(NULL);
     auto pelvis = new SpatialTask("pelvis", Vec3(0));
-    graph.addTask(pelvis, NULL);
+    dynamics.addTask(pelvis, NULL);
     auto femur = new OrientationTask("femur", Vec3(0));
-    graph.addTask(femur, pelvis);
+    dynamics.addTask(femur, pelvis);
     auto tibia = new OrientationTask("tibia", Vec3(0));
-    graph.addTask(tibia, femur);
+    dynamics.addTask(tibia, femur);
     auto torso = new OrientationTask("torso", Vec3(0));
-    graph.addTask(torso, pelvis);
-    cout << graph << endl;
+    dynamics.addTask(torso, pelvis);
+    cout << dynamics << endl;
     // check singularities
-    MUST_THROW_EXCEPTION(graph.addTask(pelvis, NULL), TaskExistsInGraphException);
+    MUST_THROW_EXCEPTION(dynamics.addTask(pelvis, NULL),
+                         TaskExistsInGraphException);
     auto ground = new PositionTask("ground", Vec3(0));
-    MUST_THROW_EXCEPTION(graph.addTask(ground, ground), ParentNotInGraphException);
+    MUST_THROW_EXCEPTION(dynamics.addTask(ground, ground),
+                         ParentNotInGraphException);
 }
 
 int main(int argc, char *argv[]) {

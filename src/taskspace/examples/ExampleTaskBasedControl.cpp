@@ -12,7 +12,7 @@
  * href="http://ieeexplore.ieee.org/document/8074739/">[Publication]</a>
  */
 #include <OpenSim/OpenSim.h>
-#include "TaskSpace.h"
+#include <TaskSpace.h>
 
 using namespace std;
 using namespace OpenSim;
@@ -56,19 +56,18 @@ void taskBasedControl() {
                           .getOutput("value"), "thetaZ");
     model.addComponent(reporter);
 
-    // construct task priority graph
-    TaskPriorityGraph graph;
-    auto task = new PositionTask("block", Vec3(0));
-    graph.addTask(task, NULL);
-    model.addComponent(task);
-
     // chose constraint model
     auto constraintModel = new UnconstraintModel();
     model.addComponent(constraintModel);
 
     // construct task dynamics
-    auto taskDynamics = new TaskDynamics(&graph, constraintModel);
+    auto taskDynamics = new TaskDynamics(constraintModel);
     model.addComponent(taskDynamics);
+
+    // construct task
+    auto task = new PositionTask("block", Vec3(0));
+    taskDynamics->addTask(task, NULL);
+    model.addComponent(task);
 
     /**
      * Define the control strategy \f$ \tau = \sum_{t=1}^g J_{t|t-1*}^T f_t \f$

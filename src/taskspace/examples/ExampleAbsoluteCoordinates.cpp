@@ -86,19 +86,18 @@ void absoluteCoordinates() {
     bodyKinematics->setInDegrees(false);
     model.addAnalysis(bodyKinematics);
 
-    // construct task priority graph
-    TaskPriorityGraph graph;
-    auto task = new PositionTask(taskBodyName, Vec3(0, l, 0)); // end effector
-    graph.addTask(task, NULL);
-    model.addComponent(task);
-
     // chose constraint model
     auto constraintModel = new AghiliModel();
     model.addComponent(constraintModel);
 
     // construct task dynamics
-    auto taskDynamics = new TaskDynamics(&graph, constraintModel);
+    auto taskDynamics = new TaskDynamics(constraintModel);
     model.addComponent(taskDynamics);
+
+    // construct task
+    auto task = new PositionTask(taskBodyName, Vec3(0, l, 0)); // end effector
+    taskDynamics->addTask(task, NULL);
+    model.addComponent(task);
 
     /**
      * Define the control strategy \f$ \tau = \sum_{t=1}^g J_{t|t-1*}^T f_t +

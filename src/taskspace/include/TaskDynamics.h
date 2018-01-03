@@ -5,6 +5,11 @@
  * evaluate the task force contribution accounting for the task prioritzation
  * and model constraints. For more details please refer to Section II(E-F).
  *
+ * A priority sorted graph using lists as the underlying data structure
+ * representation. The elements of the list contain a pointer to a task (child)
+ * and a pointer to the task with higher priority (parent). The list is
+ * automatically rearranged upon insertion of the task pairs.
+ *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *
  * @see <a href="https://simtk.org/projects/task-space">[SimTK Project]</a>, <a
@@ -13,12 +18,29 @@
 #ifndef TASK_DYNAMICS_H
 #define TASK_DYNAMICS_H
 
+#include <list>
+#include <stdexcept>
 #include "internal/TaskSpaceExports.h"
+#include "KinematicTask.h"
 #include <OpenSim/Simulation/Model/ModelComponent.h>
 
 namespace OpenSim {
-    class TaskPriorityGraph;
     class ConstraintModel;
+    /** \brief Thrown when the task exists in the graph to avoid directed
+    * cycles.
+    */
+    class TaskSpace_API TaskExistsInGraphException : public std::logic_error {
+        using std::logic_error::logic_error;
+    };
+    /** \brief Thrown when the provided parent task does not exist in the
+    * graph.
+    */
+    class TaskSpace_API ParentNotInGraphException : public std::logic_error {
+        using std::logic_error::logic_error;
+    };
+    /** short definition */
+    typedef
+        std::list<std::pair<KinematicTask*, KinematicTask*> > ListChildParent;
     /**
      * \brief Collects the necessary components for computing the applied
      * generalized forces using constraint and task space projection.
@@ -40,7 +62,6 @@ namespace OpenSim {
      *
      * \code{.cpp}
      * auto data = taksDynamics->calcTaskDynamicsData();
-     *
      * Vector tau = data.tauTasks;
      * \endcode
      *
@@ -74,11 +95,26 @@ namespace OpenSim {
         OpenSim_DECLARE_CONCRETE_OBJECT(TaskDynamics, ModelComponent);
     public:
         /**
-         * This object does not take ownership of the TaskPriorityGraph and the
-         * ConstraintModel. They must be owned by the model
-         * (e.g. model.addComponent()).
+         * This object does not take ownership of the ConstraintModel. They
+         * must be owned by the model (e.g. model.addComponent()).
          */
-        TaskDynamics(TaskPriorityGraph* graph, ConstraintModel* constraintModel);
+        TaskDynamics(ConstraintModel* constraintModel);
+        /**
+        * Adds a task and updates the priority sorted graph based on the parent
+        * task. This object does not take ownership of the KinematicTask(s).
+        * They must be owned by the model (e.g. model.addComponent()).
+        *
+        * @param task the task to be inserted.
+        *
+        * @param parent the associated parent task (higher priority).
+        *
+        * \throws TaskExistsInGraphException if inserting a task that has been
+        * already inserted.
+        *
+        * \throws ParentNotInGraphException if the parent task (!NULL) is not
+        * in the graph.
+        */
+        void addTask(KinematicTask* task, KinematicTask* parent);
         /**
          * \brief Data used for implementing different control strategies.
          */
@@ -119,11 +155,24 @@ namespace OpenSim {
          * Computes the TaskDynamicsData.
          */
         TaskDynamicsData calcTaskDynamicsData(const SimTK::State& s);
+        /** cout << graph << endl; */
+        friend std::ostream& operator<<(std::ostream& os,
+                                        const TaskDynamics& g) {
+            for (auto pair : g.prioritySortedGraph) {
+                if (pair.second == NULL) {
+                    os << "Prent: 0\n\tChild: " << *pair.first << std::endl;
+                } else {
+                    os << "Prent: " << *pair.second << "\n\tChild: "
+                        << *pair.first << std::endl;
+                }
+            }
+            return os;
+        };
     private:
-        /** A reference to the priority sorted task graph. */
-        TaskPriorityGraph* taskPriorityGraph;
         /** A reference to the constraint model. */
         ConstraintModel* constraintModel;
+        /** A list containing the sorted tasks in priority order [high->low] */
+        ListChildParent prioritySortedGraph;
     };
 }
 

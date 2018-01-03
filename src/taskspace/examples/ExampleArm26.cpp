@@ -12,7 +12,7 @@
  * href="http://ieeexplore.ieee.org/document/8074739/">[Publication]</a>
  */
 #include <OpenSim/OpenSim.h>
-#include "TaskSpace.h"
+#include <TaskSpace.h>
 
 using namespace std;
 using namespace OpenSim;
@@ -36,23 +36,24 @@ void arm26Simulation() {
     bodyKinematics->setInDegrees(false);
     model.addAnalysis(bodyKinematics);
 
-    // construct task priority graph
-    TaskPriorityGraph graph;
-    auto humerusTask = new OrientationTask("r_humerus", Vec3(0, -0.18, 0));
-    graph.addTask(humerusTask, NULL); // humerus has the highest priority
-    model.addComponent(humerusTask);
-    auto ulnaTask = new OrientationTask("r_ulna_radius_hand",
-                                        Vec3(0.02, -0.4, 0.1));
-    graph.addTask(ulnaTask, humerusTask); // ulna is prioritized by humerus
-    model.addComponent(ulnaTask);
-
     // chose constraint model
     auto constraintModel = new UnconstraintModel();
     model.addComponent(constraintModel);
 
     // construct task dynamics
-    auto taskDynamics = new TaskDynamics(&graph, constraintModel);
+    auto taskDynamics = new TaskDynamics(constraintModel);
     model.addComponent(taskDynamics);
+
+    // construct tasks
+    auto humerusTask = new OrientationTask("r_humerus", Vec3(0, -0.18, 0));
+    taskDynamics->addTask(humerusTask, NULL);
+    // humerus has the highest priority
+    model.addComponent(humerusTask);
+    auto ulnaTask = new OrientationTask("r_ulna_radius_hand",
+                                        Vec3(0.02, -0.4, 0.1));
+    // ulna is prioritized by humerus
+    taskDynamics->addTask(ulnaTask, humerusTask);
+    model.addComponent(ulnaTask);
 
     /**
      * Define the control strategy \f$ \tau = \sum_{t=1}^g J_{t|t-1*}^T f_t +

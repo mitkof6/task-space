@@ -12,7 +12,6 @@
 #define TASK_SPACE_H
 
 #include "KinematicTask.h"
-#include "TaskPriorityGraph.h"
 #include "ConstraintProjection.h"
 #include "TaskDynamics.h"
 #include "TaskBasedTorqueController.h"

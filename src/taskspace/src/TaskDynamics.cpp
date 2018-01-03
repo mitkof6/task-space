@@ -1,5 +1,4 @@
 #include "TaskDynamics.h"
-#include "TaskPriorityGraph.h"
 #include "TaskProjection.h"
 #include "InverseDynamicsModel.h"
 #include "ConstraintProjection.h"
@@ -9,9 +8,34 @@ using namespace std;
 using namespace OpenSim;
 using namespace SimTK;
 
-TaskDynamics::TaskDynamics(TaskPriorityGraph* graph,
-                           ConstraintModel* constraintModel)
-    : taskPriorityGraph(graph), constraintModel(constraintModel) {
+TaskDynamics::TaskDynamics(ConstraintModel* constraintModel)
+    : constraintModel(constraintModel) {
+}
+
+void TaskDynamics::addTask(KinematicTask* task, KinematicTask* parent) {
+    // first check whether task exists in the priority list so that we can
+    // avoid directed cycles
+    for (auto& t : prioritySortedGraph) {
+        if (t.first == task) {
+            throw TaskExistsInGraphException(
+                "The task already exists in the priority graph (avoid cyclic graph)");
+        }
+    }
+    // find the parent task and insert after
+    auto parentIt = find_if(prioritySortedGraph.begin(),
+                            prioritySortedGraph.end(),
+                            [&](const pair<KinematicTask*, KinematicTask*>& a) {
+        return a.first == parent;
+    });
+    if (parent != NULL && parentIt == prioritySortedGraph.end()) {
+        throw ParentNotInGraphException(
+            "The parent does not exist in the priority graph");
+    }
+    // insert after
+    if (parentIt != prioritySortedGraph.end()) {
+        parentIt++;
+    }
+    prioritySortedGraph.insert(parentIt, make_pair(task, parent));
 }
 
 TaskDynamics::TaskDynamicsData TaskDynamics::calcTaskDynamicsData(
@@ -42,11 +66,8 @@ TaskDynamics::TaskDynamicsData TaskDynamics::calcTaskDynamicsData(
     };
     std::map<KinematicTask*, TaskCacheData> taskCache;
 
-    // access the priority graph
-    auto graph = taskPriorityGraph->getPrioritySortedGraph();
-
     // loop through the priority sorted graph [high, low]
-    for (auto pair : graph) {
+    for (auto pair : prioritySortedGraph) {
         auto task = pair.first; // current task
         auto parent = pair.second; // higher priority task
 
