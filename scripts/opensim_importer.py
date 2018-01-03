@@ -37,6 +37,8 @@ def readMotionFile(filename):
             nc = int(next_line[next_line.index('=') + 1:len(next_line)])
         elif 'nRows' in next_line:
             nr = int(next_line[next_line.index('=') + 1:len(next_line)])
+        elif 'version=2' in next_line:
+            raise Exception('Importer do not support version=2 format yet.')
 
         next_line = file_id.readline()
         header.append(next_line)

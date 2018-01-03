@@ -6,14 +6,15 @@ import os
 ###############################################################################
 
 # parameters
-working_dir = os.getcwd() + '/../build/task_space/'
+working_dir = os.getcwd() + '/../build/src/taskspace/'
 # sto_file = 'ExampleAbsoluteCoordinates_BodyKinematics_pos_global.sto'
-sto_file = 'ExampleClosedKinematicChain_BodyKinematics_pos_global.sto'
-substring_filter = 'body'
+sto_file = 'ExampleArm26_states.sto'
+substring_filter = 'activation'
 # y_label = 'forces $(N | Nm)$'
-y_label = 'coordinates $(deg | rad)$'
+# y_label = 'coordinates $(deg | rad)$'
+y_label = 'activation'
 export_name = ''
-max_cols = 6
+max_cols = 3
 
 ###############################################################################
 
