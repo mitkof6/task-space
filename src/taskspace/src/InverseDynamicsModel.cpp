@@ -62,17 +62,13 @@ Vector calcTotalForces(const State& s, const Model& model) {
         workingModel->finalizeFromProperties();
         workingModel->initSystem();
     }
-
     // initialize working state from s
     auto workingState = workingModel->updWorkingState();
     workingState.setTime(s.getTime());
-    // setting the working state causes segmentation fault on Arch-Linux but
-    // on Windows everything works normal TODO: should investigate
     workingState.setQ(s.getQ());
     workingState.setU(s.getU());
     workingState.setZ(s.getZ());
     workingState.setY(s.getY());
-
     // generalized forces and torques should be accessed at a Dynamics stage
     workingModel->realizeDynamics(workingState);
     // get acting torques and body forces
@@ -101,9 +97,6 @@ Matrix calcMInv(const State& s, const Model& model) {
 }
 
 Vector calcTotalGeneralizedForces(const State& s, const Model& model) {
-    // for testing
-    //cout << calcCoriolis(s, model) + calcTotalForces(s, model)
-    //    - (calcCoriolis(s, model) + calcGravity(s, model)) << endl;
     // compute all acting forces add Coriolis since they are not accounted
     return  calcCoriolis(s, model) + calcTotalForces(s, model);
     // compute only Coriolis and gravity (works always)

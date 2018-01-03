@@ -14,14 +14,14 @@
 
 #include <SimTKmath.h>
 
- /**
-  * Calculates the prioritized, transposed task Jacobian matrix.
-  *
-  * \f$ \J_{t|t-1*}^T = N_{t-1*}^T J_t^T \f$
-  *
-  * @param NaT is the aggregate null space matrix of the higher priority tasks
-  * @param JT is the transposed task Jacobian matrix
-  */
+/**
+ * Calculates the prioritized, transposed task Jacobian matrix.
+ *
+ * \f$ J_{t|t-1*}^T = N_{t-1*}^T J_t^T \f$
+ *
+ * @param NaT is the aggregate null space matrix of the higher priority tasks
+ * @param JT is the transposed task Jacobian matrix
+ */
 SimTK::Matrix calcJpT(const SimTK::Matrix& NaT, const SimTK::Matrix& JT);
 /**
  * Calculates the task inertia mass matrix. If JT = JpT then this calculates the

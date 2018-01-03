@@ -1,5 +1,7 @@
 /**
- * \file Tests the behavior of the TaskPriorityGraph when adding a prioritized
+ * @file TestTaskPriorityGraph.cpp
+ *
+ *\brif Tests the behavior of the TaskPriorityGraph when adding a prioritized
  * task.
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
@@ -40,7 +42,7 @@ int main(int argc, char *argv[]) {
         testGraphConstruction();
     } catch (exception &e) {
         cout << typeid(e).name() << ": " << e.what() << endl;
-        // getchar();e
+        // getchar();
         return -1;
     }
     return 0;

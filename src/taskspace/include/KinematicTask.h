@@ -72,11 +72,11 @@ namespace OpenSim {
         OpenSim_DECLARE_ABSTRACT_OBJECT(KinematicTask, ModelComponent);
     public:
         /**
-        * Abstract kinematic task.
-        *
-        * @param body the body name
-        * @param offset offset vector in body frame
-        */
+         * Abstract kinematic task.
+         *
+         * @param body the body name
+         * @param offset offset vector in body frame
+         */
         KinematicTask(std::string body, SimTK::Vec3 offset);
         /**
          * Set the task goal by providing a callable std::function which
@@ -114,7 +114,7 @@ namespace OpenSim {
         friend std::ostream& operator<<(std::ostream& os,
                                         const KinematicTask& k) {
             return os << "[Body: " << k.body << ", offset: " << k.offset << "]"
-                << std::endl;
+                      << std::endl;
         };
     protected:
         /** Name of the body that the task is attached to. */
@@ -141,11 +141,11 @@ namespace OpenSim {
         OpenSim_DECLARE_CONCRETE_OBJECT(PositionTask, KinematicTask);
     public:
         /**
-        * Position task.
-        *
-        * @param body the body name
-        * @param offset offset vector in body frame
-        */
+         * Position task.
+         *
+         * @param body the body name
+         * @param offset offset vector in body frame
+         */
         PositionTask(std::string body, SimTK::Vec3 offset);
         SimTK::Matrix J(const SimTK::State& s) const override;
         SimTK::Vector b(const SimTK::State& s) const override;
@@ -170,11 +170,11 @@ namespace OpenSim {
         OpenSim_DECLARE_CONCRETE_OBJECT(OrientationTask, KinematicTask);
     public:
         /**
-        * Orientation task.
-        *
-        * @param body the body name
-        * @param offset offset vector in body frame
-        */
+         * Orientation task.
+         *
+         * @param body the body name
+         * @param offset offset vector in body frame
+         */
         OrientationTask(std::string body, SimTK::Vec3 offset);
         SimTK::Matrix J(const SimTK::State& s) const override;
         SimTK::Vector b(const SimTK::State& s) const override;
@@ -199,11 +199,11 @@ namespace OpenSim {
         OpenSim_DECLARE_CONCRETE_OBJECT(SpatialTask, KinematicTask);
     public:
         /**
-        * Spatial task.
-        *
-        * @param body the body name
-        * @param offset offset vector in body frame
-        */
+         * Spatial task.
+         *
+         * @param body the body name
+         * @param offset offset vector in body frame
+         */
         SpatialTask(std::string body, SimTK::Vec3 offset);
         SimTK::Matrix J(const SimTK::State& s) const override;
         SimTK::Vector b(const SimTK::State& s) const override;

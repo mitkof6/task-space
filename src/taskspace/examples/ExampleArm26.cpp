@@ -1,5 +1,7 @@
 /**
- * \file This example demonstrates multi-tasking control of a musculoskeletal
+ * @file ExampleArm26.cpp
+ *
+ * \brief This example demonstrates multi-tasking control of a musculoskeletal
  * system. Two tasks are used in prioritized scheme and an optimization is
  * performed for mapping the task space generalized forces to muscle
  * excitations.
@@ -37,7 +39,8 @@ void arm26Simulation() {
     auto humerusTask = new OrientationTask("r_humerus", Vec3(0, -0.18, 0));
     graph.addTask(humerusTask, NULL); // humerus has the highest priority
     model.addComponent(humerusTask);
-    auto ulnaTask = new OrientationTask("r_ulna_radius_hand", Vec3(0.02, -0.4, 0.1));
+    auto ulnaTask = new OrientationTask("r_ulna_radius_hand",
+                                        Vec3(0.02, -0.4, 0.1));
     graph.addTask(ulnaTask, humerusTask); // ulna is prioritized by humerus
     model.addComponent(ulnaTask);
 
@@ -50,10 +53,10 @@ void arm26Simulation() {
     model.addComponent(taskDynamics);
 
     /**
-    * Define the control strategy \f$ \tau = \sum_{t=1}^g J_{t|t-1*}^T f_t +
-    * N_{g*}^T (f + b_c)\f$ as a callable function/closure ([&] captures the
-    * current scope). This function accepts the state and returns a Vector.
-    */
+     * Define the control strategy \f$ \tau = \sum_{t=1}^g J_{t|t-1*}^T f_t +
+     * N_{g*}^T (f + b_c)\f$ as a callable function/closure ([&] captures the
+     * current scope). This function accepts the state and returns a Vector.
+     */
     auto controlStrategy = [&](const State& s) -> Vector {
         auto data = taskDynamics->calcTaskDynamicsData(s);
         return data.tauTasks + data.NgT * (data.f + data.bc);
@@ -75,10 +78,10 @@ void arm26Simulation() {
     // define task goals as a function/closure
     // make elbow humerus motionless
     /**
-    * This implements a proportional-derivative (PD) tracking controller for
-    * tracking the task goal. The task accepts a std::function which takes the
-    * state and returns a Vector ([&] captures the current scope).
-    */
+     * This implements a proportional-derivative (PD) tracking controller for
+     * tracking the task goal. The task accepts a std::function which takes the
+     * state and returns a Vector ([&] captures the current scope).
+     */
     auto humerusx0 = fromVectorToVec3(humerusTask->x(state));
     auto humerusGoal = [&](const State& s) -> Vector {
         auto x = fromVectorToVec3(humerusTask->x(s));

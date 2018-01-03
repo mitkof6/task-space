@@ -14,7 +14,7 @@ set_target_properties(${target}
   PROPERTIES
   PROJECT_LABEL "TaskSpaceProjection"
   FOLDER "Library")
-  
+
 # install library
 install(
   TARGETS ${target}
@@ -26,7 +26,7 @@ install(
 # install headers
 set(INCLUDE_PREFIX "${CMAKE_INSTALL_INCLUDEDIR}")
 install(FILES ${includes}
-    DESTINATION ${INCLUDE_PREFIX}/${target})
+  DESTINATION ${INCLUDE_PREFIX}/${target})
 
 # examples
 foreach(example_program ${examples})
@@ -41,26 +41,26 @@ foreach(example_program ${examples})
 endforeach()
 
 set(ADDITIONAL_FILES
-    "examples/arm26.osim"
-	"examples/arm26_ideal_muscles.osim"
-)
+  "examples/arm26.osim"
+  "examples/arm26_ideal_muscles.osim"
+  )
 
 foreach(dataFile ${ADDITIONAL_FILES})
-	file(COPY "${dataFile}" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+  file(COPY "${dataFile}" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
 endforeach()
 
 # tests
 if(BUILD_TESTING)
-	enable_testing()
-	foreach(test_program ${tests})
-		# NAME_WE stands for "name without extension"
-		get_filename_component(TEST_NAME ${test_program} NAME_WE)
-		add_executable(${TEST_NAME} ${test_program})
-		target_link_libraries(${TEST_NAME}  ${OpenSim_LIBRARIES} ${target})
-		add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
-		set_target_properties(${TEST_NAME}
-			PROPERTIES
-			PROJECT_LABEL "Test - ${TEST_NAME}"
-		FOLDER "Tests")
-	endforeach()
+  # enable_testing()
+  foreach(test_program ${tests})
+    # NAME_WE stands for "name without extension"
+    get_filename_component(TEST_NAME ${test_program} NAME_WE)
+    add_executable(${TEST_NAME} ${test_program})
+    target_link_libraries(${TEST_NAME}  ${OpenSim_LIBRARIES} ${target})
+    add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
+    set_target_properties(${TEST_NAME}
+      PROPERTIES
+      PROJECT_LABEL "Test - ${TEST_NAME}"
+      FOLDER "Tests")
+  endforeach()
 endif()

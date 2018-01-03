@@ -25,9 +25,9 @@
 
 #include <OpenSim/Simulation/Model/Model.h>
 
- /**
-  * Calculates the inertia mass matrix.
-  */
+/**
+ * Calculates the inertia mass matrix.
+ */
 SimTK::Matrix calcM(const SimTK::State& s, const OpenSim::Model& model);
 /**
  * Calculates the inverse inertia mass matrix.

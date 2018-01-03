@@ -1,4 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
+
+################################################################################
+
 # project
 project(TaskSpace VERSION 1.0.0)
 
@@ -10,12 +13,29 @@ include(CTest)
 
 option(BUILD_DOCUMENTATION
   "Create and install the HTML based API documentation (requires Doxygen)" ON)
+
 # for rdm (emacs)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # for grouping into folders
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 # c++11, -g option is used to export debug symbols for gdb
-list(APPEND CMAKE_CXX_FLAGS "-std=c++11 -g ${CMAKE_CXX_FLAGS}")
+if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU OR
+    ${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
+  # Using C++11 on OSX requires using libc++ instead of libstd++.
+  # libc++ is an implementation of the C++ standard library for OSX.
+  if(APPLE)
+    if(XCODE)
+      set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "c++11")
+      set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++")
+    else()
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++")
+    endif()
+  else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g")
+  endif()
+endif()
 
 # install layout
 # Layout. This works for all platforms:
@@ -45,6 +65,8 @@ mark_as_advanced(CMAKE_DEBUG_POSTFIX)
 mark_as_advanced(CMAKE_RELWITHDEBINFO_POSTFIX)
 mark_as_advanced(CMAKE_MINSIZEREL_POSTFIX)
 
+################################################################################
+
 # configure OpenSim
 find_package(OpenSim REQUIRED)
 if(OpenSim_FOUND)
@@ -55,9 +77,13 @@ else()
   message(FATAL_ERROR "Can't find OpenSim at ${OpenSim_DIR}")
 endif()
 
+################################################################################
+
 # submodules
 add_subdirectory(src)
 add_subdirectory(doc)
+
+################################################################################
 
 # installation (https://github.com/forexample/package-example)
 
@@ -65,8 +91,8 @@ add_subdirectory(doc)
 include(CMakePackageConfigHelpers)
 
 # configuration
-set(TARGET_EXPORT_NAME "${PROJECT_NAME}-targets" CACHE 
-	INTERNAL "Internal variable that is referenced by library generation")
+set(TARGET_EXPORT_NAME "${PROJECT_NAME}-targets" CACHE
+  INTERNAL "Internal variable that is referenced by library generation")
 set(GENERATED_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
 set(VERSION_CONFIG "${GENERATED_DIR}/${PROJECT_NAME}ConfigVersion.cmake")
 set(PROJECT_CONFIG "${GENERATED_DIR}/${PROJECT_NAME}Config.cmake")
@@ -95,9 +121,9 @@ install(
 # install target configuration
 #   * <prefix>/lib/cmake/Foo/FooTargets.cmake
 install(
-	EXPORT ${TARGET_EXPORT_NAME}
-	DESTINATION "${CMAKE_INSTALL_CONFIG}"
-)
+  EXPORT ${TARGET_EXPORT_NAME}
+  DESTINATION "${CMAKE_INSTALL_CONFIG}"
+  )
 
 # scripts directory
 install(
@@ -105,5 +131,3 @@ install(
   DESTINATION "${CMAKE_INSTALL_SCRIPTS}"
   )
 # others dirs can be copied to the install dir
-
-

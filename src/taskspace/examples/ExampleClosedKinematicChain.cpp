@@ -1,5 +1,7 @@
 /**
- * \file This example demonstrating working example of controlling (task space)
+ * @file ExampleClosedKinematicChain.cpp
+ *
+ * \brief This example demonstrating working example of controlling (task space)
  * a model of a closed kinematic chain topology that is build using absolute
  * (Cartesian) coordinates. Since the underlying dynamics use constraint
  * projection, constraints are implicitly accounted. For more details please

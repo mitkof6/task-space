@@ -1,6 +1,8 @@
 /**
- * \file An example of utilizing the task based projection in order to control a
- * model in task space. In this example a block is created and a position task
+ * @file ExampleTaskBasedControl.cpp
+ *
+ * \brief An example of utilizing the task based projection in order to control
+ * a model in task space. In this example a block is created and a position task
  * is assigned. The goal is prescribed using a PD tracking controller and a
  * forward simulation is performed.
  *

@@ -5,32 +5,31 @@ This project implements constraint and task space projection for OpenSim v4.0.
 The purpose is to design well documented, very simple and light-weighted API
 where the user can plan a movement in task space and perform simulations in a
 mixed dynamics manner. A mixed dynamics scheme is a combination of an inverse
-dynamics controller (task space equations of motion) that feds a forward
+dynamics controller (equations of motion in task space) that feds a forward
 dynamics module.
 
 The underlying task space controller supports task prioritization [1] and
 constraint modeling [2-3]. As the constraints are implicitly accounted in the
-inverse dynamics model this implementation is able to simulate accurately
-models that use constraints. Examples include: absolute (Cartesian)
-coordinates, closed kinematics chains and complex joint configurations (e.g.
-shoulder, knee) [4].
+inverse dynamics model this implementation is able to simulate accurately models
+that use constraints. Examples include: absolute (Cartesian) coordinates, closed
+kinematics chains and complex joint configurations (e.g.  shoulder, knee) [4].
 
-Examples of using this API can be found in the relevant example folder.
+Examples can be found in the src/taskspace/examples folder.
 
-- ExampleTaskBasedControl.cpp: a minimum example of controlling a single body
-  in task space.
+- ExampleTaskBasedControl.cpp: a minimum working example of controlling a single
+  body in task space
 
 - ExampleAbsoluteCoordinates.cpp: a two body model built using absolute
   coordinates and constraints for modeling the joint restrictions, with a
-  position planning controller (task space) for the end-effector body.
+  position planning controller (task space) of the end-effector body
 
 - ExampleClosedKinematicChain.cpp: three bodies are arranged in a closed
   kinematic chain topology and the planning is performed by defining the
-  orientation of one of the bodies in task space.
+  orientation of one of the bodies in task space
 
 - ExampleArm26.cpp: a musculoskeletal model that is controlled by multiple
   prioritized tasks where the muscle excitation that track the task goals are
-  estimated using Task Space Computed Muscle Control [5].
+  estimated using Task Space Computed Muscle Control [5]
 
 References
 ---
@@ -63,12 +62,11 @@ This project is a re-implementation of
 [github](https://github.com/mitkof6/opensim-task-space) so some features are
 still missing.
 
-- Test under-actuation
+- Examples of controlling under-actuated systems
 
 - Task Space Dynamic Inverse Kinematics [5]
 
-- calcTotalForces() in InverseDynamics.cpp produces strage runtime erros on
-  Arch-Linux, while on Windows this function works properly
+- Implement test cases
 
 Acknowledgment
 ---
@@ -78,3 +76,10 @@ Musculoskeletal Systems in Task Space”, IEEE Transaction on Biomedical
 Engineering, vol. PP, no. 99 pp. 1-12, 2017, doi: 10.1109/TBME.2017.2764630
 
 [SimTK Project](https://simtk.org/projects/task-space)
+
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img
+alt="Creative Commons License" style="border-width:0"
+src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is
+licensed under a <a rel="license"
+href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
+4.0 International License</a>.
