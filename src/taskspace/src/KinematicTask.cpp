@@ -4,6 +4,9 @@
 using namespace OpenSim;
 using namespace SimTK;
 
+// disable warning for deprecated methods of the SimbodyEngine
+#pragma warning(disable:4996)
+
 /** Concatenates two Vec3 into Vector */
 Vector toVector(const Vec3& o, const Vec3& p) {
     Vector spatial(6, 0.0);

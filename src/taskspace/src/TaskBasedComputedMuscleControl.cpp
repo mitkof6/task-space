@@ -44,8 +44,8 @@ Matrix calcMomentArm(const State& s, const Model& model) {
     }
     // convert to Matrix
     Matrix R(momentArm[0].size(), momentArm.size());
-    for (int m = 0; m < momentArm.size(); m++) {
-        for (int n = 0; n < momentArm[0].size(); n++) {
+    for (unsigned int m = 0; m < momentArm.size(); m++) {
+        for (unsigned int n = 0; n < momentArm[0].size(); n++) {
             R[n][m] = momentArm[m][n];
         }
     }

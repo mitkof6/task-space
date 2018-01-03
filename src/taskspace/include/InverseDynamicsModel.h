@@ -23,16 +23,19 @@
 #ifndef INVERSE_DYNAMICS_MODEL_H
 #define INVERSE_DYNAMICS_MODEL_H
 
+#include "internal/TaskSpaceExports.h"
 #include <OpenSim/Simulation/Model/Model.h>
 
-/**
- * Calculates the inertia mass matrix.
- */
-SimTK::Matrix calcM(const SimTK::State& s, const OpenSim::Model& model);
+ /**
+  * Calculates the inertia mass matrix.
+  */
+TaskSpace_API SimTK::Matrix calcM(const SimTK::State& s,
+                                  const OpenSim::Model& model);
 /**
  * Calculates the inverse inertia mass matrix.
  */
-SimTK::Matrix calcMInv(const SimTK::State& s, const OpenSim::Model& model);
+TaskSpace_API SimTK::Matrix calcMInv(const SimTK::State& s,
+                                     const OpenSim::Model& model);
 /**
  * Calculates the total force that act on the model (\f$ f \f$). This requires
  * that the model is realized to Stage::Dynamics. A working model is used as
@@ -43,17 +46,17 @@ SimTK::Matrix calcMInv(const SimTK::State& s, const OpenSim::Model& model);
  * from objects that are derived from OpenSim::Controller and never from
  * objects that are derived from OpenSim::Force.
  */
-SimTK::Vector calcTotalGeneralizedForces(const SimTK::State& s,
-                                         const OpenSim::Model& model);
+TaskSpace_API SimTK::Vector calcTotalGeneralizedForces(const SimTK::State& s,
+                                                       const OpenSim::Model& model);
 /**
  * Calculates the constraint Jacobian matrix (\f$ \Phi \f$).
  */
-SimTK::Matrix calcConstraintJacobian(const SimTK::State& s,
-                                     const OpenSim::Model& model);
+TaskSpace_API SimTK::Matrix calcConstraintJacobian(const SimTK::State& s,
+                                                   const OpenSim::Model& model);
 /**
  * Calculate the constraint bias term \f$ b = \Phi \ddot{q} \f$.
  */
-SimTK::Vector calcConstraintBias(const SimTK::State& s,
-                                 const OpenSim::Model& model);
+TaskSpace_API SimTK::Vector calcConstraintBias(const SimTK::State& s,
+                                               const OpenSim::Model& model);
 
 #endif

@@ -12,13 +12,14 @@
 #ifndef CONSTRAINT_PROJECTION_H
 #define CONSTRAINT_PROJECTION_H
 
+#include "internal/TaskSpaceExports.h"
 #include <OpenSim/Simulation/Model/ModelComponent.h>
 
 namespace OpenSim {
     /**
      * \brief An abstract class for defining constraint models.
      */
-    class ConstraintModel : public ModelComponent {
+    class TaskSpace_API ConstraintModel : public ModelComponent {
         OpenSim_DECLARE_ABSTRACT_OBJECT(ConstraintModel, ModelComponent);
     public:
         /** \brief Calculated by calcConstraintData(). */
@@ -43,7 +44,7 @@ namespace OpenSim {
      *
      * \f$ M_c^{-1} = M^{-1}, \; b_c = 0, \; N_c^T = 1 \f$
      */
-    class UnconstraintModel : public ConstraintModel {
+    class TaskSpace_API UnconstraintModel : public ConstraintModel {
         OpenSim_DECLARE_CONCRETE_OBJECT(UnconstraintModel, ConstraintModel);
     public:
         ConstraintData calcConstraintData(const SimTK::State& s) const override;
@@ -82,7 +83,7 @@ namespace OpenSim {
      * Control Using a Mass-Weighted Orthogonal Decomposition. Journal of
      * Applied Mechanics, 77(4), 1–9. https://doi.org/10.1115/1.4000907
      */
-    class DeSapioModel : public ConstraintModel {
+    class TaskSpace_API DeSapioModel : public ConstraintModel {
         OpenSim_DECLARE_CONCRETE_OBJECT(DeSapioModel, ConstraintModel);
     public:
         ConstraintData calcConstraintData(const SimTK::State& s) const override;
@@ -119,7 +120,7 @@ namespace OpenSim {
      * operator: Applications to control and simulation. IEEE Transactions on
      * Robotics, 21(5), 834–849. https://doi.org/10.1109/TRO.2005.851380
      */
-    class AghiliModel : public ConstraintModel {
+    class TaskSpace_API AghiliModel : public ConstraintModel {
         OpenSim_DECLARE_CONCRETE_OBJECT(AghiliModel, ConstraintModel);
     public:
         ConstraintData calcConstraintData(const SimTK::State& s) const override;

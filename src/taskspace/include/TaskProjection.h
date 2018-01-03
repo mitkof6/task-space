@@ -12,20 +12,22 @@
 #ifndef TASK_PROJECTION_H
 #define TASK_PROJECTION_H
 
+#include "internal/TaskSpaceExports.h"
 #include <SimTKmath.h>
 
+ /**
+  * Calculates the prioritized, transposed task Jacobian matrix.
+  *
+  * \f$ J_{t|t-1*}^T = N_{t-1*}^T J_t^T \f$
+  *
+  * @param NaT is the aggregate null space matrix of the higher priority tasks
+  * @param JT is the transposed task Jacobian matrix
+  */
+TaskSpace_API SimTK::Matrix calcJpT(const SimTK::Matrix& NaT,
+                                    const SimTK::Matrix& JT);
 /**
- * Calculates the prioritized, transposed task Jacobian matrix.
- *
- * \f$ J_{t|t-1*}^T = N_{t-1*}^T J_t^T \f$
- *
- * @param NaT is the aggregate null space matrix of the higher priority tasks
- * @param JT is the transposed task Jacobian matrix
- */
-SimTK::Matrix calcJpT(const SimTK::Matrix& NaT, const SimTK::Matrix& JT);
-/**
- * Calculates the task inertia mass matrix. If JT = JpT then this calculates the
- * prioritized task inertia mass matrix.
+ * Calculates the task inertia mass matrix. If JT = JpT then this calculates
+ * the prioritized task inertia mass matrix.
  *
  * \f$ \Lambda_{t|t-1*} = (J_t M^{-1} J_{t|t-1*}^T)^{-1} \f$
  *
@@ -33,8 +35,9 @@ SimTK::Matrix calcJpT(const SimTK::Matrix& NaT, const SimTK::Matrix& JT);
  * @param MInv is the inverse system mass matrix
  * @param JT is the transposed task Jacobian matrix
  */
-SimTK::Matrix calcLambda(const SimTK::Matrix& J, const SimTK::Matrix& MInv,
-                         const SimTK::Matrix& JT);
+TaskSpace_API SimTK::Matrix calcLambda(const SimTK::Matrix& J,
+                                       const SimTK::Matrix& MInv,
+                                       const SimTK::Matrix& JT);
 /**
  * Calculates the dynamically consistent generalized inverse, transpose of the
  * task Jacobian matrix. If \f$ \Lambda = \Lambda_{t|t-1*} \f$ then \f$
@@ -47,15 +50,17 @@ SimTK::Matrix calcLambda(const SimTK::Matrix& J, const SimTK::Matrix& MInv,
  * @param J is the task Jacobian matrix
  * @param MInv is the inverse system mass matrix
  */
-SimTK::Matrix calcJBarT(const SimTK::Matrix& Lambda, const SimTK::Matrix& J,
-                        const SimTK::Matrix& MInv);
+TaskSpace_API SimTK::Matrix calcJBarT(const SimTK::Matrix& Lambda,
+                                      const SimTK::Matrix& J,
+                                      const SimTK::Matrix& MInv);
 /**
  * Calculates the task's transposed null space matrix. If JT = JpT and JBarT =
  * JBarpT then this is the prioritized null space of the task.
  *
  * \f$ N_{t|t-1*}^T = I - J_{t|t-1*}^T  \bar{J}_{t|t-1*}^T \f$
  */
-SimTK::Matrix calcNtT(const SimTK::Matrix& JT, const SimTK::Matrix& JBarT);
+TaskSpace_API SimTK::Matrix calcNtT(const SimTK::Matrix& JT,
+                                    const SimTK::Matrix& JBarT);
 /**
  * Calculates the aggregate prioritized, transposed null space matrix of the
  * task.
@@ -66,7 +71,8 @@ SimTK::Matrix calcNtT(const SimTK::Matrix& JT, const SimTK::Matrix& JBarT);
  * @param NtT is the task's transposed null space matrix matrix
  * @param NaT is the aggregate null space matrix of the higher priority tasks
  */
-SimTK::Matrix calcNpT(const SimTK::Matrix& NtT, const SimTK::Matrix& NaT);
+TaskSpace_API SimTK::Matrix calcNpT(const SimTK::Matrix& NtT,
+                                    const SimTK::Matrix& NaT);
 /**
  * Calculates the task forces that achieves the task goals. If Lambda = Lambdap,
  * JBarT = JBarpT and tau = f - tau_{t-1*} then this calculates the prioritized
@@ -85,9 +91,11 @@ SimTK::Matrix calcNpT(const SimTK::Matrix& NtT, const SimTK::Matrix& NaT);
  * @param JBarT is the generalized inverse transpose of the task Jacobian matrix
  * @param tau are the generalized forces that act on the model
  */
-SimTK::Vector calcFt(const SimTK::Matrix& Lambda, const SimTK::Vector& xddot,
-                     const SimTK::Vector& bt, const SimTK::Matrix& JBarT,
-                     const SimTK::Vector& tau);
+TaskSpace_API SimTK::Vector calcFt(const SimTK::Matrix& Lambda,
+                                   const SimTK::Vector& xddot,
+                                   const SimTK::Vector& bt,
+                                   const SimTK::Matrix& JBarT,
+                                   const SimTK::Vector& tau);
 /**
  * Calculates the joint space generalized force contribution of the task. If JT
  * = JpT then this is the prioritized generalized force contribution of the
@@ -98,6 +106,7 @@ SimTK::Vector calcFt(const SimTK::Matrix& Lambda, const SimTK::Vector& xddot,
  * @param JT is the transposed task Jacobian matrix
  * @param f are the corresponding task forces
  */
-SimTK::Vector calcTau(const SimTK::Matrix& JT, const SimTK::Vector& f);
+TaskSpace_API SimTK::Vector calcTau(const SimTK::Matrix& JT,
+                                    const SimTK::Vector& f);
 
 #endif

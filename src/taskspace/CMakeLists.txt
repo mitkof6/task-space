@@ -8,12 +8,12 @@ include_directories(include/)
 
 # TaskSpace
 set(target TaskSpace)
-add_library(${target} ${sources} ${includes})
+add_library(${target} SHARED ${sources} ${includes})
 target_link_libraries (${target} ${OpenSim_LIBRARIES})
 set_target_properties(${target}
   PROPERTIES
-  PROJECT_LABEL "TaskSpaceProjection"
-  FOLDER "Library")
+  PROJECT_LABEL "TaskSpace"
+  FOLDER "Libraries")
 
 # install library
 install(
@@ -51,7 +51,7 @@ endforeach()
 
 # tests
 if(BUILD_TESTING)
-  # enable_testing()
+  enable_testing()
   foreach(test_program ${tests})
     # NAME_WE stands for "name without extension"
     get_filename_component(TEST_NAME ${test_program} NAME_WE)

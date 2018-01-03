@@ -16,19 +16,20 @@
 
 #include <list>
 #include <stdexcept>
+#include "internal/TaskSpaceExports.h"
 #include "KinematicTask.h"
 
 namespace OpenSim {
     /** \brief Thrown when the task exists in the graph to avoid directed
      * cycles.
      */
-    class TaskExistsInGraphException : public std::logic_error {
+    class TaskSpace_API TaskExistsInGraphException : public std::logic_error {
         using std::logic_error::logic_error;
     };
     /** \brief Thrown when the provided parent task does not exist in the
      * graph.
      */
-    class ParentNotInGraphException : public std::logic_error {
+    class TaskSpace_API ParentNotInGraphException : public std::logic_error {
         using std::logic_error::logic_error;
     };
     /** short definition */
@@ -68,7 +69,7 @@ namespace OpenSim {
      *     {femur, pelvis},
      *     {tibia, femur}]
      */
-    class TaskPriorityGraph {
+    class TaskSpace_API TaskPriorityGraph {
     public:
         /**
          * Adds a task and updates the priority sorted graph based on the parent

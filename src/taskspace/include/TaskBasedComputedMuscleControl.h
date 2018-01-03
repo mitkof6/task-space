@@ -14,6 +14,7 @@
 #define TASK_BASED_COMPUTED_MUSCLE_CONTROL_H
 
 #include <functional>
+#include "internal/TaskSpaceExports.h"
 #include <OpenSim/Simulation/Control/Controller.h>
 #include <OpenSim/Simulation/Model/Model.h>
 
@@ -32,7 +33,7 @@ namespace OpenSim {
      * track the task goals provided a function for evaluating the control
      * strategy (@see TaskDynamics.h).
      */
-    class TaskBasedComputedMuscleControl : public Controller {
+    class TaskSpace_API TaskBasedComputedMuscleControl : public Controller {
         OpenSim_DECLARE_CONCRETE_OBJECT(TaskBasedComputedMuscleControl,
                                         Controller);
     public:
@@ -86,7 +87,7 @@ namespace OpenSim {
     *
     * subject to \f$ \tau = R(q) f_m \odot \alpha \f$
     */
-    class MuscleOptimizationTarget : public SimTK::OptimizerSystem {
+    class TaskSpace_API MuscleOptimizationTarget : public SimTK::OptimizerSystem {
     public:
         /** \brief Optimization parameters. */
         struct OptimizationParameters {

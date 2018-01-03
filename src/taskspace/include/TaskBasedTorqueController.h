@@ -12,6 +12,7 @@
 #ifndef TASK_BASED_TORQUE_CONTROLLER_H
 #define TASK_BASED_TORQUE_CONTROLLER_H
 
+#include "internal/TaskSpaceExports.h"
 #include <OpenSim/Common/Storage.h>
 #include <OpenSim/Simulation/Control/Controller.h>
 #include <OpenSim/Simulation/Model/Model.h>
@@ -35,7 +36,7 @@ namespace OpenSim {
      * and not a Force, CoordinateActuators are appended to the model and
      * actuated according to the control strategy.
      */
-    class TaskBasedTorqueController : public Controller {
+    class TaskSpace_API TaskBasedTorqueController : public Controller {
         OpenSim_DECLARE_CONCRETE_OBJECT(TaskBasedTorqueController, Controller);
     public:
         /**

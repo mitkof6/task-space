@@ -15,6 +15,7 @@
 
 #include <string>
 #include <functional>
+#include "internal/TaskSpaceExports.h"
 #include <OpenSim/Simulation/Model/ModelComponent.h>
 
 namespace OpenSim {
@@ -68,7 +69,7 @@ namespace OpenSim {
      *
      * @see TaskProjection.h
      */
-    class KinematicTask : public ModelComponent {
+    class TaskSpace_API KinematicTask : public ModelComponent {
         OpenSim_DECLARE_ABSTRACT_OBJECT(KinematicTask, ModelComponent);
     public:
         /**
@@ -114,7 +115,7 @@ namespace OpenSim {
         friend std::ostream& operator<<(std::ostream& os,
                                         const KinematicTask& k) {
             return os << "[Body: " << k.body << ", offset: " << k.offset << "]"
-                      << std::endl;
+                << std::endl;
         };
     protected:
         /** Name of the body that the task is attached to. */
@@ -137,7 +138,7 @@ namespace OpenSim {
      *
      * @see KinematicTask
      */
-    class PositionTask : public KinematicTask {
+    class TaskSpace_API PositionTask : public KinematicTask {
         OpenSim_DECLARE_CONCRETE_OBJECT(PositionTask, KinematicTask);
     public:
         /**
@@ -166,7 +167,7 @@ namespace OpenSim {
      *
      * @see KinematicTask
      */
-    class OrientationTask : public KinematicTask {
+    class TaskSpace_API OrientationTask : public KinematicTask {
         OpenSim_DECLARE_CONCRETE_OBJECT(OrientationTask, KinematicTask);
     public:
         /**
@@ -195,7 +196,7 @@ namespace OpenSim {
      *
      * @see KinematicTask
      */
-    class SpatialTask : public KinematicTask {
+    class TaskSpace_API SpatialTask : public KinematicTask {
         OpenSim_DECLARE_CONCRETE_OBJECT(SpatialTask, KinematicTask);
     public:
         /**

@@ -13,10 +13,10 @@
 #ifndef TASK_DYNAMICS_H
 #define TASK_DYNAMICS_H
 
+#include "internal/TaskSpaceExports.h"
 #include <OpenSim/Simulation/Model/ModelComponent.h>
 
 namespace OpenSim {
-    class KinematicTask;
     class TaskPriorityGraph;
     class ConstraintModel;
     /**
@@ -70,7 +70,7 @@ namespace OpenSim {
      * Vector tau = (1 - data.NgT * AInv) * data.tauTasks;
      * \endcode
      */
-    class TaskDynamics : public ModelComponent {
+    class TaskSpace_API TaskDynamics : public ModelComponent {
         OpenSim_DECLARE_CONCRETE_OBJECT(TaskDynamics, ModelComponent);
     public:
         /**
