@@ -37,6 +37,15 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU OR
   endif()
 endif()
 
+# report platform
+if(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+  set(PLATFORM_ABI x64)
+else()
+  set(PLATFORM_ABI x86)
+endif()
+set(BUILD_PLATFORM "${CMAKE_HOST_SYSTEM_NAME}:${PLATFORM_ABI}" CACHE STRING
+"This is the platform and ABI we're building for." FORCE)
+
 # install layout
 # Layout. This works for all platforms:
 #   * <prefix>/lib/cmake/<PROJECT-NAME>
