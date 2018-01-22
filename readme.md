@@ -72,7 +72,7 @@ Acknowledgment
 ---
 
 [5] Dimitar Stanev and Konstantinos Moustakas, “Simulation of Constrained
-Musculoskeletal Systems in Task Space”, IEEE Transaction on Biomedical
+Musculoskeletal Systems in Task Space”, IEEE Transactions on Biomedical
 Engineering, vol. 65, no. 2, pp. 307-318, 2018, doi: 10.1109/TBME.2017.2764630
 
 [SimTK Project](https://simtk.org/projects/task-space)
