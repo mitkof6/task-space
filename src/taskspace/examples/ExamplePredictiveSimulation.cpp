@@ -15,6 +15,8 @@ using namespace std;
 using namespace OpenSim;
 using namespace SimTK;
 
+#define USE_VISUALIZER 0
+
 Vec3 fromVectorToVec3(const Vector& v) {
     return Vec3(v[0], v[1], v[2]);
 }
@@ -26,7 +28,9 @@ void arm26Simulation() {
     Model model("model_02-Scaled_to_subject.osim");
     // Model model("arm26_ideal_muscles.osim"); // test with PathActuators
     model.setName("ExamplePredictiveSimulation");
-    // model.setUseVisualizer(true);
+#if USE_VISUALIZER == 1
+    model.setUseVisualizer(true);
+#endif
 
     // body kinematics
     auto bodyKinematics = new BodyKinematics(&model);
@@ -44,6 +48,7 @@ void arm26Simulation() {
     // construct tasks
     auto torsoTask = new SpatialTask("torso", Vec3(0, 0, 0));
     taskDynamics->addTask(torsoTask, NULL);
+    model.addComponent(torsoTask);
 
     /**
      * Define the control strategy \f$ \tau = \sum_{t=1}^g J_{t|t-1*}^T f_t +
@@ -60,14 +65,15 @@ void arm26Simulation() {
     model.addController(controller);
 
     // build and initialize model
-    model.extendFinalizeFromProperties();
     auto& state = model.initSystem();
 
     // configure visualizer
-    /*model.updVisualizer().updSimbodyVisualizer().setBackgroundColor(Vec3(0));
+#if USE_VISUALIZER == 1
+    model.updVisualizer().updSimbodyVisualizer().setBackgroundColor(Vec3(0));
     model.updVisualizer().updSimbodyVisualizer()
         .setBackgroundType(Visualizer::BackgroundType::SolidColor);
-    model.updMatterSubsystem().setShowDefaultGeometry(true);*/
+    model.updMatterSubsystem().setShowDefaultGeometry(true);
+#endif
 
     // define task goals as a function/closure
     /**
