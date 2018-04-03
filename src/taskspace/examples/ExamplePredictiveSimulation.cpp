@@ -15,7 +15,7 @@ using namespace std;
 using namespace OpenSim;
 using namespace SimTK;
 
-#define USE_VISUALIZER 0
+#define USE_VISUALIZER 1
 
 Vec3 fromVectorToVec3(const Vector& v) {
     return Vec3(v[0], v[1], v[2]);
@@ -25,8 +25,8 @@ void arm26Simulation() {
     cout << "Warning: The model geometry may not be visible if OpenSim's " <<
         "Geometry folder is missing. This does not affect the simulation" << endl;
     // load model
+    // Model model("gait2392_simbody.osim");
     Model model("model_02-Scaled_to_subject.osim");
-    // Model model("arm26_ideal_muscles.osim"); // test with PathActuators
     model.setName("ExamplePredictiveSimulation");
 #if USE_VISUALIZER == 1
     model.setUseVisualizer(true);
@@ -38,7 +38,7 @@ void arm26Simulation() {
     model.addAnalysis(bodyKinematics);
 
     // chose constraint model
-    auto constraintModel = new AghiliModel();
+    auto constraintModel = new UnconstraintModel();
     model.addComponent(constraintModel);
 
     // construct task dynamics
@@ -46,7 +46,7 @@ void arm26Simulation() {
     model.addComponent(taskDynamics);
 
     // construct tasks
-    auto torsoTask = new SpatialTask("torso", Vec3(0, 0, 0));
+    auto torsoTask = new OrientationTask("torso", Vec3(0, 0, 0));
     taskDynamics->addTask(torsoTask, NULL);
     model.addComponent(torsoTask);
 
@@ -57,7 +57,7 @@ void arm26Simulation() {
      */
     auto controlStrategy = [&](const State& s) -> Vector {
         auto data = taskDynamics->calcTaskDynamicsData(s);
-        return data.tauTasks + data.NgT * (data.f + data.bc);
+        return data.tauTasks + 0 * data.NgT * (data.f + data.bc);
     };
     // define the controller (choose between a torque or muscle controller)
     auto controller = new TaskBasedTorqueController(controlStrategy);
@@ -65,7 +65,14 @@ void arm26Simulation() {
     model.addController(controller);
 
     // build and initialize model
+    for (int i = 0; i < model.getMuscles().getSize(); i++) {
+        model.updMuscles().get(i).set_appliesForce(false);
+    }
     auto& state = model.initSystem();
+
+    /*model.updCoordinateSet().get("pelvis_tx").setValue(state, 0.05);
+    model.updCoordinateSet().get("pelvis_ty").setValue(state, 1.05);
+    model.updCoordinateSet().get("pelvis_tz").setValue(state, -0.1);*/
 
     // configure visualizer
 #if USE_VISUALIZER == 1
@@ -81,20 +88,18 @@ void arm26Simulation() {
      * tracking the task goal. The task accepts a std::function which takes the
      * state and returns a Vector ([&] captures the current scope).
      */
-    auto torsox0 = torsoTask->x(state);
+    auto torsox0 = fromVectorToVec3(torsoTask->x(state));
     auto torsoGoal = [&](const State& s) -> Vector {
-        auto x = torsoTask->x(s);
-        auto u = torsoTask->u(s);
-        double kp = 10, kd = 2;
+        auto x = fromVectorToVec3(torsoTask->x(s));
+        auto u = fromVectorToVec3(torsoTask->u(s));
+        double kp = 10, kd = 1;
         auto xd = torsox0;
-        auto ud = Vector(6, 0.0);
-        auto ad = Vector(6, 0.0);
-        return ad + kp * (xd - x) + kd * (ud - u);
+        return Vector(kp * (xd - x) - kd * u);
     };
     torsoTask->setGoal(torsoGoal);
 
     //simulate
-    simulate(model, state, .1, true);
+    simulate(model, state, .3, true);
 
     // export results
     controller->printResults("ExamplePredictiveSimulation", ".");
