@@ -98,7 +98,7 @@ namespace OpenSim {
          * This object does not take ownership of the ConstraintModel. They
          * must be owned by the model (e.g. model.addComponent()).
          */
-        TaskDynamics(ConstraintModel* constraintModel);
+        TaskDynamics(ConstraintModel* constraintModel, const SimTK::Matrix& S);
         /**
         * Adds a task and updates the priority sorted graph based on the parent
         * task. This object does not take ownership of the KinematicTask(s).
@@ -173,6 +173,8 @@ namespace OpenSim {
         ConstraintModel* constraintModel;
         /** A list containing the sorted tasks in priority order [high->low] */
         ListChildParent prioritySortedGraph;
+        /** Selection matrix \f$ \tau^{'} = S \tau \f$ for under-actuation. */
+        SimTK::Matrix S;
     };
 }
 

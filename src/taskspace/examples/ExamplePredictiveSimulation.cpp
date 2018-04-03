@@ -38,11 +38,19 @@ void arm26Simulation() {
     model.addAnalysis(bodyKinematics);
 
     // chose constraint model
-    auto constraintModel = new AghiliModel();
+    auto constraintModel = new UnconstraintModel();
     model.addComponent(constraintModel);
 
-    // construct task dynamics
-    auto taskDynamics = new TaskDynamics(constraintModel);
+    // construct task dynamics and selection matrix for under-actuation
+    Matrix S(model.getNumCoordinates(), model.getNumCoordinates());
+    S = 1;
+    for (int i = 0; i < model.getNumCoordinates(); i++) {
+        if (model.getCoordinateSet()[i].getName().find("pelvis_") != std::string::npos) {
+            S[i][i] = 1.0; // TODO: pelvis task do not affect lower joints
+        }
+    }
+    cout << "Selection matrix: \n" << S << endl;
+    auto taskDynamics = new TaskDynamics(constraintModel, S);
     model.addComponent(taskDynamics);
 
     // construct tasks
@@ -57,11 +65,11 @@ void arm26Simulation() {
      */
     auto controlStrategy = [&](const State& s) -> Vector {
         auto data = taskDynamics->calcTaskDynamicsData(s);
-        return data.tauTasks + 0 * data.NgT * (data.f + data.bc);
+        return data.tauTasks;
     };
     // define the controller (choose between a torque or muscle controller)
-    // auto controller = new TaskBasedTorqueController(controlStrategy);
-    auto controller = new TaskBasedComputedMuscleControl(controlStrategy);
+    auto controller = new TaskBasedTorqueController(controlStrategy);
+    // auto controller = new TaskBasedComputedMuscleControl(controlStrategy);
     model.addController(controller);
 
     // build and initialize model

@@ -87,11 +87,17 @@ void absoluteCoordinates() {
     model.addAnalysis(bodyKinematics);
 
     // chose constraint model
-    auto constraintModel = new AghiliModel();
+    auto constraintModel = new DeSapioModel();
     model.addComponent(constraintModel);
 
-    // construct task dynamics
-    auto taskDynamics = new TaskDynamics(constraintModel);
+    // construct task dynamics and selection matrix for under-actuation
+    // only the z-axis rotational DoFs can actuate the configuration
+    Matrix S(model.getNumCoordinates(), model.getNumCoordinates());
+    S = 0;
+    S[2][2] = 1;
+    S[8][8] = 1;
+    cout << "Selection matrix: \n" << S << endl;
+    auto taskDynamics = new TaskDynamics(constraintModel, S);
     model.addComponent(taskDynamics);
 
     // construct task

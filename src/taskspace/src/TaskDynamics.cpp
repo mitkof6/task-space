@@ -8,8 +8,8 @@ using namespace std;
 using namespace OpenSim;
 using namespace SimTK;
 
-TaskDynamics::TaskDynamics(ConstraintModel* constraintModel)
-    : constraintModel(constraintModel) {
+TaskDynamics::TaskDynamics(ConstraintModel* constraintModel, const Matrix& S)
+    : constraintModel(constraintModel), S(S) {
 }
 
 void TaskDynamics::addTask(KinematicTask* task, KinematicTask* parent) {
@@ -45,7 +45,7 @@ TaskDynamics::TaskDynamicsData TaskDynamics::calcTaskDynamicsData(
     // constraint model
     auto constraintData = constraintModel->calcConstraintData(s);
     auto McInv = constraintData.McInv;
-    auto NcT = constraintData.NcT;
+    auto NcT = constraintData.NcT * S;
     data.bc = constraintData.bc;
     data.f = calcTotalGeneralizedForces(s, *_model);
     auto fperp = NcT * data.f;
@@ -61,7 +61,7 @@ TaskDynamics::TaskDynamicsData TaskDynamics::calcTaskDynamicsData(
 
     // for storing data related to the higher priority tasks
     struct TaskCacheData {
-        SimTK::Matrix NaT; // aggregate nullspace
+        SimTK::Matrix NaT; // aggregate null space
         SimTK::Vector taua; // aggregate generalized forces
     };
     std::map<KinematicTask*, TaskCacheData> taskCache;
@@ -99,7 +99,7 @@ TaskDynamics::TaskDynamicsData TaskDynamics::calcTaskDynamicsData(
         taskCache[task].NaT = NtT * NaT;
         taskCache[task].taua = taua + taut;
 
-        // update total task forces and nullspace
+        // update total task forces and null space
         data.tauTasks += taut;
         data.NgT = NtT * data.NgT;
     }

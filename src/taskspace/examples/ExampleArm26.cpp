@@ -40,8 +40,10 @@ void arm26Simulation() {
     auto constraintModel = new UnconstraintModel();
     model.addComponent(constraintModel);
 
-    // construct task dynamics
-    auto taskDynamics = new TaskDynamics(constraintModel);
+    // construct task dynamics and selection matrix for under-actuation
+    Matrix S(model.getNumCoordinates(), model.getNumCoordinates());
+    S = 1;
+    auto taskDynamics = new TaskDynamics(constraintModel, S);
     model.addComponent(taskDynamics);
 
     // construct tasks
