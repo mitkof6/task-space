@@ -43,7 +43,9 @@ endforeach()
 set(ADDITIONAL_FILES
   "examples/arm26.osim"
   "examples/arm26_ideal_muscles.osim" 
-  "examples/model_02-Scaled_to_subject.osim"
+  "examples/lower_limb_model.osim"
+  "examples/lower_limb_model_path.osim"
+  "examples/full_body_model.osim"
   "examples/hat_ribs_scap.obj"
   "examples/l_foot_surface_coarse.obj"
   "examples/r_foot_surface_coarse.obj"
