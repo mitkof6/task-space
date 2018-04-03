@@ -42,7 +42,18 @@ endforeach()
 
 set(ADDITIONAL_FILES
   "examples/arm26.osim"
-  "examples/arm26_ideal_muscles.osim"
+  "examples/arm26_ideal_muscles.osim" 
+  "examples/model_02-Scaled_to_subject.osim"
+  "examples/hat_ribs_scap.obj"
+  "examples/l_foot_surface_coarse.obj"
+  "examples/r_foot_surface_coarse.obj"
+  "examples/r_foot_surface_x1.0.obj"
+  "examples/r_foot_surface_x1.1.obj"
+  "examples/r_foot_surface_x1.2.obj"
+  "examples/r_foot_surface_x1.3.obj"
+  "examples/r_foot_surface_x1.25.obj"
+  "examples/r_foot_surface_x2.0.obj"
+  "examples/checkered_floor.vtp"
   )
 
 foreach(dataFile ${ADDITIONAL_FILES})
