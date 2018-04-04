@@ -186,7 +186,6 @@ COMTask::COMTask() : KinematicTask() {
 }
 
 Matrix COMTask::J(const State& s) const {
-    cout << s.getTime() << endl;
     double M = _model->getTotalMass(s);
     Matrix J(3, s.getNU(), 0.0);
     for (int i = 0; i < _model->getBodySet().getSize(); i++) {

@@ -21,6 +21,18 @@ Vec3 fromVectorToVec3(const Vector& v) {
     return Vec3(v[0], v[1], v[2]);
 }
 
+#define MAINTAIN_INITIAL_STATE(state, task)              \
+    auto task ## x0 = fromVectorToVec3(task->x(state));   \
+    auto task ## Goal = [&](const State& s) -> Vector {   \
+        auto x = fromVectorToVec3(task->x(s));           \
+        auto u = fromVectorToVec3(task->u(s));           \
+        double kp = 1, kd = 10;                       \
+        auto xd = task ## x0;                             \
+        return Vector(kp * (xd - x) - kd * u);         \
+    };                                                 \
+    task->setGoal(task ## Goal);                          \
+
+
 void arm26Simulation() {
     cout << "Warning: The model geometry may not be visible if OpenSim's " <<
         "Geometry folder is missing. This does not affect the simulation" << endl;
@@ -45,8 +57,9 @@ void arm26Simulation() {
     Matrix S(model.getNumCoordinates(), model.getNumCoordinates());
     S = 1;
     for (int i = 0; i < model.getNumCoordinates(); i++) {
-        if (model.getCoordinateSet()[i].getName().find("pelvis_") != std::string::npos) {
-            S[i][i] = 0.0;
+        if (model.getCoordinateSet()[i].getName().find("pelvis_") != std::string::npos ||
+            model.getCoordinateSet()[i].getName().find("platform_") != std::string::npos) {
+            S[i][i] = 1.0;
         }
     }
     cout << "Selection matrix: \n" << S << endl;
@@ -54,10 +67,24 @@ void arm26Simulation() {
     model.addComponent(taskDynamics);
 
     // construct tasks
-    // auto pelvisTask = new SpatialTask("pelvis", Vec3(0, 0, 0));
-    auto pelvisTask = new COMTask();
+    /*auto comTask = new COMTask();
+    taskDynamics->addTask(comTask, NULL);
+    model.addComponent(comTask);*/
+
+    auto pelvisTask = new OrientationTask("pelvis", Vec3(0));
+    pelvisTask->setName("pelvis_task");
     taskDynamics->addTask(pelvisTask, NULL);
     model.addComponent(pelvisTask);
+
+    auto footRTask = new OrientationTask("calcn_r", Vec3(0));
+    footRTask->setName("foot_r_task");
+    taskDynamics->addTask(footRTask, pelvisTask);
+    model.addComponent(footRTask);
+
+    auto footLTask = new OrientationTask("calcn_l", Vec3(0));
+    footLTask->setName("foot_l_task");
+    taskDynamics->addTask(footLTask, pelvisTask);
+    model.addComponent(footLTask);
 
     /**
      * Define the control strategy \f$ \tau = \sum_{t=1}^g J_{t|t-1*}^T f_t +
@@ -66,7 +93,7 @@ void arm26Simulation() {
      */
     auto controlStrategy = [&](const State& s) -> Vector {
         auto data = taskDynamics->calcTaskDynamicsData(s);
-        cout << data.tauTasks << endl;
+        // cout << data.tauTasks << endl;
         return data.tauTasks;
     };
     // define the controller (choose between a torque or muscle controller)
@@ -91,16 +118,19 @@ void arm26Simulation() {
      * tracking the task goal. The task accepts a std::function which takes the
      * state and returns a Vector ([&] captures the current scope).
      */
-    auto pelvisx0 = pelvisTask->x(state);
-    auto pelvisGoal = [&](const State& s) -> Vector {
-        auto x = pelvisTask->x(s);
-        auto u = pelvisTask->u(s);
-        double kp = 100, kd = 20;
-        auto xd = pelvisx0;
-        xd(3, 3) += Vector(3, &Vec3(0, -0.4 * sin(2 * Pi * (s.getTime() - 0.1)), 0)[0]);
-        return kp * (xd - x) - kd * u;
-    };
-    pelvisTask->setGoal(pelvisGoal);
+     /*auto comx0 = fromVectorToVec3(comTask->x(state));
+     auto comGoal = [&](const State& s) -> Vector {
+         auto x = fromVectorToVec3(comTask->x(s));
+         auto u = fromVectorToVec3(comTask->u(s));
+         double kp = 100, kd = 20;
+         auto xd = comx0 + Vec3(0, -0.0 * sin(2 * Pi * (s.getTime())), 0);
+         return Vector(kp * (xd - x) - kd * u);
+     };
+     comTask->setGoal(comGoal);*/
+
+    MAINTAIN_INITIAL_STATE(state, pelvisTask);
+    MAINTAIN_INITIAL_STATE(state, footRTask);
+    MAINTAIN_INITIAL_STATE(state, footLTask);
 
     //simulate
     simulate(model, state, 1.0, true);
