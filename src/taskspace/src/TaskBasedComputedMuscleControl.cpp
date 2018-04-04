@@ -163,7 +163,7 @@ void TaskBasedComputedMuscleControl::extendConnectToModel(Model& model) {
                               OptimizerAlgorithm::InteriorPoint);
     optimizer->setConvergenceTolerance(1E-4);
     optimizer->setConstraintTolerance(1E-4);
-    optimizer->setMaxIterations(50);
+    optimizer->setMaxIterations(100);
     //optimizer->setLimitedMemoryHistory(100);
     optimizer->setDiagnosticsLevel(0);
     //optimizer->setAdvancedBoolOption("warm_start", true);

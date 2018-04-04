@@ -76,9 +76,10 @@ namespace OpenSim {
          * Abstract kinematic task.
          *
          * @param body the body name
-         * @param offset offset vector in body frame
+         * @param offset vector in body frame
          */
-        KinematicTask(std::string body, SimTK::Vec3 offset);
+        KinematicTask(std::string body = "",
+                      SimTK::Vec3 offset = SimTK::Vec3(0));
         /**
          * Set the task goal by providing a callable std::function which
          * accepts the State and returns a Vector.
@@ -206,6 +207,33 @@ namespace OpenSim {
          * @param offset offset vector in body frame
          */
         SpatialTask(std::string body, SimTK::Vec3 offset);
+        SimTK::Matrix J(const SimTK::State& s) const override;
+        SimTK::Vector b(const SimTK::State& s) const override;
+        SimTK::Vector x(const SimTK::State& s) const override;
+        SimTK::Vector u(const SimTK::State& s) const override;
+        SimTK::Vector a(const SimTK::State& s) const override;
+    };
+
+    /**
+    * \brief COM task.
+    *
+    *
+    *
+    * \f$ x_t = 1 / M \sum_i m_i x_{com, i}  \in \Re^{3} \f$
+    *
+    * \f$ J_t = 1 / M \sum_i m_i J_{com, i} \in \Re^{3 \times n} \f$
+    *
+    * \f$ b_t = 1 / M \sum_i m_i \dot{J}_{com, i} \dot{q} \in \Re^3 \f$
+    *
+    * @see KinematicTask
+    */
+    class TaskSpace_API COMTask : public KinematicTask {
+        OpenSim_DECLARE_CONCRETE_OBJECT(COMTask, KinematicTask);
+    public:
+        /**
+        * Center of mass task.
+        */
+        COMTask();
         SimTK::Matrix J(const SimTK::State& s) const override;
         SimTK::Vector b(const SimTK::State& s) const override;
         SimTK::Vector x(const SimTK::State& s) const override;

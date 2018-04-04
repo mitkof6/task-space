@@ -60,12 +60,16 @@ void taskBasedControl() {
     auto constraintModel = new UnconstraintModel();
     model.addComponent(constraintModel);
 
-    // construct task dynamics
-    auto taskDynamics = new TaskDynamics(constraintModel);
+    // construct task dynamics and selection matrix for under-actuation
+    Matrix S(model.getNumCoordinates(), model.getNumCoordinates());
+    S = 1;
+    cout << "Selection matrix: \n" << S << endl;
+    auto taskDynamics = new TaskDynamics(constraintModel, S);
     model.addComponent(taskDynamics);
 
     // construct task
-    auto task = new PositionTask("block", Vec3(0));
+    // auto task = new PositionTask("block", Vec3(0));
+    auto task = new COMTask();
     taskDynamics->addTask(task, NULL);
     model.addComponent(task);
 

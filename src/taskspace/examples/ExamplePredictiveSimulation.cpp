@@ -46,7 +46,7 @@ void arm26Simulation() {
     S = 1;
     for (int i = 0; i < model.getNumCoordinates(); i++) {
         if (model.getCoordinateSet()[i].getName().find("pelvis_") != std::string::npos) {
-            S[i][i] = 1.0; // TODO: pelvis task do not affect lower joints
+            S[i][i] = 0.0;
         }
     }
     cout << "Selection matrix: \n" << S << endl;
@@ -54,17 +54,19 @@ void arm26Simulation() {
     model.addComponent(taskDynamics);
 
     // construct tasks
-    auto pelvisTask = new SpatialTask("pelvis", Vec3(0, 0, 0));
+    // auto pelvisTask = new SpatialTask("pelvis", Vec3(0, 0, 0));
+    auto pelvisTask = new COMTask();
     taskDynamics->addTask(pelvisTask, NULL);
     model.addComponent(pelvisTask);
 
     /**
      * Define the control strategy \f$ \tau = \sum_{t=1}^g J_{t|t-1*}^T f_t +
-     * N_{g*}^T (f + b_c)\f$ as a callable function/closure ([&] captures the
-     * current scope). This function accepts the state and returns a Vector.
+     *  \f$ as a callable function/closure ([&] captures the current scope).
+     *  This function accepts the state and returns a Vector.
      */
     auto controlStrategy = [&](const State& s) -> Vector {
         auto data = taskDynamics->calcTaskDynamicsData(s);
+        cout << data.tauTasks << endl;
         return data.tauTasks;
     };
     // define the controller (choose between a torque or muscle controller)

@@ -10,18 +10,20 @@ dynamics module.
 
 The underlying task space controller supports task prioritization [1] and
 constraint modeling [2-3]. As the constraints are implicitly accounted in the
-inverse dynamics model this implementation is able to simulate accurately models
-that use constraints. Examples include: absolute (Cartesian) coordinates, closed
-kinematics chains and complex joint configurations (e.g.  shoulder, knee) [4].
+inverse dynamics model this implementation is able to simulate accurately
+models that use constraints. Examples include: absolute (Cartesian)
+coordinates, closed kinematics chains and complex joint configurations (e.g.
+shoulder, knee) [4].
 
 Examples can be found in the src/taskspace/examples folder.
 
-- ExampleTaskBasedControl.cpp: a minimum working example of controlling a single
-  body in task space
+- ExampleTaskBasedControl.cpp: a minimum working example of controlling a
+  single body in task space
 
 - ExampleAbsoluteCoordinates.cpp: a two body model built using absolute
   coordinates and constraints for modeling the joint restrictions, with a
-  position planning controller (task space) of the end-effector body
+  position planning controller (task space) of the end-effector body; a
+  selection matrix has been used to model under-actuation 
 
 - ExampleClosedKinematicChain.cpp: three bodies are arranged in a closed
   kinematic chain topology and the planning is performed by defining the
@@ -61,8 +63,6 @@ TODO
 This project is a re-implementation of
 [github](https://github.com/mitkof6/opensim-task-space) so some features are
 still missing.
-
-- Examples of controlling under-actuated systems
 
 - Task Space Dynamic Inverse Kinematics [5]
 

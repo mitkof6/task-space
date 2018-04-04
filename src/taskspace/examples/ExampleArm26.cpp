@@ -78,7 +78,7 @@ void arm26Simulation() {
     model.updVisualizer().updSimbodyVisualizer().setBackgroundColor(Vec3(0));
     model.updVisualizer().updSimbodyVisualizer()
         .setBackgroundType(Visualizer::BackgroundType::SolidColor);
-    model.updMatterSubsystem().setShowDefaultGeometry(true);
+    model.updMatterSubsystem().setShowDefaultGeometry(false);
 
     // define task goals as a function/closure
     // make elbow humerus motionless
