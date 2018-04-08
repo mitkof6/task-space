@@ -1,7 +1,7 @@
 /**
  * @file ExampleUpperLimb.cpp
  *
- * \brief Control of MoBL 2016 upper limb model.
+ * \brief Control of the MoBL 2016 upper limb model.
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *
@@ -28,7 +28,7 @@ void predictiveSimulation() {
     cout << "Warning: The model geometry may not be visible if OpenSim's " <<
         "Geometry folder is missing. This does not affect the simulation" << endl;
     // load model
-    Model model(DATA_DIR + "/mobl/mobl_2016.osim");     // _ideal_muscles
+    Model model(DATA_DIR + "/mobl/mobl_2016_ideal_muscles.osim");
 #if USE_VISUALIZER == 1
     model.setUseVisualizer(true);
 #endif
@@ -50,7 +50,7 @@ void predictiveSimulation() {
     model.addComponent(taskDynamics);
 
     auto marker = model.getMarkerSet().get("end_effector");
-    auto handTask = new SpatialTask("hand",
+    auto handTask = new SpatialTask(marker.getParentFrameName().substr(3),
                                     marker.get_location());
     handTask->setName("hand_task");
     taskDynamics->addTask(handTask, NULL);
@@ -66,8 +66,7 @@ void predictiveSimulation() {
         return data.tauTasks + data.NgT * (data.f + data.bc);
     };
     // define the controller (choose between a torque or muscle controller)
-    // auto controller = new TaskBasedTorqueController(controlStrategy);
-    auto controller = new TaskBasedComputedMuscleControl(controlStrategy);
+    auto controller = new TaskBasedTorqueController(controlStrategy);
     model.addController(controller);
 
     // build and initialize model
@@ -139,7 +138,7 @@ int main(int argc, char *argv[]) {
         predictiveSimulation();
     } catch (exception &e) {
         cout << typeid(e).name() << ": " << e.what() << endl;
-        getchar();
+        // getchar();
         return -1;
     }
     return 0;

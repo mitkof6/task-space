@@ -34,7 +34,7 @@ Vec3 fromVectorToVec3(const Vector& v) {
     task->setGoal(task ## Goal);                          \
 
 void predictiveSimulation() {
-    throw runtime_error("Not functioning yet, due to COMTask");
+    throw runtime_error("Experiment: not functioning yet, due to COMTask");
     const string example = "ExamplePredictiveSimulation";
 
     cout << "Warning: The model geometry may not be visible if OpenSim's " <<
