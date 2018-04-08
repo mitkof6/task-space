@@ -13,6 +13,7 @@
  */
 #include <OpenSim/OpenSim.h>
 #include <TaskSpace.h>
+#include <Settings.h>
 
 using namespace std;
 using namespace OpenSim;
@@ -23,9 +24,11 @@ Vec3 fromVectorToVec3(const Vector& v) {
 }
 
 void taskBasedControl() {
+    const string example = "ExampleTaskBasedControl";
+
     // create model
     Model model;
-    model.setName("ExampleTaskBasedControl");
+    model.setName(example);
     model.setUseVisualizer(true);
 
     Vec3 halfLength(0.2, 0.2, 0.2);
@@ -38,6 +41,7 @@ void taskBasedControl() {
                                model.getGround(), Vec3(0), Vec3(0),
                                *block, Vec3(0), Vec3(0));
     model.addJoint(joint);
+    model.print(DATA_DIR + "/results/" + example + ".osim");
 
     // add coordinate console reporter
     auto reporter = new ConsoleReporter();
@@ -120,8 +124,8 @@ void taskBasedControl() {
     simulate(model, state, 2, true);
 
     // export results
-    controller->printResults("ExampleTaskBasedControl", ".");
-    reporter->print("ExampleTaskBasedContro_Reporter.sto");
+    controller->printResults(example, DATA_DIR + "/results");
+    reporter->print(DATA_DIR + "/results/" + example + "_Reporter.sto");
 }
 
 int main(int argc, char *argv[]) {

@@ -13,6 +13,7 @@
  */
 #include <OpenSim/OpenSim.h>
 #include <TaskSpace.h>
+#include <Settings.h>
 
 using namespace std;
 using namespace OpenSim;
@@ -23,12 +24,13 @@ Vec3 fromVectorToVec3(const Vector& v) {
 }
 
 void arm26Simulation() {
+    const string example = "ExampleArm26";
+
     cout << "Warning: The model geometry may not be visible if OpenSim's " <<
         "Geometry folder is missing. This does not affect the simulation" << endl;
     // load model
-    Model model("arm26.osim");
-    // Model model("arm26_ideal_muscles.osim"); // test with PathActuators
-    model.setName("ExampleArm26");
+    Model model(DATA_DIR + "/arm26/arm26.osim");
+    // Model model(DATA_DIR + "/arm26/arm26_ideal_muscles.osim"); // test with PathActuators
     model.setUseVisualizer(true);
 
     // body kinematics
@@ -116,8 +118,8 @@ void arm26Simulation() {
     simulate(model, state, 2.0, true);
 
     // export results
-    controller->printResults("ExampleArm26", ".");
-    bodyKinematics->printResults("ExampleArm26", ".");
+    controller->printResults(example, DATA_DIR + "/results");
+    bodyKinematics->printResults(example, DATA_DIR + "/results");
 }
 
 int main(int argc, char *argv[]) {

@@ -40,28 +40,6 @@ foreach(example_program ${examples})
     FOLDER "Examples")
 endforeach()
 
-set(ADDITIONAL_FILES
-  "examples/arm26.osim"
-  "examples/arm26_ideal_muscles.osim" 
-  "examples/lower_limb_model.osim"
-  "examples/lower_limb_model_path.osim"
-  "examples/full_body_model.osim"
-  "examples/hat_ribs_scap.obj"
-  "examples/l_foot_surface_coarse.obj"
-  "examples/r_foot_surface_coarse.obj"
-  "examples/r_foot_surface_x1.0.obj"
-  "examples/r_foot_surface_x1.1.obj"
-  "examples/r_foot_surface_x1.2.obj"
-  "examples/r_foot_surface_x1.3.obj"
-  "examples/r_foot_surface_x1.25.obj"
-  "examples/r_foot_surface_x2.0.obj"
-  "examples/checkered_floor.vtp"
-  )
-
-foreach(dataFile ${ADDITIONAL_FILES})
-  file(COPY "${dataFile}" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
-endforeach()
-
 # tests
 if(BUILD_TESTING)
   enable_testing()

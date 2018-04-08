@@ -14,6 +14,7 @@
  */
 #include <OpenSim/OpenSim.h>
 #include <TaskSpace.h>
+#include <Settings.h>
 
 using namespace std;
 using namespace OpenSim;
@@ -28,10 +29,11 @@ void closedKinematicChain() {
     string taskBody = "body1";
     const double q1 = -0.0;
     double body3_length = 1;
+    const string example = "ExampleClosedKinematicChain";
 
     // create model
     Model model;
-    model.setName("ExampleClosedKinematicChain");
+    model.setName(example);
     model.setUseVisualizer(true);
     auto& ground = model.getGround();
 
@@ -100,6 +102,7 @@ void closedKinematicChain() {
                                                 *body3_body, body3_proximal);
     pointConstraint2->setName("pc2");
     model.addConstraint(pointConstraint2);
+    model.print(DATA_DIR + "/results/" + example + ".osim");
 
     // body kinematics
     auto bodyKinematics = new BodyKinematics(&model);
@@ -170,8 +173,8 @@ void closedKinematicChain() {
     simulate(model, state, 2, true);
 
     // export results
-    controller->printResults("ExampleClosedKinematicChain", ".");
-    bodyKinematics->printResults("ExampleClosedKinematicChain", ".");
+    controller->printResults(example, DATA_DIR + "/results");
+    bodyKinematics->printResults(example, DATA_DIR + "/results");
 }
 
 int main(int argc, char *argv[]) {

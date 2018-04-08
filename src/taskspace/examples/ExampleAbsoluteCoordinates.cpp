@@ -14,6 +14,7 @@
  */
 #include <OpenSim/OpenSim.h>
 #include <TaskSpace.h>
+#include <Settings.h>
 
 using namespace std;
 using namespace OpenSim;
@@ -29,10 +30,11 @@ void absoluteCoordinates() {
     const double q2 = 90;
     const double l = 1;
     const string taskBodyName = "body2";
+    const string example = "ExampleAbsoluteCoordinates";
 
     // model
     Model model;
-    model.setName("ExampleAbsoluteCoordinates");
+    model.setName(example);
     model.setUseVisualizer(true);
 
     // construct model
@@ -80,6 +82,7 @@ void absoluteCoordinates() {
                                                 *body2_body, body2_distal);
     pointConstraint2->setName("pc2");
     model.addConstraint(pointConstraint2);
+    model.print(DATA_DIR + "/results/" + example + ".osim");
 
     // body kinematics
     auto bodyKinematics = new BodyKinematics(&model);
@@ -153,8 +156,8 @@ void absoluteCoordinates() {
     simulate(model, state, 2, true);
 
     // export results
-    controller->printResults("ExampleAbsoluteCoordinates", ".");
-    bodyKinematics->printResults("ExampleAbsoluteCoordinates", ".");
+    controller->printResults(example, DATA_DIR + "/results");
+    bodyKinematics->printResults(example, DATA_DIR + "/results");
 }
 
 int main(int argc, char *argv[]) {

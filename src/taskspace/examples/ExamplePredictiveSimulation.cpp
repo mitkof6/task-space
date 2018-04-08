@@ -10,6 +10,7 @@
  */
 #include <OpenSim/OpenSim.h>
 #include <TaskSpace.h>
+#include <Settings.h>
 
 using namespace std;
 using namespace OpenSim;
@@ -21,25 +22,26 @@ Vec3 fromVectorToVec3(const Vector& v) {
     return Vec3(v[0], v[1], v[2]);
 }
 
-#define MAINTAIN_INITIAL_STATE(state, task)              \
+#define MAINTAIN_INITIAL_STATE(state, task)               \
     auto task ## x0 = fromVectorToVec3(task->x(state));   \
     auto task ## Goal = [&](const State& s) -> Vector {   \
-        auto x = fromVectorToVec3(task->x(s));           \
-        auto u = fromVectorToVec3(task->u(s));           \
-        double kp = 1, kd = 10;                       \
+        auto x = fromVectorToVec3(task->x(s));            \
+        auto u = fromVectorToVec3(task->u(s));            \
+        double kp = 1, kd = 10;                           \
         auto xd = task ## x0;                             \
-        return Vector(kp * (xd - x) - kd * u);         \
-    };                                                 \
+        return Vector(kp * (xd - x) - kd * u);            \
+    };                                                    \
     task->setGoal(task ## Goal);                          \
 
+void predictiveSimulation() {
+    throw runtime_error("Not functioning yet, due to COMTask");
+    const string example = "ExamplePredictiveSimulation";
 
-void arm26Simulation() {
     cout << "Warning: The model geometry may not be visible if OpenSim's " <<
         "Geometry folder is missing. This does not affect the simulation" << endl;
     // load model
     // Model model("gait2392_simbody.osim");
-    Model model("lower_limb_model_path.osim");
-    model.setName("ExamplePredictiveSimulation");
+    Model model(DATA_DIR + "/gait_model/lower_limb_floor_ideal_muscles.osim");
 #if USE_VISUALIZER == 1
     model.setUseVisualizer(true);
 #endif
@@ -133,16 +135,16 @@ void arm26Simulation() {
     MAINTAIN_INITIAL_STATE(state, footLTask);
 
     //simulate
-    simulate(model, state, 1.0, true);
+    simulate(model, state, .7, true);
 
     // export results
-    controller->printResults("ExamplePredictiveSimulation", ".");
-    bodyKinematics->printResults("ExamplePredictiveSimulation", ".");
+    controller->printResults(example, DATA_DIR + "/results");
+    bodyKinematics->printResults(example, DATA_DIR + "/results");
 }
 
 int main(int argc, char *argv[]) {
     try {
-        arm26Simulation();
+        predictiveSimulation();
     } catch (exception &e) {
         cout << typeid(e).name() << ": " << e.what() << endl;
         getchar();

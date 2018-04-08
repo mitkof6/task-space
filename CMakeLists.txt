@@ -74,6 +74,13 @@ mark_as_advanced(CMAKE_DEBUG_POSTFIX)
 mark_as_advanced(CMAKE_RELWITHDEBINFO_POSTFIX)
 mark_as_advanced(CMAKE_MINSIZEREL_POSTFIX)
 
+# configure project global settings that are include in the source
+set(DATA_DIR "${PROJECT_SOURCE_DIR}/data")
+configure_file(
+"${PROJECT_SOURCE_DIR}/src/include/Settings.h.in"
+"${PROJECT_SOURCE_DIR}/src/include/Settings.h")
+set(CMAKE_EXTRA_INCLUDE_FILES)
+
 ################################################################################
 
 # configure OpenSim

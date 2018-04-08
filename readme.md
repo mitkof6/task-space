@@ -15,7 +15,8 @@ models that use constraints. Examples include: absolute (Cartesian)
 coordinates, closed kinematics chains and complex joint configurations (e.g.
 shoulder, knee) [4].
 
-Examples can be found in the src/taskspace/examples folder.
+Examples can be found in the src/taskspace/examples folder. Results are stored
+in the data/results dir. All models are located in the data/ dir.
 
 - ExampleTaskBasedControl.cpp: a minimum working example of controlling a
   single body in task space

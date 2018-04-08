@@ -3,3 +3,4 @@ Win32
 build/
 install/
 *.pyc
+/src/include/Settings.h
