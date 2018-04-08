@@ -1,164 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <OpenSimDocument Version="30000">
 	<Model name="MoBL_2016_Ideal_Muscles">
-		<defaults>
-			<ControlLinear name="default">
-				<is_model_control>true</is_model_control>
-				<extrapolate>true</extrapolate>
-				<default_min>0.02</default_min>
-				<default_max>1</default_max>
-				<filter_on>false</filter_on>
-				<use_steps>true</use_steps>
-				<x_nodes />
-				<min_nodes />
-				<max_nodes />
-				<kp>100</kp>
-				<kv>20</kv>
-			</ControlLinear>
-			<CoordinateActuator name="default">
-				<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
-				<isDisabled>false</isDisabled>
-				<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
-				<min_control>-Inf</min_control>
-				<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
-				<max_control>Inf</max_control>
-				<!--Name of the generalized coordinate to which the actuator applies.-->
-				<coordinate>Unassigned</coordinate>
-				<!--The maximum generalized force produced by this actuator.-->
-				<optimal_force>1000</optimal_force>
-			</CoordinateActuator>
-			<PointActuator name="default">
-				<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
-				<isDisabled>false</isDisabled>
-				<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
-				<min_control>-Inf</min_control>
-				<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
-				<max_control>Inf</max_control>
-				<!--Name of Body to which this actuator is applied.-->
-				<body></body>
-				<!--Location of application point; in body frame unless point_is_global=true-->
-				<point>0 0 0</point>
-				<!--Interpret point in Ground frame if true; otherwise, body frame.-->
-				<point_is_global>false</point_is_global>
-				<!--Force application direction; in body frame unless force_is_global=true.-->
-				<direction>-1 -0 -0</direction>
-				<!--Interpret direction in Ground frame if true; otherwise, body frame.-->
-				<force_is_global>true</force_is_global>
-				<!--The maximum force produced by this actuator when fully activated.-->
-				<optimal_force>1000</optimal_force>
-			</PointActuator>
-			<TorqueActuator name="default">
-				<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
-				<isDisabled>false</isDisabled>
-				<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
-				<min_control>-Inf</min_control>
-				<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
-				<max_control>Inf</max_control>
-				<!--Name of Body to which the torque actuator is applied.-->
-				<bodyA></bodyA>
-				<!--Name of Body to which the equal and opposite torque is applied.-->
-				<bodyB></bodyB>
-				<!--Interpret axis in Ground frame if true; otherwise, body A's frame.-->
-				<torque_is_global>true</torque_is_global>
-				<!--Fixed direction about which torque is applied, in Ground or body A frame depending on 'torque_is_global' property.-->
-				<axis>-1 -0 -0</axis>
-				<!--The maximum torque produced by this actuator when fully activated.-->
-				<optimal_force>1</optimal_force>
-			</TorqueActuator>
-			<Thelen2003Muscle name="default">
-				<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
-				<isDisabled>false</isDisabled>
-				<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
-				<min_control>0.01</min_control>
-				<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
-				<max_control>1</max_control>
-				<!--The set of points defining the path of the muscle.-->
-				<GeometryPath>
-					<!--The set of points defining the path-->
-					<PathPointSet>
-						<objects />
-						<groups />
-					</PathPointSet>
-					<!--The wrap objecs that are associated with this path-->
-					<PathWrapSet>
-						<objects />
-						<groups />
-					</PathWrapSet>
-					<!--Used to display the path in the 3D window-->
-					<VisibleObject name="display">
-						<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
-						<GeometrySet>
-							<objects />
-							<groups />
-						</GeometrySet>
-						<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
-						<scale_factors> 1 1 1</scale_factors>
-						<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
-						<transform> 0 0 0 0 0 0</transform>
-						<!--Whether to show a coordinate frame-->
-						<show_axes>false</show_axes>
-						<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
-						<display_preference>4</display_preference>
-					</VisibleObject>
-				</GeometryPath>
-				<!--The maximum force this actuator can produce.-->
-				<optimal_force>1</optimal_force>
-				<!--Maximum isometric force that the fibers can generate-->
-				<optimal_force>546</optimal_force>
-				<!--Optimal length of the muscle fibers-->
-				<optimal_fiber_length>0.0535</optimal_fiber_length>
-				<!--Resting length of the tendon-->
-				<tendon_slack_length>0.078</tendon_slack_length>
-				<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-				<pennation_angle_at_optimal>0.13962634</pennation_angle_at_optimal>
-				<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-				<max_contraction_velocity>10</max_contraction_velocity>
-				<!--time constant for ramping up muscle activation-->
-				<activation_time_constant>0.015</activation_time_constant>
-				<!--time constant for ramping down of muscle activation-->
-				<deactivation_time_constant>0.05</deactivation_time_constant>
-				<!--tendon strain at maximum isometric muscle force-->
-				<FmaxTendonStrain>0.033</FmaxTendonStrain>
-				<!--passive muscle strain at maximum isometric muscle force-->
-				<FmaxMuscleStrain>0.6</FmaxMuscleStrain>
-				<!--shape factor for Gaussian active muscle force-length relationship-->
-				<KshapeActive>0.5</KshapeActive>
-				<!--exponential shape factor for passive force-length relationship-->
-				<KshapePassive>4</KshapePassive>
-				<!--force-velocity shape factor-->
-				<Af>0.3</Af>
-				<!--maximum normalized lengthening force-->
-				<Flen>1.8</Flen>
-			</Thelen2003Muscle>
-			<CMC_Joint name="default">
-				<!--Flag (true or false) indicating whether or not a task is enabled.-->
-				<on>false</on>
-				<!--Weight with which a task is tracked relative to other tasks. To track a task more tightly, make the weight larger.-->
-				<weight> 1 1 1</weight>
-				<!--Name of body frame with respect to which a tracking objective is specified. The special name 'center_of_mass' refers to the system center of mass. This property is not used for tracking joint angles.-->
-				<wrt_body>-1</wrt_body>
-				<!--Name of body frame in which the tracking objectives are expressed.  This property is not used for tracking joint angles.-->
-				<express_body>-1</express_body>
-				<!--Array of 3 flags (each true or false) specifying whether a component of a task is active.  For example, tracking the trajectory of a point in space could have three components (x,y,z).  This allows each of those to be made active (true) or inactive (false).  A task for tracking a joint coordinate only has one component.-->
-				<active>false false false </active>
-				<!--Position error feedback gain (stiffness). To achieve critical damping of errors, choose kv = 2*sqrt(kp).-->
-				<kp> 1 1 1</kp>
-				<!--Velocity error feedback gain (damping). To achieve critical damping of errors, choose kv = 2*sqrt(kp).-->
-				<kv> 1 1 1</kv>
-				<!--Feedforward acceleration gain.  This is normally set to 1.0, so no gain.-->
-				<ka> 1 1 1</ka>
-				<!--Direction vector[3] for component 0 of a task. Joint tasks do not use this propery.-->
-				<r0> 0 0 0</r0>
-				<!--Direction vector[3] for component 1 of a task. Joint tasks do not use this property.-->
-				<r1> 0 0 0</r1>
-				<!--Direction vector[3] for component 2 of a task. Joint tasks do not use this property.-->
-				<r2> 0 0 0</r2>
-				<!--Name of the coordinate to be tracked.-->
-				<coordinate />
-				<!--Error limit on the tracking accuracy for this coordinate. If the tracking errors approach this limit, the weighting for this coordinate is increased. -->
-				<limit>0</limit>
-			</CMC_Joint>
-		</defaults>
 		<credits>Katherine R. Saul, Wendy M. Murray, Craig M. Goehler, Melissa Daly, Meghan E. Vidt, Dustin L. Crouch</credits>
 		<publications>Comp Meth Biomech Biomed Eng 2014</publications>
 		<length_units>meters</length_units>
@@ -5147,39 +4989,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>1218.9</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0976</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.093</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.38397244</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="DELT3">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -5246,39 +5057,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>201.6</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.1367</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.038</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.31415927</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="SUPSP">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -5335,39 +5115,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>499.2</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0682</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0395</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.12217305</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="INFSP">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -5425,39 +5174,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>1075.8</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0755</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0308</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.3316126</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="SUBSC">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -5514,39 +5232,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>1306.9</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0873</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.033</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.34906585</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="TMIN">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -5613,39 +5300,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>269.5</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0741</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0713</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.41887902</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="TMAJ">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -5712,39 +5368,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>144</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.1624</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.02</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.27925268</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="PECM1">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -5857,39 +5482,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>444.3</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.1442</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0028</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.29670597</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="PECM2">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -6011,39 +5605,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>658.3</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.1385</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.089</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.4537856</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="PECM3">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -6160,39 +5723,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>498.1</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.1385</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.132</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.43633231</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="LAT1">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -6309,39 +5841,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>290.5</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.254</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.12</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.43633231</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="LAT2">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -6458,39 +5959,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>317.5</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.2324</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.1765</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.33161256</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="LAT3">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -6607,39 +6077,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>189</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.2789</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.1403</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.36651914</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="CORB">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -6701,39 +6140,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>208.2</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0932</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.097</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.4712389</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="TRIlong">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -6808,39 +6216,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>771.8</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.134</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.143</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.20943951</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="TRIlat">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -6905,39 +6282,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>717.5</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.1138</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.098</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.15707963</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="TRImed">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -7002,39 +6348,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>717.5</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.1138</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0908</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.15707963</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="ANC">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -7087,39 +6402,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>283.2</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.027</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.018</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="SUP">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -7176,39 +6460,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>379.6</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.033</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.028</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="BRA">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -7267,39 +6520,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>1177.37</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0858</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0535</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="BRD">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -7356,39 +6578,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>276</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.1726</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.133</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="ECRL">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -7454,39 +6645,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>337.3</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.081</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.244</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="ECRB">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -7547,39 +6707,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>252.5</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0585</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.2223</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.1570796</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="ECU">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -7648,39 +6777,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>192.9</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0622</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.2285</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.0698132</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="FCR">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -7742,39 +6840,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>407.9</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0628</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.244</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.0523599</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="FCU">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -7861,39 +6928,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>479.8</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0509</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.265</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.2094395</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="PL">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -7959,39 +6995,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>101</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0638</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.2694</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.06981317</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="PT">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -8079,39 +7084,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>557.2</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0492</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.098</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.17453293</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="PQ">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -8169,39 +7143,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>284.7</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0282</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.005</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.17453293</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="FDSL">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -8293,39 +7236,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>75.3</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0515</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.3386</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.08726646</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="FDSR">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -8417,39 +7329,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>171.2</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0736</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.328</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.06981317</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="FDSM">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -8540,39 +7421,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>258.8</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0749</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.295</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.12217305</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="FDSI">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -8663,31 +7513,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>162.5</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0835</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.275</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.10471976</pennation_angle_at_optimal>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="FDPL">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -8783,31 +7610,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>236.8</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0749</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.2819</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.13962634</pennation_angle_at_optimal>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="FDPR">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -8903,39 +7707,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>172.9</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0798</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.2915</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.12217305</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="FDPM">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -9035,39 +7808,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>212.4</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0835</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.303</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.10471976</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="FDPI">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -9163,39 +7905,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>197.3</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0749</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.3015</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.12217305</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="EDCL">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -9316,39 +8027,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>39.4</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.065</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.335</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.03490659</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="EDCR">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -9469,39 +8149,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>109.2</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0626</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.365</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.05235988</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="EDCM">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -9626,39 +8275,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>94.4</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0724</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.365</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.05235988</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="EDCI">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -9779,39 +8397,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>48.8</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.07</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.365</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.05235988</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="EDM">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -9915,39 +8502,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>72.4</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0675</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.335</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.05235988</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="EIP">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -10047,39 +8603,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>47.3</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0589</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.21</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.10471976</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="EPL">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -10172,39 +8697,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>88.3</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.054</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.2305</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.10471976</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="EPB">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -10281,39 +8775,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>46</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0675</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.1155</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.122173</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="FPL">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -10433,39 +8896,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>201</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0552</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.197</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.12217305</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 				<PathActuator name="APL">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
@@ -10561,39 +8993,8 @@
 							<display_preference>4</display_preference>
 						</VisibleObject>
 					</GeometryPath>
-					<!--Maximum isometric force that the fibers can generate-->
+					<!--The maximum force this actuator can produce.-->
 					<optimal_force>116.7</optimal_force>
-					<!--Optimal length of the muscle fibers-->
-					<optimal_fiber_length>0.0713</optimal_fiber_length>
-					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.1295</tendon_slack_length>
-					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
-					<pennation_angle_at_optimal>0.1396263</pennation_angle_at_optimal>
-					<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
-					<max_contraction_velocity>0</max_contraction_velocity>
-					<!--Scale factor for normalizing time-->
-					<time_scale>0.1</time_scale>
-					<!--Parameter used in time constant of ramping up of muscle force-->
-					<activation1>7.667</activation1>
-					<!--Parameter used in time constant of ramping up and ramping down of muscle force-->
-					<activation2>1.459854</activation2>
-					<!--Damping factor related to maximum contraction velocity-->
-					<damping>0.017</damping>
-					<!--Function representing force-length behavior of tendon-->
-					<SimmSpline name="tendon_force_length_curve">
-						<x> -10 -0.002 -0.001 0 0.00131 0.00281 0.00431 0.00581 0.00731 0.00881 0.0103 0.0118 0.0123 9.2 9.201 9.202 20</x>
-						<y> 0 0 0 0 0.0108 0.0257 0.0435 0.0652 0.0915 0.123 0.161 0.208 0.227 345 345 345 345</y>
-					</SimmSpline>
-					<!--Function representing active force-length behavior of muscle fibers-->
-					<SimmSpline name="active_force_length_curve">
-						<x> -35 0 0.401 0.402 0.4035 0.52725 0.62875 0.71875 0.86125 1.045 1.2175 1.43875 1.61875 1.62 1.621 2.2 35</x>
-						<y> 0 0 0 0 0 0.226667 0.636667 0.856667 0.95 0.993333 0.77 0.246667 0 0 0 0 0</y>
-					</SimmSpline>
-					<!--Function representing passive force-length behavior of muscle fibers-->
-					<SimmSpline name="passive_force_length_curve">
-						<x> -35 1 1.05 1.1 1.125 1.14 1.145 1.15 1.15 1.25 1.35 1.45 1.55 1.65 1.75 1.7501 1.7502 35</x>
-						<y> 0 0 0 0 0 0 0 0 0 0.035 0.12 0.26 0.55 1.17 2 2 2 2</y>
-					</SimmSpline>
 				</PathActuator>
 			</objects>
 			<groups />
