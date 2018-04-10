@@ -1282,7 +1282,7 @@
 										<!--The speed value of this coordinate before any value has been set. Rotational coordinate value is in rad/s and Translational in m/s.-->
 										<default_speed_value>0</default_speed_value>
 										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
-										<range>-1.57079633 0.34906585</range>
+										<range>-1.57079633 1.57079633</range>
 										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
 										<clamped>false</clamped>
 										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
@@ -4675,7 +4675,7 @@
 			<objects>
 				<CoordinateLimitForce name="shoulder_elv_ligaments">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
-					<isDisabled>false</isDisabled>
+					<isDisabled>true</isDisabled>
 					<!--Coordinate (name) to be limited.-->
 					<coordinate>shoulder_elv</coordinate>
 					<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
@@ -4693,7 +4693,7 @@
 				</CoordinateLimitForce>
 				<CoordinateLimitForce name="shoulder_elv_damping">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
-					<isDisabled>false</isDisabled>
+					<isDisabled>true</isDisabled>
 					<!--Coordinate (name) to be limited.-->
 					<coordinate>shoulder_elv</coordinate>
 					<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
@@ -4711,7 +4711,7 @@
 				</CoordinateLimitForce>
 				<CoordinateLimitForce name="elv_angle_ligaments">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
-					<isDisabled>false</isDisabled>
+					<isDisabled>true</isDisabled>
 					<!--Coordinate (name) to be limited.-->
 					<coordinate>elv_angle</coordinate>
 					<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
@@ -4729,7 +4729,7 @@
 				</CoordinateLimitForce>
 				<CoordinateLimitForce name="elv_angle_damping">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
-					<isDisabled>false</isDisabled>
+					<isDisabled>true</isDisabled>
 					<!--Coordinate (name) to be limited.-->
 					<coordinate>elv_angle</coordinate>
 					<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
@@ -4747,7 +4747,7 @@
 				</CoordinateLimitForce>
 				<CoordinateLimitForce name="shoulder_rot_ligaments">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
-					<isDisabled>false</isDisabled>
+					<isDisabled>true</isDisabled>
 					<!--Coordinate (name) to be limited.-->
 					<coordinate>shoulder_rot</coordinate>
 					<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
@@ -4765,7 +4765,7 @@
 				</CoordinateLimitForce>
 				<CoordinateLimitForce name="shoulder_rot_damping">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
-					<isDisabled>false</isDisabled>
+					<isDisabled>true</isDisabled>
 					<!--Coordinate (name) to be limited.-->
 					<coordinate>shoulder_rot</coordinate>
 					<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
@@ -4783,7 +4783,7 @@
 				</CoordinateLimitForce>
 				<CoordinateLimitForce name="elbow_flexion_ligaments">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
-					<isDisabled>false</isDisabled>
+					<isDisabled>true</isDisabled>
 					<!--Coordinate (name) to be limited.-->
 					<coordinate>elbow_flexion</coordinate>
 					<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
@@ -4801,7 +4801,7 @@
 				</CoordinateLimitForce>
 				<CoordinateLimitForce name="elbow_flexion_damping">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
-					<isDisabled>false</isDisabled>
+					<isDisabled>true</isDisabled>
 					<!--Coordinate (name) to be limited.-->
 					<coordinate>elbow_flexion</coordinate>
 					<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
@@ -4819,7 +4819,7 @@
 				</CoordinateLimitForce>
 				<CoordinateLimitForce name="pro_sup_ligaments">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
-					<isDisabled>false</isDisabled>
+					<isDisabled>true</isDisabled>
 					<!--Coordinate (name) to be limited.-->
 					<coordinate>pro_sup</coordinate>
 					<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
@@ -4837,7 +4837,7 @@
 				</CoordinateLimitForce>
 				<CoordinateLimitForce name="pro_sup_damping">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
-					<isDisabled>false</isDisabled>
+					<isDisabled>true</isDisabled>
 					<!--Coordinate (name) to be limited.-->
 					<coordinate>pro_sup</coordinate>
 					<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
@@ -4855,7 +4855,7 @@
 				</CoordinateLimitForce>
 				<CoordinateLimitForce name="deviation_ligaments">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
-					<isDisabled>false</isDisabled>
+					<isDisabled>true</isDisabled>
 					<!--Coordinate (name) to be limited.-->
 					<coordinate>deviation</coordinate>
 					<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
@@ -4873,7 +4873,7 @@
 				</CoordinateLimitForce>
 				<CoordinateLimitForce name="deviation_damping">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
-					<isDisabled>false</isDisabled>
+					<isDisabled>true</isDisabled>
 					<!--Coordinate (name) to be limited.-->
 					<coordinate>deviation</coordinate>
 					<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
@@ -4891,7 +4891,7 @@
 				</CoordinateLimitForce>
 				<CoordinateLimitForce name="flexion_ligaments">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
-					<isDisabled>false</isDisabled>
+					<isDisabled>true</isDisabled>
 					<!--Coordinate (name) to be limited.-->
 					<coordinate>flexion</coordinate>
 					<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
@@ -4909,7 +4909,7 @@
 				</CoordinateLimitForce>
 				<CoordinateLimitForce name="flexion_damping">
 					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
-					<isDisabled>false</isDisabled>
+					<isDisabled>true</isDisabled>
 					<!--Coordinate (name) to be limited.-->
 					<coordinate>flexion</coordinate>
 					<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
@@ -5388,7 +5388,7 @@
 									<body>humerus</body>
 								</PathPoint>
 								<MovingPathPoint name="default">
-									<location> 0.0171333 -0.037 -0.00337</location>
+									<location> 0.0190017 -0.030445 0.00119001</location>
 									<body>humerus</body>
 									<x_location>
 										<PiecewiseLinearFunction>
@@ -5413,7 +5413,7 @@
 									<z_coordinate>shoulder_elv</z_coordinate>
 								</MovingPathPoint>
 								<MovingPathPoint name="default">
-									<location> 0.00636333 -0.00732333 0.119273</location>
+									<location> 0.000251659 0.00743335 0.105277</location>
 									<body>ground</body>
 									<x_location>
 										<PiecewiseLinearFunction>
@@ -5502,7 +5502,7 @@
 									<body>humerus</body>
 								</PathPoint>
 								<MovingPathPoint name="default">
-									<location> 0.0155133 -0.04223 -0.00447</location>
+									<location> 0.0173817 -0.035675 9.00059e-005</location>
 									<body>humerus</body>
 									<x_location>
 										<PiecewiseLinearFunction>
@@ -5527,7 +5527,7 @@
 									<z_coordinate>shoulder_elv</z_coordinate>
 								</MovingPathPoint>
 								<MovingPathPoint name="default">
-									<location> 0.0203967 -0.03445 0.123117</location>
+									<location> 0.0208083 -0.02077 0.115928</location>
 									<body>ground</body>
 									<x_location>
 										<PiecewiseLinearFunction>
@@ -5625,7 +5625,7 @@
 									<body>humerus</body>
 								</PathPoint>
 								<MovingPathPoint name="default">
-									<location> 0.0142392 -0.0496515 -0.00936368</location>
+									<location> 0.0167665 -0.0460063 -0.00123432</location>
 									<body>humerus</body>
 									<x_location>
 										<SimmSpline>
@@ -5650,7 +5650,7 @@
 									<z_coordinate>shoulder_elv</z_coordinate>
 								</MovingPathPoint>
 								<MovingPathPoint name="default">
-									<location> 0.02984 -0.0697393 0.1151</location>
+									<location> 0.02984 -0.0608553 0.1151</location>
 									<body>ground</body>
 									<x_location>
 										<PiecewiseLinearFunction>
@@ -5743,7 +5743,7 @@
 									<body>humerus</body>
 								</PathPoint>
 								<MovingPathPoint name="default">
-									<location> -0.07982 -0.0799433 -0.02428</location>
+									<location> -0.080485 -0.0687967 -0.02884</location>
 									<body>scapula</body>
 									<x_location>
 										<PiecewiseLinearFunction>
@@ -5768,7 +5768,7 @@
 									<z_coordinate>shoulder_elv</z_coordinate>
 								</MovingPathPoint>
 								<MovingPathPoint name="default">
-									<location> -0.111183 -0.0893233 -0.06022</location>
+									<location> -0.109347 -0.0732366 -0.07352</location>
 									<body>scapula</body>
 									<x_location>
 										<PiecewiseLinearFunction>
@@ -5861,7 +5861,7 @@
 									<body>humerus</body>
 								</PathPoint>
 								<MovingPathPoint name="default">
-									<location> -0.07875 -0.0971167 -0.02023</location>
+									<location> -0.083215 -0.0874583 -0.024315</location>
 									<body>scapula</body>
 									<x_location>
 										<PiecewiseLinearFunction>
@@ -5886,7 +5886,7 @@
 									<z_coordinate>shoulder_elv</z_coordinate>
 								</MovingPathPoint>
 								<MovingPathPoint name="default">
-									<location> -0.10544 -0.128957 -0.0645967</location>
+									<location> -0.11475 -0.108563 -0.0874284</location>
 									<body>scapula</body>
 									<x_location>
 										<PiecewiseLinearFunction>
@@ -5979,7 +5979,7 @@
 									<body>humerus</body>
 								</PathPoint>
 								<MovingPathPoint name="default">
-									<location> -0.06598 -0.127347 -0.0241833</location>
+									<location> -0.08346 -0.116548 -0.0296617</location>
 									<body>scapula</body>
 									<x_location>
 										<PiecewiseLinearFunction>
@@ -6004,7 +6004,7 @@
 									<z_coordinate>shoulder_elv</z_coordinate>
 								</MovingPathPoint>
 								<MovingPathPoint name="default">
-									<location> -0.10059 -0.16313 -0.0590767</location>
+									<location> -0.11218 -0.13957 -0.0876084</location>
 									<body>scapula</body>
 									<x_location>
 										<PiecewiseLinearFunction>
@@ -6860,7 +6860,7 @@
 									<body>humerus</body>
 								</PathPoint>
 								<MovingPathPoint name="FCU-P2">
-									<location> 0.00949 -0.1841 0.0005</location>
+									<location> 0.00969398 -0.184078 0.000416381</location>
 									<body>radius</body>
 									<x_location>
 										<SimmSpline>
@@ -7019,7 +7019,7 @@
 									<body>ulna</body>
 								</PathPoint>
 								<MovingPathPoint name="PT-P3">
-									<location> 0.01219 -0.06516 -0.00219</location>
+									<location> 0.0120201 -0.0652699 -0.00237528</location>
 									<body>ulna</body>
 									<x_location>
 										<PiecewiseLinearFunction>
@@ -7925,7 +7925,7 @@
 									<body>humerus</body>
 								</PathPoint>
 								<MovingPathPoint name="EDCL-P2">
-									<location> 0.0013 -0.03888 0.01405</location>
+									<location> 0.001024 -0.038814 0.0140819</location>
 									<body>radius</body>
 									<x_location>
 										<SimmSpline>
@@ -8047,7 +8047,7 @@
 									<body>humerus</body>
 								</PathPoint>
 								<MovingPathPoint name="EDCR-P2">
-									<location> 0.0026 -0.03991 0.01552</location>
+									<location> 0.002324 -0.039844 0.0155519</location>
 									<body>radius</body>
 									<x_location>
 										<SimmSpline>
@@ -8169,7 +8169,7 @@
 									<body>humerus</body>
 								</PathPoint>
 								<MovingPathPoint name="EDCM-P2">
-									<location> 0.00316 -0.03948 0.01528</location>
+									<location> 0.002884 -0.039414 0.0153119</location>
 									<body>radius</body>
 									<x_location>
 										<SimmSpline>
@@ -8295,7 +8295,7 @@
 									<body>humerus</body>
 								</PathPoint>
 								<MovingPathPoint name="EDCI-P2">
-									<location> 0.00228 -0.03918 0.01483</location>
+									<location> 0.002004 -0.039114 0.0148619</location>
 									<body>radius</body>
 									<x_location>
 										<SimmSpline>

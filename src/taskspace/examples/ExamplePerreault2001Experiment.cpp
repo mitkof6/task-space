@@ -75,7 +75,7 @@ void findExperimentConfiguration(State& state, Model& model,
 }
 
 void perreault2001Experiment() {
-    const string example = "ExamplePerreault2001Experiment`";
+    const string example = "ExamplePerreault2001Experiment";
 
     cout << "Warning: The model geometry may not be visible if OpenSim's " <<
         "Geometry folder is missing. This does not affect the simulation" << endl;
@@ -102,8 +102,8 @@ void perreault2001Experiment() {
     model.addComponent(taskDynamics);
 
     auto marker = model.getMarkerSet().get("end_effector");
-    auto handTask = new PositionTask(marker.getParentFrameName().substr(3),
-                                     marker.get_location());
+    auto handTask = new SpatialTask(marker.getParentFrameName().substr(3),
+                                    marker.get_location());
     handTask->setName("hand_task");
     taskDynamics->addTask(handTask, NULL);
     model.addComponent(handTask);
@@ -114,23 +114,27 @@ void perreault2001Experiment() {
      *  accepts the state and returns a Vector.
      */
     auto controlStrategy = [&](const State& s) -> Vector {
-        return ~handTask->J(s) * Vector(Vec3(0, 0, 0));
+        auto data = taskDynamics->calcTaskDynamicsData(s);
+        return data.tauTasks - 30 * data.NgT * s.getU();
+        /*return ~handTask->J(s) * Vector(Vec3(0, 0, -100)) +
+            data.NgT * (data.f + data.bc);*/
     };
     // define the controller (choose between a torque or muscle controller)
     auto controller = new TaskBasedTorqueController(controlStrategy);
+    // auto controller = new TaskBasedComputedMuscleControl(controlStrategy); // failing
     model.addController(controller);
 
     // build and initialize model
     auto& state = model.initSystem();
-
     findExperimentConfiguration(state, model, 60, 120);
+    model.realizePosition(state);
 
     // configure visualizer
 #if USE_VISUALIZER == 1
     model.updVisualizer().updSimbodyVisualizer().setBackgroundColor(Vec3(0));
     model.updVisualizer().updSimbodyVisualizer()
         .setBackgroundType(Visualizer::BackgroundType::SolidColor);
-    model.updMatterSubsystem().setShowDefaultGeometry(true);
+    model.updMatterSubsystem().setShowDefaultGeometry(false);
 #endif
 
     // define task goals as a function/closure
@@ -139,15 +143,25 @@ void perreault2001Experiment() {
      * tracking the task goal. The task accepts a std::function which takes the
      * state and returns a Vector ([&] captures the current scope).
      */
-     /*model.realizePosition(state);
-     auto handx0 = handTask->x(state);
-     auto handGoal = [&](const State& s) -> Vector {
-         return Vector(3, 0.0);
-     };
-     handTask->setGoal(handGoal);*/
+    auto handx0 = handTask->x(state);
+    auto handGoal = [&](const State& s) -> Vector {
+        const double kp = 100, kd = 20;
+        auto x = handTask->x(s);
+        auto u = handTask->u(s);
+        auto xd = handx0;
+        xd(3, 3) += Vector(Vec3(0, 0, 0.0 * sin(2 * Pi * s.getTime())));
+        return Vector(kp * (xd - x) - kd * u);
+    };
+    handTask->setGoal(handGoal);
 
-     //simulate
-    simulate(model, state, 1.0, true);
+    for (int i = 0; i < model.getCoordinateSet().getSize(); i++) {
+        if (!model.getCoordinateSet()[i].isConstrained(state))
+            cout << model.getCoordinateSet()[i].getName() << " "
+            << convertRadiansToDegrees(model.getCoordinateSet()[i].getValue(state)) << endl;
+    }
+
+    //simulate
+    simulate(model, state, .03, true);
 
     // export results
     controller->printResults(example, DATA_DIR + "/results");
