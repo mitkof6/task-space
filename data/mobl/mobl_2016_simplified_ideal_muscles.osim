@@ -1,0 +1,3614 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<OpenSimDocument Version="30000">
+	<Model name="MoBL_2016_Simplified_Ideal_Muscles">
+		<defaults>
+			<Thelen2003Muscle name="default">
+				<!--Maximum isometric force that the fibers can generate-->
+				<max_isometric_force>546</max_isometric_force>
+				<!--Optimal length of the muscle fibers-->
+				<optimal_fiber_length>0.0535</optimal_fiber_length>
+				<!--Resting length of the tendon-->
+				<tendon_slack_length>0.078</tendon_slack_length>
+				<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
+				<max_contraction_velocity>0</max_contraction_velocity>
+			</Thelen2003Muscle>
+			<Millard2012EquilibriumMuscle name="default">
+				<!--Assumed initial activation level if none is assigned.-->
+				<default_activation>0</default_activation>
+				<!--Activation lower bound.-->
+				<minimum_activation>0</minimum_activation>
+				<!--Passive-force-length curve.-->
+				<FiberForceLengthCurve>
+					<!--Fiber strain at zero force-->
+					<strain_at_zero_force>1</strain_at_zero_force>
+					<!--Fiber strain at a tension of 1 normalized force-->
+					<strain_at_one_norm_force>1.6</strain_at_one_norm_force>
+					<!--Fiber stiffness at the end of the low-force region-->
+					<stiffness_at_low_force>0.2</stiffness_at_low_force>
+					<!--Fiber stiffness at a tension of 1 normalized force-->
+					<stiffness_at_one_norm_force>2.86</stiffness_at_one_norm_force>
+					<!--Fiber curve bend, from linear (0) to maximum bend (1)-->
+					<curviness>1</curviness>
+				</FiberForceLengthCurve>
+			</Millard2012EquilibriumMuscle>
+		</defaults>
+		<length_units>meters</length_units>
+		<force_units>N</force_units>
+		<!--Acceleration due to gravity.-->
+		<gravity> 0 -9.80665 0</gravity>
+		<!--Bodies in the model.-->
+		<BodySet>
+			<objects>
+				<Body name="ground">
+					<mass>0</mass>
+					<mass_center> 0 0 0</mass_center>
+					<inertia_xx>1</inertia_xx>
+					<inertia_yy>1</inertia_yy>
+					<inertia_zz>1</inertia_zz>
+					<inertia_xy>0</inertia_xy>
+					<inertia_xz>0</inertia_xz>
+					<inertia_yz>0</inertia_yz>
+					<!--Joint that connects this body with the parent body.-->
+					<Joint />
+					<VisibleObject>
+						<!--All properties of this object have their default values.-->
+					</VisibleObject>
+					<WrapObjectSet>
+						<objects />
+						<groups />
+					</WrapObjectSet>
+				</Body>
+				<Body name="thorax">
+					<mass>26.83</mass>
+					<mass_center> 0 -0.16 0</mass_center>
+					<inertia_xx>1.4745</inertia_xx>
+					<inertia_yy>0.7555</inertia_yy>
+					<inertia_zz>1.4314</inertia_zz>
+					<inertia_xy>0</inertia_xy>
+					<inertia_xz>0</inertia_xz>
+					<inertia_yz>0</inertia_yz>
+					<!--Joint that connects this body with the parent body.-->
+					<Joint>
+						<WeldJoint name="ground_thorax">
+							<!--Name of the parent body to which this joint connects its owner body.-->
+							<parent_body>ground</parent_body>
+							<!--Location of the joint in the parent body specified in the parent reference frame. Default is (0,0,0).-->
+							<location_in_parent>0 0 0</location_in_parent>
+							<!--Orientation of the joint in the parent body specified in the parent reference frame. Euler XYZ body-fixed rotation angles are used to express the orientation. Default is (0,0,0).-->
+							<orientation_in_parent>0 0 0</orientation_in_parent>
+							<!--Location of the joint in the child body specified in the child reference frame. For SIMM models, this vector is always the zero vector (i.e., the body reference frame coincides with the joint). -->
+							<location>0 0 0</location>
+							<!--Orientation of the joint in the owing body specified in the owning body reference frame.  Euler XYZ body-fixed rotation angles are used to express the orientation. -->
+							<orientation>0 0 0</orientation>
+							<!--Set holding the generalized coordinates (q's) that parmeterize this joint.-->
+							<CoordinateSet>
+								<objects />
+								<groups />
+							</CoordinateSet>
+						</WeldJoint>
+					</Joint>
+					<VisibleObject>
+						<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+						<GeometrySet>
+							<objects>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>thorax.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>1</opacity>
+								</DisplayGeometry>
+							</objects>
+							<groups />
+						</GeometrySet>
+						<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+						<scale_factors> 1 1 1</scale_factors>
+					</VisibleObject>
+					<WrapObjectSet>
+						<objects>
+							<WrapEllipsoid name="Thorax">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<!--Display Color-->
+								<color>0 1 1</color>
+								<xyz_body_rotation> 0.0434587 -0.331962 0.189892</xyz_body_rotation>
+								<translation> -0.0386 -0.1273 0.0709</translation>
+								<active>true</active>
+								<dimensions> 0.1 0.135 0.08</dimensions>
+							</WrapEllipsoid>
+						</objects>
+					</WrapObjectSet>
+				</Body>
+				<Body name="clavicle">
+					<mass>0.156</mass>
+					<mass_center> -0.011096 0.0063723 0.054168</mass_center>
+					<inertia_xx>0.00024259</inertia_xx>
+					<inertia_yy>0.00025526</inertia_yy>
+					<inertia_zz>4.442e-005</inertia_zz>
+					<inertia_xy>-1.898e-005</inertia_xy>
+					<inertia_xz>-6.994e-005</inertia_xz>
+					<inertia_yz>5.371e-005</inertia_yz>
+					<!--Joint that connects this body with the parent body.-->
+					<Joint>
+						<WeldJoint name="sternoclavicular">
+							<!--Name of the parent body to which this joint connects its owner body.-->
+							<parent_body>thorax</parent_body>
+							<!--Location of the joint in the parent body specified in the parent reference frame. Default is (0,0,0).-->
+							<location_in_parent>0.006325 0.00693 0.025465</location_in_parent>
+							<!--Orientation of the joint in the parent body specified in the parent reference frame. Euler XYZ body-fixed rotation angles are used to express the orientation. Default is (0,0,0).-->
+							<orientation_in_parent>0 0 0</orientation_in_parent>
+							<!--Location of the joint in the child body specified in the child reference frame. For SIMM models, this vector is always the zero vector (i.e., the body reference frame coincides with the joint). -->
+							<location>0 0 0</location>
+							<!--Orientation of the joint in the owing body specified in the owning body reference frame.  Euler XYZ body-fixed rotation angles are used to express the orientation. -->
+							<orientation>0 0 0</orientation>
+							<!--Set holding the generalized coordinates (q's) that parmeterize this joint.-->
+							<CoordinateSet>
+								<objects />
+								<groups />
+							</CoordinateSet>
+						</WeldJoint>
+					</Joint>
+					<VisibleObject>
+						<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+						<GeometrySet>
+							<objects>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>clavicle.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>1</opacity>
+								</DisplayGeometry>
+							</objects>
+							<groups />
+						</GeometrySet>
+						<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+						<scale_factors> 1 1 1</scale_factors>
+					</VisibleObject>
+				</Body>
+				<Body name="scapula">
+					<mass>0.70396</mass>
+					<mass_center> -0.054694 -0.035032 -0.043734</mass_center>
+					<inertia_xx>0.0012429</inertia_xx>
+					<inertia_yy>0.0011504</inertia_yy>
+					<inertia_zz>0.0013651</inertia_zz>
+					<inertia_xy>0.0004494</inertia_xy>
+					<inertia_xz>0.00040922</inertia_xz>
+					<inertia_yz>0.0002411</inertia_yz>
+					<!--Joint that connects this body with the parent body.-->
+					<Joint>
+						<WeldJoint name="acromioclavicular">
+							<!--Name of the parent body to which this joint connects its owner body.-->
+							<parent_body>clavicle</parent_body>
+							<!--Location of the joint in the parent body specified in the parent reference frame. Default is (0,0,0).-->
+							<location_in_parent>-0.01433 0.02007 0.135535</location_in_parent>
+							<!--Orientation of the joint in the parent body specified in the parent reference frame. Euler XYZ body-fixed rotation angles are used to express the orientation. Default is (0,0,0).-->
+							<orientation_in_parent>0 0 0</orientation_in_parent>
+							<!--Location of the joint in the child body specified in the child reference frame. For SIMM models, this vector is always the zero vector (i.e., the body reference frame coincides with the joint). -->
+							<location>0 0 0</location>
+							<!--Orientation of the joint in the owing body specified in the owning body reference frame.  Euler XYZ body-fixed rotation angles are used to express the orientation. -->
+							<orientation>0 0 0</orientation>
+							<!--Set holding the generalized coordinates (q's) that parmeterize this joint.-->
+							<CoordinateSet>
+								<objects />
+								<groups />
+							</CoordinateSet>
+						</WeldJoint>
+					</Joint>
+					<VisibleObject>
+						<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+						<GeometrySet>
+							<objects>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>scapula.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>1</opacity>
+								</DisplayGeometry>
+							</objects>
+							<groups />
+						</GeometrySet>
+						<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+						<scale_factors> 1 1 1</scale_factors>
+					</VisibleObject>
+					<WrapObjectSet>
+						<objects>
+							<WrapEllipsoid name="Deltoid2">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 3.13042 -1.54881 -1.31423</xyz_body_rotation>
+								<translation> -0.0058 -0.0378 0.0096</translation>
+								<active>false</active>
+								<quadrant>-y</quadrant>
+								<dimensions> 0.03 0.04 0.035</dimensions>
+							</WrapEllipsoid>
+							<WrapTorus name="Delt3">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 0.620988 0.32882 -0.560774</xyz_body_rotation>
+								<translation> -0.0973 -0.0428 -0.037</translation>
+								<active>false</active>
+								<inner_radius>0.04</inner_radius>
+								<outer_radius>0.06</outer_radius>
+							</WrapTorus>
+							<WrapTorus name="INFSP">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 0.0253073 0.58835 0.151844</xyz_body_rotation>
+								<translation> -0.0561 -0.0199 -0.0112</translation>
+								<active>true</active>
+								<inner_radius>0.008</inner_radius>
+								<outer_radius>0.019</outer_radius>
+							</WrapTorus>
+							<WrapEllipsoid name="TMIN">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> -2.09754 -0.280823 -1.76348</xyz_body_rotation>
+								<translation> -0.0418 -0.0519 -0.0359</translation>
+								<active>true</active>
+								<quadrant>x</quadrant>
+								<dimensions> 0.03 0.03 0.05</dimensions>
+							</WrapEllipsoid>
+							<WrapCylinder name="TRIlongglen">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 1.37532 -0.294612 2.43596</xyz_body_rotation>
+								<translation> -0.0359 -0.0309 -0.0132</translation>
+								<active>true</active>
+								<quadrant>x</quadrant>
+								<radius>0.003</radius>
+								<length>0.03</length>
+							</WrapCylinder>
+						</objects>
+					</WrapObjectSet>
+				</Body>
+				<Body name="humerus">
+					<mass>1.99757</mass>
+					<mass_center> 0.018064 -0.140141 -0.012746</mass_center>
+					<inertia_xx>0.01227763</inertia_xx>
+					<inertia_yy>0.00255133</inertia_yy>
+					<inertia_zz>0.01257888</inertia_zz>
+					<inertia_xy>-0.00034741</inertia_xy>
+					<inertia_xz>-0.0002325</inertia_xz>
+					<inertia_yz>0.0012293</inertia_yz>
+					<!--Joint that connects this body with the parent body.-->
+					<Joint>
+						<CustomJoint name="shoulder">
+							<!--Name of the parent body to which this joint connects its owner body.-->
+							<parent_body>scapula</parent_body>
+							<!--Location of the joint in the parent body specified in the parent reference frame. Default is (0,0,0).-->
+							<location_in_parent>-0.00955 -0.034 0.009</location_in_parent>
+							<!--Orientation of the joint in the parent body specified in the parent reference frame. Euler XYZ body-fixed rotation angles are used to express the orientation. Default is (0,0,0).-->
+							<orientation_in_parent>0 0 0</orientation_in_parent>
+							<!--Location of the joint in the child body specified in the child reference frame. For SIMM models, this vector is always the zero vector (i.e., the body reference frame coincides with the joint). -->
+							<location>0 0 0</location>
+							<!--Orientation of the joint in the owing body specified in the owning body reference frame.  Euler XYZ body-fixed rotation angles are used to express the orientation. -->
+							<orientation>0 0 0</orientation>
+							<!--Set holding the generalized coordinates (q's) that parmeterize this joint.-->
+							<CoordinateSet>
+								<objects>
+									<Coordinate name="shoulder_elv">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>rotational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>0.00011787736075459</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>0 3.14159265359</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>true</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+									<Coordinate name="shoulder_rot">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>rotational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>0</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-1.570796326795 1.570796326795</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>true</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+									<Coordinate name="elv_angle">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>rotational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>0</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-1.570796326795 1.570796326795</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>true</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+								</objects>
+							</CoordinateSet>
+							<!--Whether the joint transform defines parent->child or child->parent.-->
+							<reverse>false</reverse>
+							<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+							<SpatialTransform>
+								<!--3 Axes for rotations are listed first.-->
+								<TransformAxis name="rotation1">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>shoulder_elv</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>-1 0 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="rotation2">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>shoulder_rot</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 1 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="rotation3">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>elv_angle</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 0 1</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<!--3 Axes for translations are listed next.-->
+								<TransformAxis name="translation1">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>1 0 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="translation2">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 1 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="translation3">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 0 1</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+							</SpatialTransform>
+						</CustomJoint>
+					</Joint>
+					<VisibleObject>
+						<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+						<GeometrySet>
+							<objects>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>humerus.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>1</opacity>
+								</DisplayGeometry>
+							</objects>
+							<groups />
+						</GeometrySet>
+						<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+						<scale_factors> 1 1 1</scale_factors>
+					</VisibleObject>
+					<WrapObjectSet>
+						<objects>
+							<WrapEllipsoid name="DELT1hh">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 0.0584685 1.00461 0.570374</xyz_body_rotation>
+								<translation> -0.0139 -0.0127 -0.0262</translation>
+								<active>true</active>
+								<quadrant>z</quadrant>
+								<dimensions> 0.03 0.1 0.05</dimensions>
+							</WrapEllipsoid>
+							<WrapCylinder name="delt2hum">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 1.68093 -0.0249582 0.0516617</xyz_body_rotation>
+								<translation> 0.0017 -0.0958 0.0011</translation>
+								<active>true</active>
+								<radius>0.0094</radius>
+								<length>0.05</length>
+							</WrapCylinder>
+							<WrapEllipsoid name="delt3hum">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 1.72735 0.0759218 -2.74313</xyz_body_rotation>
+								<translation> 0.0019 -0.0592 0.0011</translation>
+								<active>true</active>
+								<quadrant>x</quadrant>
+								<dimensions> 0.01 0.01 0.05</dimensions>
+							</WrapEllipsoid>
+							<WrapEllipsoid name="SUPSP">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 0.0380482 0.00855211 -1.30673</xyz_body_rotation>
+								<translation> 0.0002 0.0077 0.0043</translation>
+								<active>true</active>
+								<dimensions> 0.02 0.02 0.02</dimensions>
+							</WrapEllipsoid>
+							<WrapEllipsoid name="INFSP_and_TMIN_hum_head">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> -0.286583 -0.00907571 -0.0684169</xyz_body_rotation>
+								<translation> -0.0003 0.0026 0.0038</translation>
+								<active>true</active>
+								<dimensions> 0.02 0.025 0.02</dimensions>
+							</WrapEllipsoid>
+							<WrapEllipsoid name="SUBSCAP">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> -0.924501 0.288852 0.381529</xyz_body_rotation>
+								<translation> -0.0025 0.0007 -0.0045</translation>
+								<active>true</active>
+								<dimensions> 0.02 0.017 0.028</dimensions>
+							</WrapEllipsoid>
+							<WrapCylinder name="TMINhum">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 1.75353 0.0692896 2.74628</xyz_body_rotation>
+								<translation> -0.0014 -0.0455 0</translation>
+								<active>true</active>
+								<quadrant>x</quadrant>
+								<radius>0.007</radius>
+								<length>0.07</length>
+							</WrapCylinder>
+							<WrapSphere name="TMAJ_LAT_PEC_CORBhh">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 0 0 0</xyz_body_rotation>
+								<translation> 0.0007 0 0.006</translation>
+								<active>true</active>
+								<radius>0.03</radius>
+							</WrapSphere>
+							<WrapCylinder name="TMAJ_LAThum">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 1.53641 -0.0637045 1.41424</xyz_body_rotation>
+								<translation> 0.0007 -0.0443 -0.0055</translation>
+								<active>true</active>
+								<quadrant>-x</quadrant>
+								<radius>0.007</radius>
+								<length>0.04</length>
+							</WrapCylinder>
+							<WrapEllipsoid name="PEC1hh">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> -0.620465 -0.310494 0.363727</xyz_body_rotation>
+								<translation> -0.0037 0.0005 -0.0025</translation>
+								<active>true</active>
+								<quadrant>-z</quadrant>
+								<dimensions> 0.03 0.02 0.02</dimensions>
+							</WrapEllipsoid>
+							<WrapCylinder name="PEC12hum">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 1.55928 -0.0774926 -0.925897</xyz_body_rotation>
+								<translation> 0.002 -0.0508 -0.0017</translation>
+								<active>true</active>
+								<quadrant>x</quadrant>
+								<radius>0.009</radius>
+								<length>0.07</length>
+							</WrapCylinder>
+							<WrapSphere name="PEC23hh">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 0 0 0</xyz_body_rotation>
+								<translation> -0.0086 0.0021 -0.0004</translation>
+								<active>true</active>
+								<radius>0.02</radius>
+							</WrapSphere>
+							<WrapCylinder name="PEC3hum">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 1.44094 -0.0561996 1.75196</xyz_body_rotation>
+								<translation> 0.0009 -0.0551 -0.0004</translation>
+								<active>true</active>
+								<quadrant>-x</quadrant>
+								<radius>0.008</radius>
+								<length>0.07</length>
+							</WrapCylinder>
+							<WrapCylinder name="LAT_TMAJhh">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> -0.305084 -0.018326 -0.686613</xyz_body_rotation>
+								<translation> -0.0224 0.0102 0.0094</translation>
+								<active>true</active>
+								<quadrant>-y</quadrant>
+								<radius>0.007</radius>
+								<length>0.045</length>
+							</WrapCylinder>
+							<WrapSphere name="LAT_TMAJ2hh">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> -0.127235 0.276111 0.0197222</xyz_body_rotation>
+								<translation> -0.0016 0.0092 0.0052</translation>
+								<active>true</active>
+								<quadrant>-z</quadrant>
+								<radius>0.03</radius>
+							</WrapSphere>
+							<WrapCylinder name="CORBhum">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> -1.60832 0.0959931 0.875283</xyz_body_rotation>
+								<translation> 0.0027 -0.1202 -0.0059</translation>
+								<active>true</active>
+								<quadrant>x</quadrant>
+								<radius>0.008</radius>
+								<length>0.05</length>
+							</WrapCylinder>
+							<WrapEllipsoid name="TRIlonghh">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 3.00162 -0.853466 2.57419</xyz_body_rotation>
+								<translation> -0.0078 -0.0041 -0.0014</translation>
+								<active>true</active>
+								<quadrant>z</quadrant>
+								<dimensions> 0.035 0.02 0.02</dimensions>
+							</WrapEllipsoid>
+							<WrapCylinder name="TRI">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> -0.14015 -0.00628319 0.154985</xyz_body_rotation>
+								<translation> 0.0028 -0.2919 -0.0119</translation>
+								<active>true</active>
+								<radius>0.016</radius>
+								<length>0.04</length>
+							</WrapCylinder>
+							<WrapEllipsoid name="ANC">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 0.00750492 -0.196699 1.04929</xyz_body_rotation>
+								<translation> 0.0134 -0.2861 -0.0008</translation>
+								<active>true</active>
+								<quadrant>-x</quadrant>
+								<dimensions> 0.02 0.02 0.02</dimensions>
+							</WrapEllipsoid>
+							<WrapEllipsoid name="BIClong">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> -2.00434 -1.00164 0.975465</xyz_body_rotation>
+								<translation> 0.0033 0.0073 0.0003</translation>
+								<active>true</active>
+								<quadrant>-y</quadrant>
+								<dimensions> 0.025 0.02 0.02</dimensions>
+							</WrapEllipsoid>
+							<WrapEllipsoid name="Elbow_BIC_BRD">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> -0.128631 0.137532 0.0307178</xyz_body_rotation>
+								<translation> 0.0019 -0.289 -0.014</translation>
+								<active>true</active>
+								<quadrant>x</quadrant>
+								<dimensions> 0.015 0.015 0.1</dimensions>
+							</WrapEllipsoid>
+							<WrapEllipsoid name="Elbow_PT_ECRL">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> -0.161094 -0.110828 0.61453</xyz_body_rotation>
+								<translation> 0.003 -0.2872 -0.0069</translation>
+								<active>true</active>
+								<quadrant>x</quadrant>
+								<dimensions> 0.018 0.025 0.035</dimensions>
+							</WrapEllipsoid>
+						</objects>
+					</WrapObjectSet>
+				</Body>
+				<Body name="ulna">
+					<mass>1.1053</mass>
+					<mass_center> 0.00971783 -0.0959509 0.024286</mass_center>
+					<inertia_xx>0.00541309</inertia_xx>
+					<inertia_yy>0.00115318</inertia_yy>
+					<inertia_zz>0.00494361</inertia_zz>
+					<inertia_xy>0.00031686</inertia_xy>
+					<inertia_xz>-7.615e-005</inertia_xz>
+					<inertia_yz>0.00109169</inertia_yz>
+					<!--Joint that connects this body with the parent body.-->
+					<Joint>
+						<CustomJoint name="elbow">
+							<!--Name of the parent body to which this joint connects its owner body.-->
+							<parent_body>humerus</parent_body>
+							<!--Location of the joint in the parent body specified in the parent reference frame. Default is (0,0,0).-->
+							<location_in_parent>0.0061 -0.2904 -0.0123</location_in_parent>
+							<!--Orientation of the joint in the parent body specified in the parent reference frame. Euler XYZ body-fixed rotation angles are used to express the orientation. Default is (0,0,0).-->
+							<orientation_in_parent>0 0 0</orientation_in_parent>
+							<!--Location of the joint in the child body specified in the child reference frame. For SIMM models, this vector is always the zero vector (i.e., the body reference frame coincides with the joint). -->
+							<location>0 0 0</location>
+							<!--Orientation of the joint in the owing body specified in the owning body reference frame.  Euler XYZ body-fixed rotation angles are used to express the orientation. -->
+							<orientation>0 0 0</orientation>
+							<!--Set holding the generalized coordinates (q's) that parmeterize this joint.-->
+							<CoordinateSet>
+								<objects>
+									<Coordinate name="elbow_flexion">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>rotational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>0.000101213212499838</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>0 2.268928027593</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>true</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+								</objects>
+							</CoordinateSet>
+							<!--Whether the joint transform defines parent->child or child->parent.-->
+							<reverse>false</reverse>
+							<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+							<SpatialTransform>
+								<!--3 Axes for rotations are listed first.-->
+								<TransformAxis name="rotation1">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>1 0 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="rotation2">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 1 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="rotation3">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>elbow_flexion</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0.049400012358 0.036600009156 0.998108249695</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<!--3 Axes for translations are listed next.-->
+								<TransformAxis name="translation1">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>1 0 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="translation2">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 1 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="translation3">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 0 1</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+							</SpatialTransform>
+						</CustomJoint>
+					</Joint>
+					<VisibleObject>
+						<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+						<GeometrySet>
+							<objects>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>ulna.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>1</opacity>
+								</DisplayGeometry>
+							</objects>
+							<groups />
+						</GeometrySet>
+						<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+						<scale_factors> 1 1 1</scale_factors>
+					</VisibleObject>
+					<WrapObjectSet>
+						<objects>
+							<WrapCylinder name="PQ2">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 1.39138 0.0689405 1.52245</xyz_body_rotation>
+								<translation> -0.0012 -0.2092 0.0428</translation>
+								<active>true</active>
+								<radius>0.007</radius>
+								<length>0.01</length>
+							</WrapCylinder>
+						</objects>
+					</WrapObjectSet>
+				</Body>
+				<Body name="radius">
+					<mass>0.23359</mass>
+					<mass_center> 0.0336341 -0.181559 0.0156</mass_center>
+					<inertia_xx>0.00043855</inertia_xx>
+					<inertia_yy>8.859e-005</inertia_yy>
+					<inertia_zz>0.00040258</inertia_zz>
+					<inertia_xy>3.014e-005</inertia_xy>
+					<inertia_xz>-4.24e-006</inertia_xz>
+					<inertia_yz>6.418e-005</inertia_yz>
+					<!--Joint that connects this body with the parent body.-->
+					<Joint>
+						<CustomJoint name="radioulnar">
+							<!--Name of the parent body to which this joint connects its owner body.-->
+							<parent_body>ulna</parent_body>
+							<!--Location of the joint in the parent body specified in the parent reference frame. Default is (0,0,0).-->
+							<location_in_parent>0.0004 -0.011503 0.019999</location_in_parent>
+							<!--Orientation of the joint in the parent body specified in the parent reference frame. Euler XYZ body-fixed rotation angles are used to express the orientation. Default is (0,0,0).-->
+							<orientation_in_parent>0 0 0</orientation_in_parent>
+							<!--Location of the joint in the child body specified in the child reference frame. For SIMM models, this vector is always the zero vector (i.e., the body reference frame coincides with the joint). -->
+							<location>0 0 0</location>
+							<!--Orientation of the joint in the owing body specified in the owning body reference frame.  Euler XYZ body-fixed rotation angles are used to express the orientation. -->
+							<orientation>0 0 0</orientation>
+							<!--Set holding the generalized coordinates (q's) that parmeterize this joint.-->
+							<CoordinateSet>
+								<objects>
+									<Coordinate name="pro_sup">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>rotational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>-3.33822801244298e-011</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-1.570796326795 1.570796326795</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>true</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+								</objects>
+							</CoordinateSet>
+							<!--Whether the joint transform defines parent->child or child->parent.-->
+							<reverse>false</reverse>
+							<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+							<SpatialTransform>
+								<!--3 Axes for rotations are listed first.-->
+								<TransformAxis name="rotation1">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>1 0 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="rotation2">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>pro_sup</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>-0.017160993842 0.992665643782 -0.119667957057</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="rotation3">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 0 1</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+								<!--3 Axes for translations are listed next.-->
+								<TransformAxis name="translation1">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>1 0 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="translation2">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 1 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="translation3">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 0 1</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+							</SpatialTransform>
+						</CustomJoint>
+					</Joint>
+					<VisibleObject>
+						<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+						<GeometrySet>
+							<objects>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>radius.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>1</opacity>
+								</DisplayGeometry>
+							</objects>
+							<groups />
+						</GeometrySet>
+						<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+						<scale_factors> 1 1 1</scale_factors>
+					</VisibleObject>
+					<WrapObjectSet>
+						<objects>
+							<WrapCylinder name="SUP">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> 1.44775 0.304036 -2.44102</xyz_body_rotation>
+								<translation> 0.0045 -0.0437 0.0059</translation>
+								<active>true</active>
+								<quadrant>-x</quadrant>
+								<radius>0.008</radius>
+								<length>0.04</length>
+							</WrapCylinder>
+							<WrapTorus name="ECU">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> -0.986635 -0.148877 0.222704</xyz_body_rotation>
+								<translation> -0.0163 -0.2417 0.0349</translation>
+								<active>true</active>
+								<inner_radius>0.006</inner_radius>
+								<outer_radius>0.009</outer_radius>
+							</WrapTorus>
+							<WrapCylinder name="PQ1">
+								<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+								<display_preference>0</display_preference>
+								<xyz_body_rotation> -1.60762 -0.0127409 -2.69025</xyz_body_rotation>
+								<translation> 0.0281 -0.1986 0.0288</translation>
+								<active>true</active>
+								<radius>0.01</radius>
+								<length>0.01</length>
+							</WrapCylinder>
+						</objects>
+					</WrapObjectSet>
+				</Body>
+				<Body name="hand">
+					<mass>0.5819</mass>
+					<mass_center> -0.00301314 -0.0424993 -0.00112205</mass_center>
+					<inertia_xx>0.00011</inertia_xx>
+					<inertia_yy>6e-005</inertia_yy>
+					<inertia_zz>0.00015</inertia_zz>
+					<inertia_xy>9e-007</inertia_xy>
+					<inertia_xz>-2e-007</inertia_xz>
+					<inertia_yz>1.2e-005</inertia_yz>
+					<!--Joint that connects this body with the parent body.-->
+					<Joint>
+						<WeldJoint name="radiocarpal">
+							<!--Name of the parent body to which this joint connects its owner body.-->
+							<parent_body>radius</parent_body>
+							<!--Location of the joint in the parent body specified in the parent reference frame. Default is (0,0,0).-->
+							<location_in_parent>0.015 -0.24 0.025</location_in_parent>
+							<!--Orientation of the joint in the parent body specified in the parent reference frame. Euler XYZ body-fixed rotation angles are used to express the orientation. Default is (0,0,0).-->
+							<orientation_in_parent>0 1.57 -0.4</orientation_in_parent>
+							<!--Location of the joint in the child body specified in the child reference frame. For SIMM models, this vector is always the zero vector (i.e., the body reference frame coincides with the joint). -->
+							<location>0 0 0</location>
+							<!--Orientation of the joint in the owing body specified in the owning body reference frame.  Euler XYZ body-fixed rotation angles are used to express the orientation. -->
+							<orientation>0 0 0</orientation>
+							<!--Set holding the generalized coordinates (q's) that parmeterize this joint.-->
+							<CoordinateSet>
+								<objects />
+								<groups />
+							</CoordinateSet>
+						</WeldJoint>
+					</Joint>
+					<VisibleObject>
+						<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+						<GeometrySet>
+							<objects>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>pisiform_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>lunate_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>scaphoid_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>triquetrum_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>hamate_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>capitate_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>trapezoid_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>trapezium_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>metacarpal2_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>index_proximal_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>index_medial_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>index_distal_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>metacarpal3_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>middle_proximal_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>middle_medial_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>middle_distal_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>metacarpal4_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>ring_proximal_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>ring_medial_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>ring_distal_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>metacarpal5_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>little_proximal_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>little_medial_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>little_distal_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>metacarpal1_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>thumb_proximal_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+								<DisplayGeometry>
+									<!--Name of geometry file .vtp, .stl, .obj-->
+									<geometry_file>thumb_distal_rvs.vtp</geometry_file>
+									<!--Color used to display the geometry when visible-->
+									<color> 1 1 1</color>
+									<!--Name of texture file .jpg, .bmp-->
+									<texture_file />
+									<!--in body transform specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+									<transform> -0 0 -0 0 0 0</transform>
+									<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+									<scale_factors> 1 1 1</scale_factors>
+									<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded-->
+									<display_preference>4</display_preference>
+									<!--Display opacity between 0.0 and 1.0-->
+									<opacity>0.17</opacity>
+								</DisplayGeometry>
+							</objects>
+							<groups />
+						</GeometrySet>
+						<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+						<scale_factors> 0.85 0.85 0.85</scale_factors>
+						<!--Whether to show a coordinate frame-->
+						<show_axes>false</show_axes>
+						<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+						<display_preference>4</display_preference>
+					</VisibleObject>
+					<WrapObjectSet>
+						<objects />
+					</WrapObjectSet>
+				</Body>
+				<Body name="bicpt">
+					<mass>0.0001</mass>
+					<mass_center> 0 0 0</mass_center>
+					<inertia_xx>1</inertia_xx>
+					<inertia_yy>1</inertia_yy>
+					<inertia_zz>1</inertia_zz>
+					<inertia_xy>0</inertia_xy>
+					<inertia_xz>0</inertia_xz>
+					<inertia_yz>0</inertia_yz>
+					<!--Joint that connects this body with the parent body.-->
+					<Joint>
+						<CustomJoint name="bicpt">
+							<!--Name of the parent body to which this joint connects its owner body.-->
+							<parent_body>radius</parent_body>
+							<!--Location of the joint in the parent body specified in the parent reference frame. Default is (0,0,0).-->
+							<location_in_parent>0 0 0</location_in_parent>
+							<!--Orientation of the joint in the parent body specified in the parent reference frame. Euler XYZ body-fixed rotation angles are used to express the orientation. Default is (0,0,0).-->
+							<orientation_in_parent>0 0 0</orientation_in_parent>
+							<!--Location of the joint in the child body specified in the child reference frame. For SIMM models, this vector is always the zero vector (i.e., the body reference frame coincides with the joint). -->
+							<location>0 0 0</location>
+							<!--Orientation of the joint in the owing body specified in the owning body reference frame.  Euler XYZ body-fixed rotation angles are used to express the orientation. -->
+							<orientation>0 0 0</orientation>
+							<!--Set holding the generalized coordinates (q's) that parmeterize this joint.-->
+							<CoordinateSet>
+								<objects>
+									<Coordinate name="bicpt_tx">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>translational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>-9.98081841159713e-005</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-99999.9 99999.9</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>false</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+									<Coordinate name="bicpt_ty">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>translational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>-0.0276006646643423</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-99999.9 99999.9</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>false</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+									<Coordinate name="bicpt_tz">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>translational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>-0.00430010706002829</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-99999.9 99999.9</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>false</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+								</objects>
+							</CoordinateSet>
+							<!--Whether the joint transform defines parent->child or child->parent.-->
+							<reverse>false</reverse>
+							<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+							<SpatialTransform>
+								<!--3 Axes for rotations are listed first.-->
+								<TransformAxis name="rotation1">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>1 0 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="rotation2">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 1 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="rotation3">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 0 1</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+								<!--3 Axes for translations are listed next.-->
+								<TransformAxis name="translation1">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>bicpt_tx</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>1 0 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="translation2">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>bicpt_ty</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 1 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="translation3">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>bicpt_tz</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 0 1</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+							</SpatialTransform>
+						</CustomJoint>
+					</Joint>
+				</Body>
+				<Body name="bicpt2">
+					<mass>0.0001</mass>
+					<mass_center> 0 0 0</mass_center>
+					<inertia_xx>1</inertia_xx>
+					<inertia_yy>1</inertia_yy>
+					<inertia_zz>1</inertia_zz>
+					<inertia_xy>0</inertia_xy>
+					<inertia_xz>0</inertia_xz>
+					<inertia_yz>0</inertia_yz>
+					<!--Joint that connects this body with the parent body.-->
+					<Joint>
+						<CustomJoint name="bicpt2">
+							<!--Name of the parent body to which this joint connects its owner body.-->
+							<parent_body>radius</parent_body>
+							<!--Location of the joint in the parent body specified in the parent reference frame. Default is (0,0,0).-->
+							<location_in_parent>0 0 0</location_in_parent>
+							<!--Orientation of the joint in the parent body specified in the parent reference frame. Euler XYZ body-fixed rotation angles are used to express the orientation. Default is (0,0,0).-->
+							<orientation_in_parent>0 0 0</orientation_in_parent>
+							<!--Location of the joint in the child body specified in the child reference frame. For SIMM models, this vector is always the zero vector (i.e., the body reference frame coincides with the joint). -->
+							<location>0 0 0</location>
+							<!--Orientation of the joint in the owing body specified in the owning body reference frame.  Euler XYZ body-fixed rotation angles are used to express the orientation. -->
+							<orientation>0 0 0</orientation>
+							<!--Set holding the generalized coordinates (q's) that parmeterize this joint.-->
+							<CoordinateSet>
+								<objects>
+									<Coordinate name="bicpt2_tx">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>translational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>0.0146694792133424</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-99999.9 99999.9</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>false</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+									<Coordinate name="bicpt2_ty">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>translational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>-0.0102015753512196</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-99999.9 99999.9</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>false</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+									<Coordinate name="bicpt2_tz">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>translational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>-0.0106184149279924</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-99999.9 99999.9</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>false</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+								</objects>
+							</CoordinateSet>
+							<!--Whether the joint transform defines parent->child or child->parent.-->
+							<reverse>false</reverse>
+							<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+							<SpatialTransform>
+								<!--3 Axes for rotations are listed first.-->
+								<TransformAxis name="rotation1">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>1 0 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="rotation2">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 1 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="rotation3">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 0 1</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+								<!--3 Axes for translations are listed next.-->
+								<TransformAxis name="translation1">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>bicpt2_tx</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>1 0 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="translation2">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>bicpt2_ty</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 1 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="translation3">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>bicpt2_tz</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 0 1</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+							</SpatialTransform>
+						</CustomJoint>
+					</Joint>
+				</Body>
+				<Body name="ptpt">
+					<mass>0.0001</mass>
+					<mass_center> 0 0 0</mass_center>
+					<inertia_xx>1</inertia_xx>
+					<inertia_yy>1</inertia_yy>
+					<inertia_zz>1</inertia_zz>
+					<inertia_xy>0</inertia_xy>
+					<inertia_xz>0</inertia_xz>
+					<inertia_yz>0</inertia_yz>
+					<!--Joint that connects this body with the parent body.-->
+					<Joint>
+						<CustomJoint name="ptpt">
+							<!--Name of the parent body to which this joint connects its owner body.-->
+							<parent_body>ulna</parent_body>
+							<!--Location of the joint in the parent body specified in the parent reference frame. Default is (0,0,0).-->
+							<location_in_parent>0 0 0</location_in_parent>
+							<!--Orientation of the joint in the parent body specified in the parent reference frame. Euler XYZ body-fixed rotation angles are used to express the orientation. Default is (0,0,0).-->
+							<orientation_in_parent>0 0 0</orientation_in_parent>
+							<!--Location of the joint in the child body specified in the child reference frame. For SIMM models, this vector is always the zero vector (i.e., the body reference frame coincides with the joint). -->
+							<location>0 0 0</location>
+							<!--Orientation of the joint in the owing body specified in the owning body reference frame.  Euler XYZ body-fixed rotation angles are used to express the orientation. -->
+							<orientation>0 0 0</orientation>
+							<!--Set holding the generalized coordinates (q's) that parmeterize this joint.-->
+							<CoordinateSet>
+								<objects>
+									<Coordinate name="ptpt_tx">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>translational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>0.00755000000014132</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-99999.9 99999.9</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>false</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+									<Coordinate name="ptpt_ty">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>translational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>-0.0648999999999086</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-99999.9 99999.9</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>false</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+									<Coordinate name="ptpt_tz">
+										<!--Coordinate can describe rotational, translational, or coupled motion. Defaults to rotational.-->
+										<motion_type>translational</motion_type>
+										<!--The value of this coordinate before any value has been set. Rotational coordinate value is in radians and Translational in meters.-->
+										<default_value>-4.99999998459235e-005</default_value>
+										<!--The minimum and maximum values that the coordinate can range between. Rotational coordinate range in radians and Translational in meters.-->
+										<range>-99999.9 99999.9</range>
+										<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
+										<clamped>false</clamped>
+										<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
+										<locked>false</locked>
+										<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
+										<prescribed>false</prescribed>
+									</Coordinate>
+								</objects>
+							</CoordinateSet>
+							<!--Whether the joint transform defines parent->child or child->parent.-->
+							<reverse>false</reverse>
+							<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+							<SpatialTransform>
+								<!--3 Axes for rotations are listed first.-->
+								<TransformAxis name="rotation1">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>1 0 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="rotation2">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 1 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="rotation3">
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 0 1</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<Constant>
+											<value>0</value>
+										</Constant>
+									</function>
+								</TransformAxis>
+								<!--3 Axes for translations are listed next.-->
+								<TransformAxis name="translation1">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>ptpt_tx</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>1 0 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="translation2">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>ptpt_ty</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 1 0</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+								<TransformAxis name="translation3">
+									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+									<coordinates>ptpt_tz</coordinates>
+									<!--Rotation or translation axis for the transform.-->
+									<axis>0 0 1</axis>
+									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
+									<function>
+										<LinearFunction>
+											<coefficients> 1 0</coefficients>
+										</LinearFunction>
+									</function>
+								</TransformAxis>
+							</SpatialTransform>
+						</CustomJoint>
+					</Joint>
+				</Body>
+			</objects>
+		</BodySet>
+		<!--Constraints in the model.-->
+		<ConstraintSet>
+			<objects>
+				<CoordinateCouplerConstraint name="bicpt_tx_con">
+					<!--Flag indicating whether the constraint is disabled or not. Disabled means that the constraint is not active in subsequent dynamics realization-->
+					<isDisabled>false</isDisabled>
+					<!--Constraint function of generalized coordinates (to be specified) used to evaluate the constraint errors and their derivatives, and must valid to at least 2nd order. Constraint function must evaluate to zero when coordinates satisfy constraint-->
+					<coupled_coordinates_function>
+						<SimmSpline>
+							<x> 0 2.26893</x>
+							<y> -0.0001 0.0042</y>
+						</SimmSpline>
+					</coupled_coordinates_function>
+					<!--List of names of the independent coordinates (restricted to 1 for now).-->
+					<independent_coordinate_names>elbow_flexion</independent_coordinate_names>
+					<!--Name of the dependent coordinate.-->
+					<dependent_coordinate_name>bicpt_tx</dependent_coordinate_name>
+				</CoordinateCouplerConstraint>
+				<CoordinateCouplerConstraint name="bicpt_ty_con">
+					<!--Flag indicating whether the constraint is disabled or not. Disabled means that the constraint is not active in subsequent dynamics realization-->
+					<isDisabled>false</isDisabled>
+					<!--Constraint function of generalized coordinates (to be specified) used to evaluate the constraint errors and their derivatives, and must valid to at least 2nd order. Constraint function must evaluate to zero when coordinates satisfy constraint-->
+					<coupled_coordinates_function>
+						<SimmSpline>
+							<x> 0 2.26893</x>
+							<y> -0.0276 -0.0425</y>
+						</SimmSpline>
+					</coupled_coordinates_function>
+					<!--List of names of the independent coordinates (restricted to 1 for now).-->
+					<independent_coordinate_names>elbow_flexion</independent_coordinate_names>
+					<!--Name of the dependent coordinate.-->
+					<dependent_coordinate_name>bicpt_ty</dependent_coordinate_name>
+				</CoordinateCouplerConstraint>
+				<CoordinateCouplerConstraint name="bicpt_tz_con">
+					<!--Flag indicating whether the constraint is disabled or not. Disabled means that the constraint is not active in subsequent dynamics realization-->
+					<isDisabled>false</isDisabled>
+					<!--Constraint function of generalized coordinates (to be specified) used to evaluate the constraint errors and their derivatives, and must valid to at least 2nd order. Constraint function must evaluate to zero when coordinates satisfy constraint-->
+					<coupled_coordinates_function>
+						<SimmSpline>
+							<x> 0 2.26893</x>
+							<y> -0.0043 -0.0067</y>
+						</SimmSpline>
+					</coupled_coordinates_function>
+					<!--List of names of the independent coordinates (restricted to 1 for now).-->
+					<independent_coordinate_names>elbow_flexion</independent_coordinate_names>
+					<!--Name of the dependent coordinate.-->
+					<dependent_coordinate_name>bicpt_tz</dependent_coordinate_name>
+				</CoordinateCouplerConstraint>
+				<CoordinateCouplerConstraint name="bicpt2_tx_con">
+					<!--Flag indicating whether the constraint is disabled or not. Disabled means that the constraint is not active in subsequent dynamics realization-->
+					<isDisabled>false</isDisabled>
+					<!--Constraint function of generalized coordinates (to be specified) used to evaluate the constraint errors and their derivatives, and must valid to at least 2nd order. Constraint function must evaluate to zero when coordinates satisfy constraint-->
+					<coupled_coordinates_function>
+						<SimmSpline>
+							<x> -1.5708 -0.610865 1.57823</x>
+							<y> -0.003 0.01 0.01376</y>
+						</SimmSpline>
+					</coupled_coordinates_function>
+					<!--List of names of the independent coordinates (restricted to 1 for now).-->
+					<independent_coordinate_names>pro_sup</independent_coordinate_names>
+					<!--Name of the dependent coordinate.-->
+					<dependent_coordinate_name>bicpt2_tx</dependent_coordinate_name>
+				</CoordinateCouplerConstraint>
+				<CoordinateCouplerConstraint name="bicpt2_ty_con">
+					<!--Flag indicating whether the constraint is disabled or not. Disabled means that the constraint is not active in subsequent dynamics realization-->
+					<isDisabled>false</isDisabled>
+					<!--Constraint function of generalized coordinates (to be specified) used to evaluate the constraint errors and their derivatives, and must valid to at least 2nd order. Constraint function must evaluate to zero when coordinates satisfy constraint-->
+					<coupled_coordinates_function>
+						<SimmSpline>
+							<x> 0 2.27483</x>
+							<y> -0.0102 -0.045607</y>
+						</SimmSpline>
+					</coupled_coordinates_function>
+					<!--List of names of the independent coordinates (restricted to 1 for now).-->
+					<independent_coordinate_names>elbow_flexion</independent_coordinate_names>
+					<!--Name of the dependent coordinate.-->
+					<dependent_coordinate_name>bicpt2_ty</dependent_coordinate_name>
+				</CoordinateCouplerConstraint>
+				<CoordinateCouplerConstraint name="bicpt2_tz_con">
+					<!--Flag indicating whether the constraint is disabled or not. Disabled means that the constraint is not active in subsequent dynamics realization-->
+					<isDisabled>false</isDisabled>
+					<!--Constraint function of generalized coordinates (to be specified) used to evaluate the constraint errors and their derivatives, and must valid to at least 2nd order. Constraint function must evaluate to zero when coordinates satisfy constraint-->
+					<coupled_coordinates_function>
+						<SimmSpline>
+							<x> -1.5708 -0.610865 1.57561</x>
+							<y> -0.0095 -0.011533 -0.000331</y>
+						</SimmSpline>
+					</coupled_coordinates_function>
+					<!--List of names of the independent coordinates (restricted to 1 for now).-->
+					<independent_coordinate_names>pro_sup</independent_coordinate_names>
+					<!--Name of the dependent coordinate.-->
+					<dependent_coordinate_name>bicpt2_tz</dependent_coordinate_name>
+				</CoordinateCouplerConstraint>
+				<CoordinateCouplerConstraint name="ptpt_tx_con">
+					<!--Flag indicating whether the constraint is disabled or not. Disabled means that the constraint is not active in subsequent dynamics realization-->
+					<isDisabled>false</isDisabled>
+					<!--Constraint function of generalized coordinates (to be specified) used to evaluate the constraint errors and their derivatives, and must valid to at least 2nd order. Constraint function must evaluate to zero when coordinates satisfy constraint-->
+					<coupled_coordinates_function>
+						<SimmSpline>
+							<x> -1.5708 1.5708</x>
+							<y> 0.0142 0.0009</y>
+						</SimmSpline>
+					</coupled_coordinates_function>
+					<!--List of names of the independent coordinates (restricted to 1 for now).-->
+					<independent_coordinate_names>pro_sup</independent_coordinate_names>
+					<!--Name of the dependent coordinate.-->
+					<dependent_coordinate_name>ptpt_tx</dependent_coordinate_name>
+				</CoordinateCouplerConstraint>
+				<CoordinateCouplerConstraint name="ptpt_ty_con">
+					<!--Flag indicating whether the constraint is disabled or not. Disabled means that the constraint is not active in subsequent dynamics realization-->
+					<isDisabled>false</isDisabled>
+					<!--Constraint function of generalized coordinates (to be specified) used to evaluate the constraint errors and their derivatives, and must valid to at least 2nd order. Constraint function must evaluate to zero when coordinates satisfy constraint-->
+					<coupled_coordinates_function>
+						<SimmSpline>
+							<x> -1.5708 1.5708</x>
+							<y> -0.0606 -0.0692</y>
+						</SimmSpline>
+					</coupled_coordinates_function>
+					<!--List of names of the independent coordinates (restricted to 1 for now).-->
+					<independent_coordinate_names>pro_sup</independent_coordinate_names>
+					<!--Name of the dependent coordinate.-->
+					<dependent_coordinate_name>ptpt_ty</dependent_coordinate_name>
+				</CoordinateCouplerConstraint>
+				<CoordinateCouplerConstraint name="ptpt_tz_con">
+					<!--Flag indicating whether the constraint is disabled or not. Disabled means that the constraint is not active in subsequent dynamics realization-->
+					<isDisabled>false</isDisabled>
+					<!--Constraint function of generalized coordinates (to be specified) used to evaluate the constraint errors and their derivatives, and must valid to at least 2nd order. Constraint function must evaluate to zero when coordinates satisfy constraint-->
+					<coupled_coordinates_function>
+						<SimmSpline>
+							<x> -1.5708 1.5708</x>
+							<y> 0.0072 -0.0073</y>
+						</SimmSpline>
+					</coupled_coordinates_function>
+					<!--List of names of the independent coordinates (restricted to 1 for now).-->
+					<independent_coordinate_names>pro_sup</independent_coordinate_names>
+					<!--Name of the dependent coordinate.-->
+					<dependent_coordinate_name>ptpt_tz</dependent_coordinate_name>
+				</CoordinateCouplerConstraint>
+			</objects>
+		</ConstraintSet>
+		<!--Forces in the model.-->
+		<ForceSet>
+			<objects>
+				<PathActuator name="DELT1">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="DELT1-P1">
+									<location> 0.00896 -0.11883 0.00585</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="DELT1-P2">
+									<location> 0.01623 -0.11033 0.00412</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="DELT1-P3">
+									<location> 0.04347 -0.03252 0.00099</location>
+									<body>scapula</body>
+								</PathPoint>
+								<PathPoint name="DELT1-P4">
+									<location> -0.014 0.01106 0.08021</location>
+									<body>clavicle</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>delt2hum</wrap_object>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>DELT1hh</wrap_object>
+									<method>hybrid</method>
+									<range> 2 3</range>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>1142.6</optimal_force>
+				</PathActuator>
+				<PathActuator name="DELT2">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="DELT2-P1">
+									<location> 0.00461 -0.13611 0.0056</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="DELT2-P3">
+									<location> 5e-005 0.00294 0.02233</location>
+									<body>scapula</body>
+								</PathPoint>
+								<PathPoint name="DELT2-P4">
+									<location> -0.01078 -0.00034 0.0062</location>
+									<body>scapula</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>Deltoid2</wrap_object>
+									<method>hybrid</method>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>delt2hum</wrap_object>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>TMAJ_LAT_PEC_CORBhh</wrap_object>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>1142.6</optimal_force>
+				</PathActuator>
+				<PathActuator name="DELT3">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="DELT3-P1">
+									<location> -0.05573 0.00122 -0.02512</location>
+									<body>scapula</body>
+								</PathPoint>
+								<PathPoint name="DELT3-P2">
+									<location> -0.07247 -0.03285 0.01233</location>
+									<body>scapula</body>
+								</PathPoint>
+								<PathPoint name="DELT3-P3">
+									<location> 0.00206 -0.07602 0.01045</location>
+									<body>humerus</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>Delt3</wrap_object>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>delt3hum</wrap_object>
+									<method>hybrid</method>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>TMAJ_LAT_PEC_CORBhh</wrap_object>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>259.88</optimal_force>
+				</PathActuator>
+				<PathActuator name="SUPSP">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="SUPSP-P1">
+									<location> 0.00256 0.01063 0.02593</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="SUPSP-P2">
+									<location> -0.01918 0.00127 -0.01271</location>
+									<body>scapula</body>
+								</PathPoint>
+								<PathPoint name="SUPSP-P3">
+									<location> -0.044 -0.01512 -0.05855</location>
+									<body>scapula</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>SUPSP</wrap_object>
+									<method>hybrid</method>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>487.82</optimal_force>
+				</PathActuator>
+				<PathActuator name="INFSP">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="INFSP-P1">
+									<location> -0.00887 0.00484 0.02448</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="INFSP-P2">
+									<location> -0.07382 -0.05476 -0.04781</location>
+									<body>scapula</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>INFSP</wrap_object>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>INFSP_and_TMIN_hum_head</wrap_object>
+									<method>hybrid</method>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>1210.84</optimal_force>
+				</PathActuator>
+				<PathActuator name="SUBSC">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="SUBSC-P1">
+									<location> 0.01403 0.0084 -0.01331</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="SUBSC-P2">
+									<location> -0.01831 -0.05223 -0.02457</location>
+									<body>scapula</body>
+								</PathPoint>
+								<PathPoint name="SUBSC-P3">
+									<location> -0.07246 -0.03943 -0.06475</location>
+									<body>scapula</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>SUBSCAP</wrap_object>
+									<method>hybrid</method>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>1377.81</optimal_force>
+				</PathActuator>
+				<PathActuator name="TMIN">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="TMIN-P1">
+									<location> -0.0011 -0.01264 0.02156</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="TMIN-P2">
+									<location> -0.09473 -0.07991 -0.04737</location>
+									<body>scapula</body>
+								</PathPoint>
+								<PathPoint name="TMIN-P3">
+									<location> -0.09643 -0.08121 -0.05298</location>
+									<body>scapula</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>TMIN</wrap_object>
+									<method>hybrid</method>
+									<range> 1 2</range>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>INFSP_and_TMIN_hum_head</wrap_object>
+									<method>hybrid</method>
+									<range> 1 2</range>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>TMINhum</wrap_object>
+									<range> 1 2</range>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>354.25</optimal_force>
+				</PathActuator>
+				<PathActuator name="TMAJ">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="TMAJ-P1">
+									<location> 0.00998 -0.05419 -0.00568</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="TMAJ-P2">
+									<location> -0.10264 -0.10319 -0.05829</location>
+									<body>scapula</body>
+								</PathPoint>
+								<PathPoint name="TMAJ-P3">
+									<location> -0.10489 -0.10895 -0.07117</location>
+									<body>scapula</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>TMAJ_LAThum</wrap_object>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>LAT_TMAJhh</wrap_object>
+									<range> 1 2</range>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>LAT_TMAJ2hh</wrap_object>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>425.39</optimal_force>
+				</PathActuator>
+				<PathActuator name="PECM1">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="PECM1-P1">
+									<location> 0.01169 -0.04191 0.0078</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="PECM1-P4">
+									<location> 0.00321 -0.00013 0.05113</location>
+									<body>clavicle</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>Thorax</wrap_object>
+									<method>hybrid</method>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>PEC12hum</wrap_object>
+									<range> 2 2</range>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>PEC1hh</wrap_object>
+									<method>hybrid</method>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>364.41</optimal_force>
+				</PathActuator>
+				<PathActuator name="PECM2">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="PECM2-P1">
+									<location> 0.01274 -0.04289 0.00785</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="PECM2-P4">
+									<location> 0.03091 -0.03922 0.09705</location>
+									<body>thorax</body>
+								</PathPoint>
+								<PathPoint name="PECM2-P5">
+									<location> 0.02769 -0.04498 0.02271</location>
+									<body>thorax</body>
+								</PathPoint>
+							</objects>
+							<groups />
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>Thorax</wrap_object>
+									<method>hybrid</method>
+									<range> -1 -1</range>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>PEC12hum</wrap_object>
+									<method>hybrid</method>
+									<range> 2 2</range>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>TMAJ_LAT_PEC_CORBhh</wrap_object>
+									<method>hybrid</method>
+									<range> -1 -1</range>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>PEC23hh</wrap_object>
+									<method>hybrid</method>
+									<range> -1 -1</range>
+								</PathWrap>
+							</objects>
+							<groups />
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>515.41</optimal_force>
+				</PathActuator>
+				<PathActuator name="PECM3">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="PECM3-P1">
+									<location> 0.01269 -0.04375 0.0075</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="PECM3-P4">
+									<location> 0.0525 -0.08417 0.08935</location>
+									<body>thorax</body>
+								</PathPoint>
+								<PathPoint name="PECM3-P5">
+									<location> 0.05724 -0.11654 0.03787</location>
+									<body>thorax</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>Thorax</wrap_object>
+									<method>hybrid</method>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>PEC3hum</wrap_object>
+									<range> 2 2</range>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>PEC23hh</wrap_object>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>390.55</optimal_force>
+				</PathActuator>
+				<PathActuator name="LAT1">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="LAT1-P1">
+									<location> 0.0105 -0.03415 -0.00653</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="LAT1-P3">
+									<location> -0.110785 -0.085837 -0.0631024</location>
+									<body>scapula</body>
+								</PathPoint>
+								<PathPoint name="LAT1-P4">
+									<location> -0.11828 -0.10118 0.03316</location>
+									<body>thorax</body>
+								</PathPoint>
+								<PathPoint name="LAT1-P5">
+									<location> -0.09578 -0.11724 0.00882</location>
+									<body>thorax</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>TMAJ_LAThum</wrap_object>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>LAT_TMAJhh</wrap_object>
+									<range> 1 1</range>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>LAT_TMAJ2hh</wrap_object>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>389.1</optimal_force>
+				</PathActuator>
+				<PathActuator name="LAT2">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="LAT2-P1">
+									<location> 0.00968 -0.04071 -0.00611</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="LAT2-P2">
+									<location> -0.0797177 -0.0950235 -0.0211153</location>
+									<body>scapula</body>
+								</PathPoint>
+								<PathPoint name="LAT2-P3">
+									<location> -0.107458 -0.124537 -0.0695447</location>
+									<body>scapula</body>
+								</PathPoint>
+								<PathPoint name="LAT2-P4">
+									<location> -0.10992 -0.16908 0.02878</location>
+									<body>thorax</body>
+								</PathPoint>
+								<PathPoint name="LAT2-P5">
+									<location> -0.07186 -0.18818 0.00815</location>
+									<body>thorax</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>TMAJ_LAThum</wrap_object>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>LAT_TMAJhh</wrap_object>
+									<range> 1 2</range>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>LAT_TMAJ2hh</wrap_object>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>389.1</optimal_force>
+				</PathActuator>
+				<PathActuator name="LAT3">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="LAT3-P1">
+									<location> 0.01208 -0.03922 -0.00416</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="LAT3-P3">
+									<location> -0.111107 -0.131024 0.09374</location>
+									<body>thorax</body>
+								</PathPoint>
+								<PathPoint name="LAT3-P4">
+									<location> -0.11157 -0.19387 0.05532</location>
+									<body>thorax</body>
+								</PathPoint>
+								<PathPoint name="LAT3-P5">
+									<location> -0.07117 -0.24858 0.00907</location>
+									<body>thorax</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>TMAJ_LAThum</wrap_object>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>LAT_TMAJhh</wrap_object>
+									<range> 1 1</range>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>LAT_TMAJ2hh</wrap_object>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>281.66</optimal_force>
+				</PathActuator>
+				<PathActuator name="CORB">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="CORB-P1">
+									<location> 0.0125 -0.04127 -0.02652</location>
+									<body>scapula</body>
+								</PathPoint>
+								<PathPoint name="CORB-P2">
+									<location> 0.00483 -0.06958 -0.01563</location>
+									<body>scapula</body>
+								</PathPoint>
+								<PathPoint name="CORB-P3">
+									<location> 0.00743 -0.15048 -0.00782</location>
+									<body>humerus</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>CORBhum</wrap_object>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>TMAJ_LAT_PEC_CORBhh</wrap_object>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>242.46</optimal_force>
+				</PathActuator>
+				<PathActuator name="TRIlong">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="TRIlong-P1">
+									<location> -0.04565 -0.04073 -0.01377</location>
+									<body>scapula</body>
+								</PathPoint>
+								<PathPoint name="TRIlong-P2">
+									<location> -0.02714 -0.11441 -0.00664</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="TRIlong-P3">
+									<location> -0.03184 -0.22637 -0.01217</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="TRIlong-P4">
+									<location> -0.01743 -0.26757 -0.01208</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="TRIlong-P5">
+									<location> -0.0219 0.01046 -0.00078</location>
+									<body>ulna</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>TRI</wrap_object>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>TRIlonghh</wrap_object>
+									<method>hybrid</method>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>TRIlongglen</wrap_object>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>798.52</optimal_force>
+				</PathActuator>
+				<PathActuator name="TRIlat">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="TRIlat-P1">
+									<location> -0.00599 -0.12646 0.00428</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="TRIlat-P2">
+									<location> -0.02344 -0.14528 0.00928</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="TRIlat-P3">
+									<location> -0.03184 -0.22637 -0.01217</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="TRIlat-P4">
+									<location> -0.01743 -0.26757 -0.01208</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="TRIlat-P5">
+									<location> -0.0219 0.01046 -0.00078</location>
+									<body>ulna</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>TRI</wrap_object>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>624.3</optimal_force>
+				</PathActuator>
+				<PathActuator name="TRImed">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="TRImed-P1">
+									<location> -0.00838 -0.13695 -0.00906</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="TRImed-P2">
+									<location> -0.02601 -0.15139 -0.0108</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="TRImed-P3">
+									<location> -0.03184 -0.22637 -0.01217</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="TRImed-P4">
+									<location> -0.01743 -0.26757 -0.01208</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="TRImed-P5">
+									<location> -0.0219 0.01046 -0.00078</location>
+									<body>ulna</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>TRI</wrap_object>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>624.3</optimal_force>
+				</PathActuator>
+				<PathActuator name="ANC">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="ANC-P1">
+									<location> -0.00744 -0.28359 0.00979</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="ANC-P2">
+									<location> -0.02532 -0.00124 0.006</location>
+									<body>ulna</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>ANC</wrap_object>
+									<method>hybrid</method>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>350</optimal_force>
+				</PathActuator>
+				<PathActuator name="SUP">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="SUP-P1">
+									<location> 0.00996 -0.06096 0.00075</location>
+									<body>radius</body>
+								</PathPoint>
+								<PathPoint name="SUP-P2">
+									<location> 0.01201 -0.0517 -0.00107</location>
+									<body>radius</body>
+								</PathPoint>
+								<PathPoint name="SUP-P3">
+									<location> -0.0136 -0.03384 0.02013</location>
+									<body>ulna</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>SUP</wrap_object>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>476</optimal_force>
+				</PathActuator>
+				<PathActuator name="BIClong">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="BIClong-P1">
+									<location> -0.03123 -0.02353 -0.01305</location>
+									<body>scapula</body>
+								</PathPoint>
+								<PathPoint name="BIClong-P2">
+									<location> -0.02094 -0.01309 -0.00461</location>
+									<body>scapula</body>
+								</PathPoint>
+								<PathPoint name="BIClong-P3">
+									<location> 0.02131 0.01793 0.01028</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="BIClong-P4">
+									<location> 0.02378 -0.00511 0.01201</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="BIClong-P5">
+									<location> 0.01345 -0.02827 0.00136</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="BIClong-P6">
+									<location> 0.01068 -0.07736 -0.00165</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="BIClong-P7">
+									<location> 0.01703 -0.12125 0.00024</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="BIClong-P8">
+									<location> 0.0226105 -0.1758 -0.00628434</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="BIClong-P9">
+									<location> 0 0 0</location>
+									<body>bicpt2</body>
+								</PathPoint>
+								<ConditionalPathPoint name="BIClong-P10">
+									<location> 0 0 0</location>
+									<body>bicpt</body>
+									<range> -0.638791 1.5708</range>
+									<coordinate>pro_sup</coordinate>
+								</ConditionalPathPoint>
+								<PathPoint name="BIClong-P11">
+									<location> -0.002 -0.0375 -0.002</location>
+									<body>radius</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>Elbow_BIC_BRD</wrap_object>
+									<method>hybrid</method>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>BIClong</wrap_object>
+									<method>hybrid</method>
+									<range> 2 3</range>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>624.3</optimal_force>
+				</PathActuator>
+				<PathActuator name="BICshort">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="BICshort-P1">
+									<location> 0.01268 -0.03931 -0.02625</location>
+									<body>scapula</body>
+								</PathPoint>
+								<PathPoint name="BICshort-P2">
+									<location> 0.00093 -0.06704 -0.01593</location>
+									<body>scapula</body>
+								</PathPoint>
+								<PathPoint name="BICshort-P3">
+									<location> 0.01117 -0.07576 -0.01101</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="BICshort-P4">
+									<location> 0.01703 -0.12125 -0.01079</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="BICshort-P5">
+									<location> 0.0228 -0.1754 -0.0063</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="BICshort-P6">
+									<location> 0 0 0</location>
+									<body>bicpt2</body>
+								</PathPoint>
+								<ConditionalPathPoint name="BICshort-P7">
+									<location> 0 0 0</location>
+									<body>bicpt</body>
+									<range> -0.638791 1.5708</range>
+									<coordinate>pro_sup</coordinate>
+								</ConditionalPathPoint>
+								<PathPoint name="BICshort-P8">
+									<location> -0.002 -0.0375 -0.002</location>
+									<body>radius</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>Elbow_BIC_BRD</wrap_object>
+									<method>hybrid</method>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>435.56</optimal_force>
+				</PathActuator>
+				<PathActuator name="BRA">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="BRA-P1">
+									<location> 0.0068 -0.1739 -0.0036</location>
+									<body>humerus</body>
+								</PathPoint>
+								<ConditionalPathPoint name="BRA-P2">
+									<location> 0.01894 -0.28559 -0.01105</location>
+									<body>humerus</body>
+									<range> 0 0.813149</range>
+									<coordinate>elbow_flexion</coordinate>
+								</ConditionalPathPoint>
+								<ConditionalPathPoint name="BRA-P3">
+									<location> 0.00498 -0.01463 0.00128</location>
+									<body>ulna</body>
+									<range> 0 0.813149</range>
+									<coordinate>elbow_flexion</coordinate>
+								</ConditionalPathPoint>
+								<PathPoint name="BRA-P4">
+									<location> -0.0032 -0.0239 0.0009</location>
+									<body>ulna</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>987.26</optimal_force>
+				</PathActuator>
+				<PathActuator name="BRD">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="BRD-P1">
+									<location> -0.0098 -0.19963 0.00223</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="BRD-P2">
+									<location> 0.03577 -0.12742 0.02315</location>
+									<body>radius</body>
+								</PathPoint>
+								<PathPoint name="BRD-P3">
+									<location> 0.0419 -0.221 0.0224</location>
+									<body>radius</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>Elbow_BIC_BRD</wrap_object>
+									<method>hybrid</method>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>261.33</optimal_force>
+				</PathActuator>
+				<PathActuator name="PT">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="PT-P1">
+									<location> 0.0036 -0.2759 -0.0365</location>
+									<body>humerus</body>
+								</PathPoint>
+								<PathPoint name="PT-P2">
+									<location> 0.00846 -0.03373 -0.01432</location>
+									<body>ulna</body>
+								</PathPoint>
+								<PathPoint name="PT-P3">
+									<location> 0.00464 -0.00026 -0.00214</location>
+									<body>ptpt</body>
+								</PathPoint>
+								<ConditionalPathPoint name="PT-P4">
+									<location> 0.0236 -0.0934 0.0094</location>
+									<body>radius</body>
+									<range> -1.5708 0.509636</range>
+									<coordinate>pro_sup</coordinate>
+								</ConditionalPathPoint>
+								<PathPoint name="PT-P5">
+									<location> 0.0254 -0.1088 0.0198</location>
+									<body>radius</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>Elbow_PT_ECRL</wrap_object>
+									<method>hybrid</method>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>566.22</optimal_force>
+				</PathActuator>
+				<PathActuator name="PQ">
+					<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+					<isDisabled>false</isDisabled>
+					<!--The set of points defining the path of the muscle.-->
+					<GeometryPath>
+						<!--The set of points defining the path-->
+						<PathPointSet>
+							<objects>
+								<PathPoint name="PQ-P1">
+									<location> 0.03245 -0.19998 0.01962</location>
+									<body>radius</body>
+								</PathPoint>
+								<PathPoint name="PQ-P2">
+									<location> 0.00193 -0.20972 0.03632</location>
+									<body>ulna</body>
+								</PathPoint>
+							</objects>
+						</PathPointSet>
+						<!--The wrap objecs that are associated with this path-->
+						<PathWrapSet>
+							<objects>
+								<PathWrap>
+									<wrap_object>PQ2</wrap_object>
+								</PathWrap>
+								<PathWrap>
+									<wrap_object>PQ1</wrap_object>
+								</PathWrap>
+							</objects>
+						</PathWrapSet>
+						<!--Used to display the path in the 3D window-->
+						<VisibleObject name="display">
+							<!--Set of geometry files and associated attributes, allow .vtp, .stl, .obj-->
+							<GeometrySet>
+								<objects />
+								<groups />
+							</GeometrySet>
+							<!--Three scale factors for display purposes: scaleX scaleY scaleZ-->
+							<scale_factors> 1 1 1</scale_factors>
+							<!--transform relative to owner specified as 3 rotations (rad) followed by 3 translations rX rY rZ tx ty tz-->
+							<transform> -0 0 -0 0 0 0</transform>
+							<!--Whether to show a coordinate frame-->
+							<show_axes>false</show_axes>
+							<!--Display Pref. 0:Hide 1:Wire 3:Flat 4:Shaded Can be overriden for individual geometries-->
+							<display_preference>4</display_preference>
+						</VisibleObject>
+					</GeometryPath>
+					<!--The maximum force this actuator can produce.-->
+					<optimal_force>75.48</optimal_force>
+				</PathActuator>
+			</objects>
+			<groups>
+				<ObjectGroup name="shoulder">
+					<members> CORB DELT1 DELT2 DELT3 INFSP LAT1 LAT2 LAT3 PECM1 PECM2 PECM3 SUBSC SUPSP TMAJ TMIN</members>
+				</ObjectGroup>
+				<ObjectGroup name="elbow">
+					<members> ANC BIClong BICshort BRA BRD PT TRIlat TRIlong TRImed</members>
+				</ObjectGroup>
+				<ObjectGroup name="forearm">
+					<members> PQ PT SUP</members>
+				</ObjectGroup>
+				<ObjectGroup name="extensor">
+					<members />
+				</ObjectGroup>
+				<ObjectGroup name="radial">
+					<members />
+				</ObjectGroup>
+				<ObjectGroup name="wrist">
+					<members />
+				</ObjectGroup>
+				<ObjectGroup name="ulnar">
+					<members />
+				</ObjectGroup>
+				<ObjectGroup name="flexor">
+					<members />
+				</ObjectGroup>
+				<ObjectGroup name="hand">
+					<members />
+				</ObjectGroup>
+				<ObjectGroup name="thumb">
+					<members />
+				</ObjectGroup>
+			</groups>
+		</ForceSet>
+		<!--Markers in the model.-->
+		<MarkerSet>
+			<objects>
+				<Marker name="end_effector">
+					<!--Body segment in the model on which the marker resides.-->
+					<body>radius</body>
+					<!--Location of a marker on the body segment.-->
+					<location> 0.0181055 -0.374422 0.0380722</location>
+					<!--Flag (true or false) specifying whether or not a marker should be kept fixed in the marker placement step.  i.e. If false, the marker is allowed to move.-->
+					<fixed>false</fixed>
+				</Marker>
+			</objects>
+		</MarkerSet>
+	</Model>
+</OpenSimDocument>

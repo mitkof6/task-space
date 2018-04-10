@@ -59,7 +59,7 @@ void findExperimentConfiguration(State& state, Model& model,
     ik.adoptAssemblyGoal(imus);
     imus->moveOneObservation(humerusOX, SimTK::Rotation(
         SimTK::BodyOrSpaceType::SpaceRotationSequence,
-        convertDegreesToRadians(-90), SimTK::XAxis,
+        convertDegreesToRadians(-60), SimTK::XAxis,
         convertDegreesToRadians(thetaShoulderDeg), SimTK::YAxis,
         convertDegreesToRadians(0), SimTK::ZAxis));
     imus->moveOneObservation(radiusOX, SimTK::Rotation(
@@ -80,7 +80,8 @@ void perreault2001Experiment() {
     cout << "Warning: The model geometry may not be visible if OpenSim's " <<
         "Geometry folder is missing. This does not affect the simulation" << endl;
     // load model
-    Model model(DATA_DIR + "/mobl/mobl_2016_ideal_muscles.osim");
+    // Model model(DATA_DIR + "/mobl/mobl_2016_ideal_muscles.osim");
+    Model model(DATA_DIR + "/mobl/mobl_2016_simplified_ideal_muscles.osim");
 #if USE_VISUALIZER == 1
     model.setUseVisualizer(true);
 #endif
@@ -115,13 +116,13 @@ void perreault2001Experiment() {
      */
     auto controlStrategy = [&](const State& s) -> Vector {
         auto data = taskDynamics->calcTaskDynamicsData(s);
-        return data.tauTasks - 30 * data.NgT * s.getU();
+        return data.tauTasks - 20 * data.NgT * s.getU();
         /*return ~handTask->J(s) * Vector(Vec3(0, 0, -100)) +
             data.NgT * (data.f + data.bc);*/
     };
     // define the controller (choose between a torque or muscle controller)
-    auto controller = new TaskBasedTorqueController(controlStrategy);
-    // auto controller = new TaskBasedComputedMuscleControl(controlStrategy); // failing
+    // auto controller = new TaskBasedTorqueController(controlStrategy);
+    auto controller = new TaskBasedComputedMuscleControl(controlStrategy);
     model.addController(controller);
 
     // build and initialize model
@@ -149,7 +150,7 @@ void perreault2001Experiment() {
         auto x = handTask->x(s);
         auto u = handTask->u(s);
         auto xd = handx0;
-        xd(3, 3) += Vector(Vec3(0, 0, 0.0 * sin(2 * Pi * s.getTime())));
+        xd(3, 3) += Vector(Vec3(0, 0, 0.1 * sin(2 * Pi * s.getTime())));
         return Vector(kp * (xd - x) - kd * u);
     };
     handTask->setGoal(handGoal);
@@ -161,7 +162,7 @@ void perreault2001Experiment() {
     }
 
     //simulate
-    simulate(model, state, .03, true);
+    simulate(model, state, 1.0, true);
 
     // export results
     controller->printResults(example, DATA_DIR + "/results");
