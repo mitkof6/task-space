@@ -155,6 +155,34 @@ namespace OpenSim {
          * Computes the TaskDynamicsData.
          */
         TaskDynamicsData calcTaskDynamicsData(const SimTK::State& s);
+        /**
+         * \brief Data used for implementing different control strategies
+         * ignoring task dynamics.
+         */
+        struct TaskIgnoreDynamicsData {
+            /**
+             * The total generalized forces of the tasks originating form
+             * acceleration task goals.
+             *
+             * \f$ \tau = \sum_{t=1}^g J_{t|t-1*}^T \ddot{x}_t \f$
+             *
+             * @see TaskProjection.h
+             */
+            SimTK::Vector tauTasks;
+            /**
+             * The total null space transpose.
+             *
+             * \f$ N_{g*}^T = \prod_{t=1}^g N^T_{t|t-1*} N^T_{i-1*}, \; N_{0*}
+             * = N_c^T (constraints)\f$
+             *
+             * @see TaskProjection.h
+             */
+            SimTK::Matrix NgT;
+        };
+        /**
+         * Computes the TaskDynamicsData.
+         */
+        TaskIgnoreDynamicsData calcTaskIgnoreDynamicsData(const SimTK::State& s);
         /** cout << graph << endl; */
         friend std::ostream& operator<<(std::ostream& os,
                                         const TaskDynamics& g) {
