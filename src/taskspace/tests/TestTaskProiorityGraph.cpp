@@ -20,7 +20,7 @@ using namespace OpenSim;
 using namespace SimTK;
 
 void testGraphConstruction() {
-  TaskDynamics dynamics(NULL, Matrix());
+    TaskDynamics dynamics(NULL, Matrix());
     auto pelvis = new SpatialTask("pelvis", Vec3(0));
     dynamics.addTask(pelvis, NULL);
     auto femur = new OrientationTask("femur", Vec3(0));
