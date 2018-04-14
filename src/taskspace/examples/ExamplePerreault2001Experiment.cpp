@@ -121,8 +121,8 @@ void perreault2001Experiment() {
             data.NgT * (data.f + data.bc);*/
     };
     // define the controller (choose between a torque or muscle controller)
-    // auto controller = new TaskBasedTorqueController(controlStrategy);
-    auto controller = new TaskBasedComputedMuscleControl(controlStrategy);
+    auto controller = new TaskBasedTorqueController(controlStrategy);
+    // auto controller = new TaskBasedComputedMuscleControl(controlStrategy); // not working
     model.addController(controller);
 
     // build and initialize model
