@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<OpenSimDocument Version="30000">
+	<ForceSet name="gait10dof_Reserve_Actuators">
+		<defaults>
+			<CoordinateActuator name="default">
+				<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+				<isDisabled>false</isDisabled>
+				<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
+				<min_control>-infinity</min_control>
+				<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
+				<max_control>infinity</max_control>
+				<!--Name of the generalized coordinate to which the actuator applies.-->
+				<coordinate></coordinate>
+				<!--The maximum generalized force produced by this actuator.-->
+				<optimal_force>1000</optimal_force>
+			</CoordinateActuator>
+		</defaults>
+		<objects>
+		<!-- Actuators on the base segement are called Residual actuators 
+             whose forces account for the errors in the model, its kinematic
+             that do not balance with experimental ground reaction forces -->
+			<CoordinateActuator name="gear_rotation_reserve">
+				<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+				<isDisabled>false</isDisabled>
+				<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
+				<min_control>-infinity</min_control>
+				<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
+				<max_control>infinity</max_control>
+				<!--Name of the generalized coordinate to which the actuator applies.-->
+				<coordinate>gear_rotation</coordinate>
+				<!--The maximum generalized force produced by this actuator.-->
+				<optimal_force>1</optimal_force>
+			</CoordinateActuator>
+			<CoordinateActuator name="pedal_rotation_r_reserve">
+				<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+				<isDisabled>false</isDisabled>
+				<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
+				<min_control>-infinity</min_control>
+				<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
+				<max_control>infinity</max_control>
+				<!--Name of the generalized coordinate to which the actuator applies.-->
+				<coordinate>pedal_rotation_r</coordinate>
+				<!--The maximum generalized force produced by this actuator.-->
+				<optimal_force>1</optimal_force>
+			</CoordinateActuator>
+			<CoordinateActuator name="pedal_rotation_l_reserve">
+				<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+				<isDisabled>false</isDisabled>
+				<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
+				<min_control>-infinity</min_control>
+				<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
+				<max_control>infinity</max_control>
+				<!--Name of the generalized coordinate to which the actuator applies.-->
+				<coordinate>pedal_rotation_l</coordinate>
+				<!--The maximum generalized force produced by this actuator.-->
+				<optimal_force>1</optimal_force>
+			</CoordinateActuator>
+      <!-- Actuators on the Coordinates are called Reserve actuators 
+           and are used the drive the model when the model excludes its muscles (i.e. RRA)
+           or when muscles are insufficient to track desired kinematics (CMC) -->
+			<CoordinateActuator name="hip_flexion_r_reserve">
+				<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+				<isDisabled>false</isDisabled>
+				<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
+				<min_control>-Inf</min_control>
+				<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
+				<max_control>Inf</max_control>
+				<!--Name of the generalized coordinate to which the actuator applies.-->
+				<coordinate>hip_flexion_r</coordinate>
+				<!--The maximum generalized force produced by this actuator.-->
+				<optimal_force>1</optimal_force>
+			</CoordinateActuator>
+			<CoordinateActuator name="hip_adduction_r_reserve">
+				<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+				<isDisabled>false</isDisabled>
+				<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
+				<min_control>-Inf</min_control>
+				<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
+				<max_control>Inf</max_control>
+				<!--Name of the generalized coordinate to which the actuator applies.-->
+				<coordinate>hip_adduction_r</coordinate>
+				<!--The maximum generalized force produced by this actuator.-->
+				<optimal_force>1</optimal_force>
+			</CoordinateActuator>
+			<CoordinateActuator name="hip_rotation_r_reserve">
+				<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+				<isDisabled>false</isDisabled>
+				<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
+				<min_control>-Inf</min_control>
+				<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
+				<max_control>Inf</max_control>
+				<!--Name of the generalized coordinate to which the actuator applies.-->
+				<coordinate>hip_rotation_r</coordinate>
+				<!--The maximum generalized force produced by this actuator.-->
+				<optimal_force>1</optimal_force>
+			</CoordinateActuator>
+			<CoordinateActuator name="knee_angle_r_reserve">
+				<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+				<isDisabled>false</isDisabled>
+				<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
+				<min_control>-Inf</min_control>
+				<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
+				<max_control>Inf</max_control>
+				<!--Name of the generalized coordinate to which the actuator applies.-->
+				<coordinate>knee_angle_r</coordinate>
+				<!--The maximum generalized force produced by this actuator.-->
+				<optimal_force>1</optimal_force>
+			</CoordinateActuator>
+			<CoordinateActuator name="hip_flexion_l_reserve">
+				<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+				<isDisabled>false</isDisabled>
+				<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
+				<min_control>-Inf</min_control>
+				<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
+				<max_control>Inf</max_control>
+				<!--Name of the generalized coordinate to which the actuator applies.-->
+				<coordinate>hip_flexion_l</coordinate>
+				<!--The maximum generalized force produced by this actuator.-->
+				<optimal_force>1</optimal_force>
+			</CoordinateActuator>
+			<CoordinateActuator name="hip_adduction_l_reserve">
+				<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+				<isDisabled>false</isDisabled>
+				<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
+				<min_control>-Inf</min_control>
+				<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
+				<max_control>Inf</max_control>
+				<!--Name of the generalized coordinate to which the actuator applies.-->
+				<coordinate>hip_adduction_l</coordinate>
+				<!--The maximum generalized force produced by this actuator.-->
+				<optimal_force>1</optimal_force>
+			</CoordinateActuator>
+			<CoordinateActuator name="hip_rotation_l_reserve">
+				<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+				<isDisabled>false</isDisabled>
+				<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
+				<min_control>-Inf</min_control>
+				<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
+				<max_control>Inf</max_control>
+				<!--Name of the generalized coordinate to which the actuator applies.-->
+				<coordinate>hip_rotation_l</coordinate>
+				<!--The maximum generalized force produced by this actuator.-->
+				<optimal_force>1</optimal_force>
+			</CoordinateActuator>
+			<CoordinateActuator name="knee_angle_l_reserve">
+				<!--Flag indicating whether the force is disabled or not. Disabled means that the force is not active in subsequent dynamics realizations.-->
+				<isDisabled>false</isDisabled>
+				<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
+				<min_control>-Inf</min_control>
+				<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
+				<max_control>Inf</max_control>
+				<!--Name of the generalized coordinate to which the actuator applies.-->
+				<coordinate>knee_angle_l</coordinate>
+				<!--The maximum generalized force produced by this actuator.-->
+				<optimal_force>1</optimal_force>
+			</CoordinateActuator>
+		</objects>
+		<groups />
+	</ForceSet>
+</OpenSimDocument>
