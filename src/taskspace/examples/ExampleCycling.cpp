@@ -66,7 +66,7 @@ SimTK::State simulate2(Model& model,
         state = initialState;
         // Set up manager and simulate.
         SimTK::RungeKuttaMersonIntegrator integrator(model.getSystem());
-        integrator.setConstraintTolerance(0.5);
+        integrator.setConstraintTolerance(0.1);
         Manager manager(model, integrator);
         state.setTime(0.0);
         manager.initialize(state);
@@ -84,11 +84,9 @@ SimTK::State simulate2(Model& model,
 void cyclingSimulation() {
     const string example = "ExampleCycling";
 
-    cout << "Warning: The model geometry may not be visible if OpenSim's " <<
-        "Geometry folder is missing. This does not affect the simulation" << endl;
     // load model
-    // Model model("gait2392_simbody.osim");
-    Model model(DATA_DIR + "/bicycle/bicycle_v08.osim");
+    Model model(DATA_DIR + "/bicycle/bicycle_v11.osim");
+    model.set_assembly_accuracy(0.01);
 #if USE_VISUALIZER == 1
     model.setUseVisualizer(true);
 #endif
@@ -117,10 +115,6 @@ void cyclingSimulation() {
     model.addComponent(taskDynamics);
 
     // construct tasks
-    /*auto comTask = new COMTask();
-    taskDynamics->addTask(comTask, NULL);
-    model.addComponent(comTask);*/
-
     auto gearsTask = new OrientationTask("gears", Vec3(0));
     gearsTask->setName("gears_task");
     taskDynamics->addTask(gearsTask, NULL);
@@ -133,7 +127,6 @@ void cyclingSimulation() {
      */
     auto controlStrategy = [&](const State& s) -> Vector {
         auto data = taskDynamics->calcTaskDynamicsData(s);
-        // cout << data.tauTasks << endl;
         return data.tauTasks;
     };
     // define the controller (choose between a torque or muscle controller)

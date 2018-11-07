@@ -25,8 +25,6 @@ Vec3 fromVectorToVec3(const Vector& v) {
 void predictiveSimulation() {
     const string example = "ExampleUpperLimb";
 
-    cout << "Warning: The model geometry may not be visible if OpenSim's " <<
-        "Geometry folder is missing. This does not affect the simulation" << endl;
     // load model
     Model model(DATA_DIR + "/mobl/mobl_2016_ideal_muscles.osim");
 #if USE_VISUALIZER == 1

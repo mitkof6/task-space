@@ -26,11 +26,8 @@ Vec3 fromVectorToVec3(const Vector& v) {
 void arm26Simulation() {
     const string example = "ExampleArm26";
 
-    cout << "Warning: The model geometry may not be visible if OpenSim's " <<
-        "Geometry folder is missing. This does not affect the simulation" << endl;
     // load model
     Model model(DATA_DIR + "/arm26/arm26.osim");
-    // Model model(DATA_DIR + "/arm26/arm26_ideal_muscles.osim"); // test with PathActuators
     model.setUseVisualizer(true);
 
     // body kinematics

@@ -5,7 +5,7 @@
  *
  * [1] Perreault, E. J., Kirsch, R. F., & Crago, P. E. (2001). Effects of
  * voluntary force generation on the elastic components of endpoint stiffness.
- * Experimental Brain Research, 141(3), 312–323.
+ * Experimental Brain Research, 141(3), 312--323.
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *
@@ -77,11 +77,9 @@ void findExperimentConfiguration(State& state, Model& model,
 void perreault2001Experiment() {
     const string example = "ExamplePerreault2001Experiment";
 
-    cout << "Warning: The model geometry may not be visible if OpenSim's " <<
-        "Geometry folder is missing. This does not affect the simulation" << endl;
     // load model
     // Model model(DATA_DIR + "/mobl/mobl_2016_ideal_muscles.osim");
-    Model model(DATA_DIR + "/mobl/mobl_2016_simplified_ideal_muscles.osim");
+    Model model(DATA_DIR + "/mobl/mobl_2016_ideal_muscles.osim");
 #if USE_VISUALIZER == 1
     model.setUseVisualizer(true);
 #endif
@@ -122,7 +120,6 @@ void perreault2001Experiment() {
     };
     // define the controller (choose between a torque or muscle controller)
     auto controller = new TaskBasedTorqueController(controlStrategy);
-    // auto controller = new TaskBasedComputedMuscleControl(controlStrategy); // not working
     model.addController(controller);
 
     // build and initialize model

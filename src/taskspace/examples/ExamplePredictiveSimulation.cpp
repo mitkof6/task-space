@@ -34,11 +34,9 @@ Vec3 fromVectorToVec3(const Vector& v) {
     task->setGoal(task ## Goal);                          \
 
 void predictiveSimulation() {
-    throw runtime_error("Experiment: not functioning yet, due to COMTask");
+    throw runtime_error("Experimental: not functioning yet due to COMTask");
     const string example = "ExamplePredictiveSimulation";
 
-    cout << "Warning: The model geometry may not be visible if OpenSim's " <<
-        "Geometry folder is missing. This does not affect the simulation" << endl;
     // load model
     // Model model("gait2392_simbody.osim");
     Model model(DATA_DIR + "/gait_model/lower_limb_floor_ideal_muscles.osim");

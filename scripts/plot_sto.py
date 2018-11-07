@@ -6,13 +6,14 @@ import os
 ###############################################################################
 
 # parameters
-working_dir = os.getcwd() + '/../build/src/taskspace/'
+working_dir = os.getcwd() + '/../data/results/'
 # sto_file = 'ExampleAbsoluteCoordinates_BodyKinematics_pos_global.sto'
-sto_file = 'ExampleArm26_states.sto'
-substring_filter = 'activation'
+sto_file = 'ExampleCycling_TaskBasedTorqueController.sto'
+# sto_file = 'ExampleArm26_states.sto'
+substring_filter = ''
 # y_label = 'forces $(N | Nm)$'
 # y_label = 'coordinates $(deg | rad)$'
-y_label = 'activation'
+y_label = ''
 export_name = ''
 max_cols = 3
 
