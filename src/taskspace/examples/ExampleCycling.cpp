@@ -85,7 +85,7 @@ void cyclingSimulation() {
     const string example = "ExampleCycling";
 
     // load model
-    Model model(DATA_DIR + "/bicycle/bicycle_v11.osim");
+    Model model(DATA_DIR + "/bicycle/bicycle_v10.osim");
     model.set_assembly_accuracy(0.01);
 #if USE_VISUALIZER == 1
     model.setUseVisualizer(true);
@@ -134,7 +134,14 @@ void cyclingSimulation() {
     // auto controller = new TaskBasedComputedMuscleControl(controlStrategy);
     model.addController(controller);
 
+    // disable any actuators when computing the total force
+    auto& ms = model.updMuscles();
+    for (int i = 0; i < ms.getSize(); i++) {
+        ms[i].set_appliesForce(false);
+    }
+
     // build and initialize model
+    model.finalizeFromProperties();
     auto& state = model.initSystem();
 
     // configure visualizer
@@ -151,23 +158,24 @@ void cyclingSimulation() {
      * tracking the task goal. The task accepts a std::function which takes the
      * state and returns a Vector ([&] captures the current scope).
      */
-    auto gearsx0 = fromVectorToVec3(gearsTask->x(state));
+    auto gearsx0 = gearsTask->x(state);
+    auto direction = Vector(3, 0.0);
+    direction[0] = 1.0;
+    double kp = 500, kd = 50;
+    double mag = 2 * Pi;
     auto gearsGoal = [&](const State& s) -> Vector {
-        auto x = fromVectorToVec3(gearsTask->x(s));
-        auto u = fromVectorToVec3(gearsTask->u(s));
-        double kp = 100, kd = 20;
-        double mag = 10;
-        double f = 2 * 4;
-        auto xd = gearsx0 + Vec3(mag * sin(f * Pi * s.getTime()), 0, 0);
-        auto ud = Vec3(f * Pi * mag * cos(f * Pi * s.getTime()), 0, 0);
-        auto ad = Vec3(-pow(f * Pi, 2) * mag * sin(f * Pi * s.getTime()), 0, 0);
-        return Vector(ad + kp * (xd - x) + kd * (ud - u));
+        auto x = gearsTask->x(s);
+        auto u = gearsTask->u(s);
+        auto xd = gearsx0 + mag * s.getTime() * direction;
+        auto ud = mag * direction;
+        auto ad = 0.0 * direction;
+        return ad + kp * (xd - x) + kd * (ud - u);
     };
     gearsTask->setGoal(gearsGoal);
 
     //simulate
-    // simulate(model, state, .7, true);
-    simulate2(model, state, 1.0, true);
+    // simulate(model, state, 2, true);
+    simulate2(model, state, 4.0, true);
 
     // export results
     controller->printResults(example, DATA_DIR + "/results");
