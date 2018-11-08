@@ -1,7 +1,7 @@
 /**
  * @file ExampleBicycle.cpp
  *
- * \brief
+ * \brief Simulation of cycling using task space control of the gear rotation.
  *
  * @author Dimitar Stanev <jimstanev@gmail.com>
  *
@@ -103,13 +103,6 @@ void cyclingSimulation() {
     // construct task dynamics and selection matrix for under-actuation
     Matrix S(model.getNumCoordinates(), model.getNumCoordinates());
     S = 1;
-    for (int i = 0; i < model.getNumCoordinates(); i++) {
-        S[i][i] = 1.0;
-        /*if (model.getCoordinateSet()[i].getName().find("gear_rotation") != std::string::npos ||
-            model.getCoordinateSet()[i].getName().find("pedal_rotation_") != std::string::npos) {
-            S[i][i] = 0;
-        }*/
-    }
     cout << "Selection matrix: \n" << S << endl;
     auto taskDynamics = new TaskDynamics(constraintModel, S);
     model.addComponent(taskDynamics);
@@ -131,10 +124,10 @@ void cyclingSimulation() {
     };
     // define the controller (choose between a torque or muscle controller)
     auto controller = new TaskBasedTorqueController(controlStrategy);
-    // auto controller = new TaskBasedComputedMuscleControl(controlStrategy);
     model.addController(controller);
 
-    // disable any actuators when computing the total force
+    // disable any actuators when computing the total force to improve
+    // simulation time
     auto& ms = model.updMuscles();
     for (int i = 0; i < ms.getSize(); i++) {
         ms[i].set_appliesForce(false);
