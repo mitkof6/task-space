@@ -48,8 +48,11 @@ void predictiveSimulation() {
     model.addComponent(taskDynamics);
 
     auto marker = model.getMarkerSet().get("end_effector");
-    auto handTask = new SpatialTask(marker.getParentFrameName().substr(3),
-                                    marker.get_location());
+    // here we just have to find the body to which the marker is
+    // attached, but due to OpenSim's Frame it is more difficult now
+    auto markerFrame = marker.getParentFrameName();
+    auto handBody = markerFrame.substr(markerFrame.find("/", 1) + 1);
+    auto handTask = new SpatialTask(handBody, marker.get_location());
     handTask->setName("hand_task");
     taskDynamics->addTask(handTask, NULL);
     model.addComponent(handTask);

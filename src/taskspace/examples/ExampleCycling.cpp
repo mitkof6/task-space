@@ -26,7 +26,7 @@ SimTK::State simulate2(Model& model,
                        const SimTK::State& initialState,
                        double finalTime,
                        bool saveStatesFile = false) {
-    // Returned state begins as a copy of the initial state
+    // Returned/ state begins as a copy of the initial state
     SimTK::State state = initialState;
     SimTK::Visualizer::InputSilo* silo;
 
@@ -65,10 +65,9 @@ SimTK::State simulate2(Model& model,
         // reset the state to the initial state
         state = initialState;
         // Set up manager and simulate.
-        SimTK::RungeKuttaMersonIntegrator integrator(model.getSystem());
-        integrator.setConstraintTolerance(0.1);
-        Manager manager(model, integrator);
+        Manager manager(model);
         state.setTime(0.0);
+        manager.setIntegratorAccuracy(1e-1); // model is a bit unstable due to constraints
         manager.initialize(state);
         manager.integrate(finalTime);
 
@@ -86,7 +85,7 @@ void cyclingSimulation() {
 
     // load model
     Model model(DATA_DIR + "/bicycle/bicycle_v10.osim");
-    model.set_assembly_accuracy(0.01);
+    model.set_assembly_accuracy(0.1);
 #if USE_VISUALIZER == 1
     model.setUseVisualizer(true);
 #endif
@@ -166,7 +165,7 @@ void cyclingSimulation() {
     };
     gearsTask->setGoal(gearsGoal);
 
-    //simulate
+    //simulate we have to relax the tolerance because of the constraints
     // simulate(model, state, 2, true);
     simulate2(model, state, 4.0, true);
 

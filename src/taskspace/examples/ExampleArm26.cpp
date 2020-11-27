@@ -66,8 +66,8 @@ void arm26Simulation() {
         return data.tauTasks + data.NgT * (data.f + data.bc);
     };
     // define the controller (choose between a torque or muscle controller)
-    // auto controller = new TaskBasedTorqueController(controlStrategy);
-    auto controller = new TaskBasedComputedMuscleControl(controlStrategy);
+    auto controller = new TaskBasedTorqueController(controlStrategy);
+    // auto controller = new TaskBasedComputedMuscleControl(controlStrategy);
     model.addController(controller);
 
     // build and initialize model

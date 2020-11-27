@@ -29,6 +29,7 @@ void testGraphConstruction() {
     dynamics.addTask(tibia, femur);
     auto torso = new OrientationTask("torso", Vec3(0));
     dynamics.addTask(torso, pelvis);
+
     cout << dynamics << endl;
     // check singularities
     MUST_THROW_EXCEPTION(dynamics.addTask(pelvis, NULL),

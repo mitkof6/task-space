@@ -161,14 +161,15 @@ void TaskBasedComputedMuscleControl::extendConnectToModel(Model& model) {
     // optimization
     optimizer = new Optimizer(target.getRef(),
                               OptimizerAlgorithm::InteriorPoint);
-    optimizer->setConvergenceTolerance(1E-4);
-    optimizer->setConstraintTolerance(1E-4);
-    optimizer->setMaxIterations(100);
-    //optimizer->setLimitedMemoryHistory(100);
+    optimizer->setConvergenceTolerance(1e-1);
+    optimizer->setConstraintTolerance(1e-1);
+    optimizer->setMaxIterations(1000);
+    optimizer->setLimitedMemoryHistory(10);
     optimizer->setDiagnosticsLevel(0);
-    //optimizer->setAdvancedBoolOption("warm_start", true);
-    //optimizer->setAdvancedRealOption("obj_scaling_factor", 1);
-    //optimizer->setAdvancedRealOption("nlp_scaling_max_gradient", 1);
+    optimizer->setAdvancedBoolOption("warm_start", true);
+    optimizer->setAdvancedRealOption("expect_infeasible_problem", false);
+    optimizer->setAdvancedRealOption("obj_scaling_factor", 1);
+    optimizer->setAdvancedRealOption("nlp_scaling_max_gradient", 1);
     optimizer->useNumericalGradient(false);
     optimizer->useNumericalJacobian(false);
 }

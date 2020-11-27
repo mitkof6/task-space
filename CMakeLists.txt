@@ -12,7 +12,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 include(CTest)
 
 option(BUILD_DOCUMENTATION
-  "Create and install the HTML based API documentation (requires Doxygen)" ON)
+  "Create and install the HTML based API documentation (requires Doxygen)" OFF)
 
 # for rdm (emacs)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -73,6 +73,10 @@ mark_as_advanced(CMAKE_RELEASE_POSTFIX)
 mark_as_advanced(CMAKE_DEBUG_POSTFIX)
 mark_as_advanced(CMAKE_RELWITHDEBINFO_POSTFIX)
 mark_as_advanced(CMAKE_MINSIZEREL_POSTFIX)
+
+# build executables and libraries in the same place
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR} CACHE INTERNAL "")
+set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR} CACHE INTERNAL "")
 
 # configure project global settings that are include in the source
 set(DATA_DIR "${PROJECT_SOURCE_DIR}/data")

@@ -102,7 +102,7 @@ void closedKinematicChain() {
                                                 *body3_body, body3_proximal);
     pointConstraint2->setName("pc2");
     model.addConstraint(pointConstraint2);
-    model.print(DATA_DIR + "/results/" + example + ".osim");
+    // model.print(DATA_DIR + "/results/" + example + ".osim");
 
     // body kinematics
     auto bodyKinematics = new BodyKinematics(&model);
